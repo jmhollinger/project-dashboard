@@ -16,7 +16,7 @@ app.set('view engine', 'jade');
 app.post('/projects/query', function (req, res) {
     
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT ' + req.body.fields + ' FROM projects WHERE ' + req.body.where, function(err, result) {
+    client.query('SELECT ' + req.body.fields + ' FROM projects ' + req.body.where, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
