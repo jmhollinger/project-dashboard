@@ -13,6 +13,7 @@ app.set('view engine', 'jade');
 
 
 //API Endpoints
+//Query
 app.post('/query', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT ' + req.body.fields + ' FROM ' + req.body.table + ' WHERE ' + req.body.where, function(err, result) {
@@ -25,6 +26,7 @@ app.post('/query', function (req, res) {
   });
 })
 
+//List Departments
 app.get('/departments', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT DISTINCT department FROM divisions', function(err, result) {
@@ -37,6 +39,20 @@ app.get('/departments', function (req, res) {
   });
 })
 
+//List Divisions
+app.get('/divisions', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT DISTINCT division from divisions', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
+//List Divisions by Department
 app.get('/divisions/:department', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT division from divisions WHERE department = ' + req.params.department, function(err, result) {
@@ -49,32 +65,50 @@ app.get('/divisions/:department', function (req, res) {
   });
 })
 
-app.post('/projects/department', function (req, res) {
+//List all Projects
+app.get('/projects/:department', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM projects', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
+app.get('/projects/:department', function (req, res) {
   var res_obj = {
     "Response" : "Projects by Department"
   }
   res.json(res_obj)
 })
 
-app.post('/projects/division', function (req, res) {
+app.get('/projects/:division', function (req, res) {
   var res_obj = {
     "Response" : "Projects by Division"
   }
   res.json(res_obj)
 })
 
-app.post('/projects/council-district', function (req, res) {
+app.get('/projects/:council-district', function (req, res) {
   var res_obj = {
     "Response" : "Projects by Council District"
   }
   res.json(res_obj)
 })
 
-app.post('/projects/project-id', function (req, res) {
-  var res_obj = {
-    "Response" : "Projects by ID"
-  }
-  res.json(res_obj)
+app.get('/projects/:project_id', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM projects WHERE project_id = ' + req.params.project_id, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
 })
 
 //write end points
