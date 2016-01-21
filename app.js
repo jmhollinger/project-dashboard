@@ -29,7 +29,7 @@ app.post('/query', function (req, res) {
 //List Departments
 app.get('/departments', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT DISTINCT department FROM divisions', function(err, result) {
+    client.query('SELECT DISTINCT department_id, department FROM divisions', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
@@ -42,7 +42,7 @@ app.get('/departments', function (req, res) {
 //List Divisions
 app.get('/divisions', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT DISTINCT division from divisions', function(err, result) {
+    client.query('SELECT DISTINCT division_id, division from divisions', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
@@ -55,7 +55,7 @@ app.get('/divisions', function (req, res) {
 //List Divisions by Department
 app.get('/divisions/:department', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT division from divisions WHERE department = ' + req.params.department, function(err, result) {
+    client.query('SELECT department_id, division_id, department, division from divisions WHERE department_id = ' + req.params.department, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
@@ -81,7 +81,7 @@ app.get('/projects', function (req, res) {
 //Projects by Department
 app.get('/projects/department/:department', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM projects WHERE department = ' + req.params.department, function(err, result) {
+    client.query('SELECT * FROM projects WHERE department_id = ' + req.params.department, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
@@ -94,7 +94,7 @@ app.get('/projects/department/:department', function (req, res) {
 //Projects by Division
 app.get('/projects/division/:division', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM projects WHERE division = ' + req.params.division, function(err, result) {
+    client.query('SELECT * FROM projects WHERE division_id = ' + req.params.division, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
@@ -122,8 +122,7 @@ app.get('/projects/:project_id', function (req, res) {
 })
 
 //Create New Project
-app.post('/projects/new', function (req, res) {
-  
+ 
   var input_obj = {
     "project-name" : req.body.project_name,
     "lat" : req.body.lat,
