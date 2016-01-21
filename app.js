@@ -122,7 +122,7 @@ app.get('/projects/:project_id', function (req, res) {
 })
 
 //Create New Project
- 
+app.post('/projects/new', function (req, res) { 
   var input_obj = {
     "project-name" : req.body.project_name,
     "lat" : req.body.lat,
