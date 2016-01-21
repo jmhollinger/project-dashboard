@@ -65,8 +65,8 @@ app.get('/divisions/:department', function (req, res) {
   });
 })
 
-//List all Projects
-app.get('/projects/:department', function (req, res) {
+//All Projects
+app.get('/projects', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM projects', function(err, result) {
       done();
@@ -78,27 +78,37 @@ app.get('/projects/:department', function (req, res) {
   });
 })
 
-app.get('/projects/:department', function (req, res) {
-  var res_obj = {
-    "Response" : "Projects by Department"
-  }
-  res.json(res_obj)
+//Projects by Department
+app.get('/projects/department/:department', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM projects WHERE department = ' + req.params.department, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
 })
 
-app.get('/projects/:division', function (req, res) {
-  var res_obj = {
-    "Response" : "Projects by Division"
-  }
-  res.json(res_obj)
+//Projects by Division
+app.get('/projects/division/:division', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM projects WHERE division = ' + req.params.division, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
 })
 
-app.get('/projects/:council-district', function (req, res) {
-  var res_obj = {
-    "Response" : "Projects by Council District"
-  }
-  res.json(res_obj)
+//Projects by Council District
+app.get('/projects/council-district/:council-district', function (req, res) {
 })
 
+//Projects by ID
 app.get('/projects/:project_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM projects WHERE project_id = ' + req.params.project_id, function(err, result) {
@@ -111,7 +121,7 @@ app.get('/projects/:project_id', function (req, res) {
   });
 })
 
-//write end points
+//Create New Project
 app.post('/projects/new', function (req, res) {
   
   var input_obj = {
@@ -137,6 +147,7 @@ app.post('/projects/new', function (req, res) {
   res.json(input_obj)
 })
 
+//Update Project
 app.post('/projects/update', function (req, res) {
 
     var input_obj = {
