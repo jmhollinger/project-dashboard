@@ -37,9 +37,9 @@ app.get('/departments', function (req, res) {
   });
 })
 
-app.get('/divisions', function (req, res) {
+app.get('/divisions/:department', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT division from divisions WHERE department = ' + req.query.dept, function(err, result) {
+    client.query('SELECT division from divisions WHERE department = ' + req.params.department, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
