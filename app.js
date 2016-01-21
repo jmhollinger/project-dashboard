@@ -14,10 +14,17 @@ app.set('view engine', 'jade');
 
 //API Endpoints
 app.post('/projects/query', function (req, res) {
-  var res_obj = {
-    "Response" : "General Query"
-  }
-  res.json(res_obj)
+    
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM projects', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+
 })
 
 app.post('/projects/department', function (req, res) {
