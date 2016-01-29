@@ -1,0 +1,35 @@
+body {
+  min-height: 2000px;
+  font-family: Roboto, "Sans Serif"
+}
+
+.navbar-static-top {
+  margin-bottom: 0px;
+}
+
+.title {
+  font-weight: 700;
+  margin-top: 15px;
+  color: #2C3E50;
+}
+
+.white {
+  color: #FFF;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.search-area {
+  background-color: #3498DB;
+}
+
+#map-canvas { 
+  height: 400px; 
+}
+
+.btn-responsive {
+  white-space: normal;
+  width: 100%;    
+}

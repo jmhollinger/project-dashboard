@@ -1,0 +1,67 @@
+<div class="container-fluid">
+<h1 class="title">Project Information</h1>
+<div class="row">
+  <div class="col-sm-6">
+    <form ng-show="display">
+      <div class="form-group">
+        <label>Project Name</label>
+        <input class="form-control" type="text" ng-model="projectData.projectName"/>      
+      </div>
+      <div class="form-group">
+        <label>Project Description</label>
+        <textarea class="form-control" ng-model="projectData.projectDesc"></textarea>      
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6">
+            <label for="exampleInputAmount">Estimated Total Budget</label>
+            <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="text" class="form-control" id="exampleInputAmount" ng-model="projectData.EstBudget">
+            <div class="input-group-addon">.00</div>
+          </div>
+        </div>
+        <div class="form-group col-sm-6">
+            <label for="exampleInputAmount">Current Funded Amount</label>
+            <div class="input-group">
+            <div class="input-group-addon">$</div>
+            <input type="text" class="form-control" id="exampleInputAmount" ng-model="ProjectData.Funded">
+            <div class="input-group-addon">.00</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+      <label>Council Districts</label>
+        <select multiple class="form-control" ng-model="councilDistricts" size=12>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8</option>
+          <option>9</option>
+          <option>10</option>
+          <option>11</option>
+          <option>12</option>
+        </select>
+      </div> 
+    </form>
+  </div>
+
+<div class="col-sm-6">
+  <div class="form-group">
+        <label>Project Location</label>
+        <textarea class="form-control">Map</textarea>      
+      </div>
+</div>
+</div>
+<button class="btn btn-lg btn-success btn-responsive" ng-click="display=false">Save Project</button>
+<pre>
+  project_id : {{uuid}}
+  council_districts : {{councilDistricts}}
+  {{projectData}}
+  {{phaseData}}
+</pre>
+</div>
+
