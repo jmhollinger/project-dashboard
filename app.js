@@ -15,15 +15,60 @@ app.set('view engine', 'jade');
 
 //API Endpoints
 
-//Generate UUID
-app.get('/api/v1/create/uuid', function (req, res) {
-  res.json({"uuid" : uuid.v4()});
+//New Project and Phase
+app.post('/api/v1/create/project', function (req, res) { 
+  var project_input = {
+    "project-name" : req.body.project_name,
+    "lat" : req.body.lat,
+    "lng" : req.body.lng,
+    "RFP-number" : req.body.RFP_number,
+    "project-description" : req.body.project_description,
+    "project-manager" : req.body.project_manager,
+    "department" : req.body.department,
+    "division" : req.body.division,
+    "districts" : req.body.districts ,
+    "contractor" : req.body.contractor,
+    "start-date" : req.body.start_date,
+    "estimated-completion" : req.body.estimated_completion,
+    "estimated-budget" : req.body.estimated_budget,
+    "work-complete" : req.body.work_complete,
+    "budget-spent" : req.body.budget_spent,
+    "notes" : req.body.notes,
+    "submitted-by" : req.body.submitted_by
+  }
+
+
+var query_text = 
+'WITH project_insert AS (INSERT INTO projects (project_name, project_description, estimated_total_budget, funded, council_districts, lat, lng, modified_by)' +
+    'VALUES (' + req.body.project_name + ',' + req.body.project_description + ',' + req.body.budget + ',' + req.body.funded + ',' + req.body.council_districts + ',' + req.body.lat + ',' + req.body.lng + ',' req.body.user + ')' +
+    'RETURNING project_ID)' +
+'INSERT INTO phases (project_id, phase_status, phase_name, phase_description, 
+            phase_manager, division_id, resolution_number, accounting_fy, 
+            accounting_fund, accouting_dept, accounting_section, accounting_account, 
+            contractor, start_date, estimated_completion, budget, work_complete, 
+            actual, notes, modified_by, date_modified)' +
+'SELECT project_insert.project_id,'Not Started','Scoping and Design', 'Scoping and final design of sidewalk project.',
+'Jonathan Hollinger', 1, 'R2016-56', '2016',
+ '1101', '162101', '1601', '71299', 'Palmer Engineering', '2016-01-01','2017-01-01', 250000, .0, 0, 'Negotiating contract.', 'Jonathan Hollinger'
+ 'FROM project_insert'
+
+pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query(query_text, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       {res.json(result.rows); }
+    });
+  });
 })
 
 
+  res.json(input_obj)
+})
 
-//Log a Project and Phase Update
-app.post('/api/v1/create/project', function (req, res) { 
+//Update Project and Phase Update
+app.put('/api/v1/update/project', function (req, res) { 
   var input_obj = {
     "project-name" : req.body.project_name,
     "lat" : req.body.lat,

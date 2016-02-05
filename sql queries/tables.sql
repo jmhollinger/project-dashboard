@@ -143,7 +143,7 @@ CREATE TRIGGER projects_history_trigger
   FOR EACH ROW
   EXECUTE PROCEDURE projects_log();
 
-  /*Insert Into Projects and Phases*/
+/*Insert Into Projects and Phases*/
 WITH project_insert AS (
     INSERT INTO projects (project_name, project_description, estimated_total_budget, 
             funded, council_districts, lat, lng, modified_by, date_modified)
