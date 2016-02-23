@@ -18,17 +18,17 @@
     <input type="text" class="form-control"/ Placeholder="Select a Council District...">
   </div>
 </div>
+<hr>
+<div class="row">
+<div class="col-sm-3 col-sm-offset-3">
+  <a href="#projects/list" class="btn btn-primary btn-responsive">List</a>
+</div> 
+<div class="col-sm-3"> 
+  <a href="#projects/map" class="btn btn-success btn-responsive">Map</a>
+</div>
 </div>
 <hr>
-
-<div ng-show="view == 'list'" class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-      <button ng-click="view = 'list'" class="btn btn-primary">List View</button>
-      <button ng-click="view = 'map'" class="btn btn-success">Map View</button>
-    </div>
-  </div>
-<h1 class="title">Projects</h1>
+<h1 class="title"></h1>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -63,15 +63,3 @@
   </tbody>
 </table>
 </div>
-
-<div ng-show="view == 'map'" class="container-fluid">
-  <div class="row">
-    <div class="col-sm-4">
-      <button ng-click="view = 'list'" class="btn btn-primary">List View</button>
-      <button ng-click="view = 'map'" class="btn btn-success">Map View</button>
-    </div>
-  </div>
-  <h1 class="title">Projects</h1>
-    <h1>The map goes here</h1>
-    <div id="map"></div>
- </div>
