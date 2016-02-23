@@ -1,4 +1,5 @@
-﻿SELECT * 
-FROM Projects
-WHERE (project_id, date_submitted) IN
-(SELECT project_id, MAX(date_submitted) as date_submitted FROM Projects GROUP BY project_id) 
+﻿SELECT * FROM view_project_list
+WHERE
+department_id = 1 AND
+division_id = 4 AND
+council_districts ? '11'
