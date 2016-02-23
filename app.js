@@ -91,7 +91,7 @@ app.get('/api/v1/departments', function (req, res) {
 })
 
 //List Divisions
-app.get('api/v1/divisions', function (req, res) {
+app.get('/api/v1/divisions', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT DISTINCT division_id, division from divisions', function(err, result) {
       done();
@@ -104,7 +104,7 @@ app.get('api/v1/divisions', function (req, res) {
 })
 
 //All Projects
-app.get('api/v1/projects', function (req, res) {
+app.get('/api/v1/projects', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM projects', function(err, result) {
       done();
@@ -117,7 +117,7 @@ app.get('api/v1/projects', function (req, res) {
 })
 
 //Projects by ID
-app.get('api/projects/:project_id', function (req, res) {
+app.get('/api/projects/:project_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM projects WHERE project_id = ' + req.params.project_id, function(err, result) {
       done();
