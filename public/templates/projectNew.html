@@ -1,8 +1,10 @@
 <div class="container-fluid">
-<h1 class="title">Project Information</h1>
+<div ng-if="projectForm">
+<h1 class="title">{{projectData.projectName}}</h1>
+<h3 class="subtitle">Project Information</h3>
 <div class="row">
   <div class="col-sm-6">
-    <form ng-show="display">
+    <form>
       <div class="form-group">
         <label>Project Name</label>
         <input class="form-control" type="text" ng-model="projectData.projectName"/>      
@@ -30,8 +32,8 @@
         </div>
       </div>
       <div class="form-group">
-      <label>Council Districts</label>
-        <select multiple class="form-control" ng-model="councilDistricts" size=12>
+      <label>Council Districts (hold CTRL to select multiple)</label>
+        <select multiple class="form-control" ng-model="projectData.councilDistricts" size=12>
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -51,17 +53,116 @@
 
 <div class="col-sm-6">
   <div class="form-group">
-        <label>Project Location</label>
-        <textarea class="form-control">Map</textarea>      
+        <label>Project Location (drag the marker to the location of your project)</label>
+        <style>.angular-google-map-container { height: 400px; }</style>
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+              <ui-gmap-window>
+                <div>{{marker.window.title}}</div>
+              </ui-gmap-window>
+            </ui-gmap-marker>
+        </ui-gmap-google-map>    
+   </div>
+</div>
+</div>
+</div>
+
+<div ng-if="phaseForm">
+<h1 class="title">{{projectData.projectName}}</h1>
+<h3 class="subtitle">Phase Information</h3>
+<div class="row">
+<div class="col-sm-6">
+<div class="row">
+      <div class="form-group col-sm-6">
+        <label>Phase Status</label>
+        <select class="form-control" ng-model="phaseData.Status">
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Complete</option>
+        </select>     
+      </div>
+      <div class="form-group col-sm-6">
+       <label>Division</label>  
+       <input type="text" ng-model="phaseData.phaseDivision" uib-typeahead="division for division in divisions | filter:$viewValue | limitTo:3" class="form-control">   
+      </div>
+  </div>
+      <div class="form-group">
+        <label>Phase Name</label>
+        <input type="text" ng-model="phaseData.phaseName" uib-typeahead="phase for phase in phases | filter:$viewValue | limitTo:3" class="form-control">      
+      </div>
+      <div class="form-group">
+        <label>Phase Description</label>
+        <input class="form-control" type="text" ng-model="phaseData.phaseDesc"/>      
+      </div>
+      <div class="form-group">
+        <label>Phase Manager</label>
+        <input class="form-control" type="text" ng-model="phaseData.phaseManager"/>      
+      </div>
+      <div class="form-group">
+        <label>Resolution Number</label>
+        <input class="form-control" type="text" ng-model="phaseData.resoNumber"/>      
+      </div>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label>Fiscal Year</label>
+          <input class="form-control" type="text" ng-model="phaseData.fiscalYear"/>      
+        </div>
+        <div class="form-group col-sm-6">
+          <label>Accounting String</label>
+          <input class="form-control" type="text" ng-model="phaseData.accounting"/>      
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label>Consultant/Contractor</label>
+        <input class="form-control" type="text" ng-model="phaseData.contractor"/>      
+      </div>
+      <div class="row">
+      <div class="form-group col-sm-6">
+      <label>Start Date</label>
+      <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="phaseData.startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+      </p>
+      </div>
+      <div class="form-group col-sm-6">
+      <label>Estimated Completion Date</label>
+      <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="phaseData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done"/>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+      </p>
+      </div>
+      </div>
+      <div class="row">
+      <div class="form-group col-sm-4">
+        <label>Budget ($)</label>
+        <input class="form-control" type="text" ng-model="phaseData.budget"/>      
+      </div>
+      <div class="form-group col-sm-4">
+        <label>Actual Spent ($)</label>
+        <input class="form-control" type="text" ng-model="phaseData.actual"/>      
+      </div>
+      <div class="form-group col-sm-4">
+        <label>Actual Work Complete (%)</label>
+        <input class="form-control" type="text" ng-model="phaseData.workComplete"/>      
+      </div>
+      </div>
+      <div class="form-group">
+      <label>Notes</label>
+      <textarea rows="5" ng-model="phaseData.phaseNotes" class="form-control"></textarea>
       </div>
 </div>
 </div>
-<button class="btn btn-lg btn-success btn-responsive" ng-click="display=false">Save Project</button>
-<pre>
-  project_id : {{uuid}}
-  council_districts : {{councilDistricts}}
-  {{projectData}}
-  {{phaseData}}
-</pre>
+</div>
+<div class="col-sm-4 col-sm-offset-4">
+<button class="btn btn-lg btn-primary center-block btn-responsive" ng-show="phaseForm" ng-click="projectForm=true;phaseForm=false"><i class="fa fa-arrow-left"></i><strong> Back to Project Information</strong></button>
+<button class="btn btn-lg btn-primary center-block btn-responsive" ng-show="projectForm" ng-click="projectForm=false;phaseForm=true"><strong> Go to Phase Information</strong> <i class="fa fa-arrow-right"></i></button>
+<button class="btn btn-lg btn-success center-block btn-responsive" ng-show="phaseForm" ui-sref="home"><strong>Save Project</strong></button>
+</div>
 </div>
 

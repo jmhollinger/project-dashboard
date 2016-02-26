@@ -1,7 +1,7 @@
 /*--------------Modules--------------*/
 
 /* Main Project Dashboard App Module */
-var projectDashboard = angular.module('projectDashboard', [ 'ngRoute', 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ngCsv']);
+var projectDashboard = angular.module('projectDashboard', [ 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'ngCsv']);
 
 /* Directives Module */
 var pdDirectives = angular.module('pdDirectives', []);
@@ -14,44 +14,58 @@ var pdServices = angular.module('pdServices', []);
 
 /*--------------Routing--------------*/
 
-projectDashboard.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider.
+projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+  function($stateProvider, $urlRouterProvider, $locationProvider) {
+      
+      $urlRouterProvider.otherwise('/error');
+      
+      $stateProvider.
     /*List View */
-      when('/projects/list', {
+      state('projectList', {
+        url: '/projects/list',
         templateUrl: 'templates/projectList.html',
         controller: 'projectList'
       }).
      /*Map View */
-      when('/projects/map', {
+      state('projectMap', {
+        url: '/projects/map',
         templateUrl: 'templates/projectMap.html',
         controller: 'projectMap'
       }).
      /*View Project Page */
-      when('/projects/id/:param', {
+      state('projectPage', {
+        url: '/projects/id/:param',
         templateUrl: 'templates/projectPage.html',
         controller: 'projectPage'
       }).
       /*New Project*/
-      when('/projects/new', {
-        templateUrl: 'templates/projectNew.html',
-        controller: 'projectNew'
-      }).
-     /*New Project Phase*/
-      when('/phase/new', {
+      state('newProject', {
+        url: '/projects/new',
         templateUrl: 'templates/projectNew.html',
         controller: 'projectNew'
       }).
       /*Update Project*/
-      when('/projects/update', {
+      state('updateProject', {        
+        url: '/projects/update',
         templateUrl: 'templates/projectUpdate.html',
         controller: 'projectUpdate'
       }).
-      when('/', {
+      /*My Account*/
+      state('account', {        
+        url: '/account',
+        templateUrl: 'templates/account.html',
+        controller: 'account'
+      }).
+
+      /*Home*/
+      state('home', {
+        url: '/',
         templateUrl: 'templates/projectList.html',
         controller: 'projectList'
       }).
-      otherwise({
+      /*Error page*/
+      state('error', {
+        url: '/error',
         templateUrl: 'templates/error.html'
       });
 
@@ -71,8 +85,31 @@ pdControllers.controller('projectList', ['$scope', '$location', 'CKAN', 'search'
 /* Project Map */
 pdControllers.controller('projectMap', ['$scope', '$location', 'CKAN', 'search', 'pagination',
   function ($scope, $location, CKAN, search, pagination) {
-  
-  $scope.title = 'Project Map'
+  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
+
+  $scope.projectMarkers = [
+    {
+      "id": 0,
+      "coords": {
+        "latitude": 38.015350,
+        "longitude": -84.523202,
+          
+      },
+      "window": {
+        "title": "Southland Drive Sidewalks"
+      }
+    },
+    {
+      "id": 1,
+      "coords": {
+        "latitude": 38.043722,
+        "longitude": -84.496031,
+      },
+      "window" : {
+        "title": "Town Branch Commons"
+      }
+    }
+  ]
 
   }]);
 
@@ -84,212 +121,99 @@ pdControllers.controller('projectPage', ['$scope', '$location', 'CKAN', 'search'
 
   }]);
 
-/* New Project Page */
-pdControllers.controller('projectNew', ['$http','$scope', '$location', 'uuid',
-  function ($http, $scope, $location, uuid) {
+/* Account */
+pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'pagination',
+  function ($scope, $location, CKAN, search, pagination) {
   
-  $scope.display = true
+  $scope.title = 'Account'
 
-  //Generate UUID
-  uuid.generate().then(function(data){
-         $scope.uuid = data.uuid;
-       })
+  }]);
 
-  $scope.lat = '38'
-  $scope.lng = '-84'
+/* New Project Page */
+pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log',
+  function ($http, $scope, $location, $log) {
+
   $scope.user= 'Jonathan Hollinger'
-  $scope.councilDistricts = []
 
+  $scope.projectForm = true
+  
+  $scope.phaseForm = false
+  
+  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
+    $scope.coordsUpdates = 0;
+    $scope.dynamicMoveCtr = 0;
+    $scope.marker = {
+      id: 0,
+      coords: {
+        latitude: 38.04890,
+        longitude: -84.499969
+      },
+      options: { draggable: true },
+      events: {
+        dragend: function (marker, eventName, args) {
+          $scope.projectData.lat = marker.getPosition().lat();
+          $scope.projectData.lng = marker.getPosition().lng();
+          }
+        }
+      }
+ 
   $scope.projectData = {
     "submittedBy" : $scope.user,
-    "lat" : $scope.lat,
-    "lng" : $scope.lng,
+    "lat" : 38.046373,
+    "lng" : -84.497034
   }
 
   $scope.phaseData = {
     "submittedBy" : $scope.user,
+    "phaseName" : null
   }
 
-  }]);
 
-/* New Project Phase */
-pdControllers.controller('phaseNew', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
-  
+  $scope.today1 = function() {
+    $scope.phaseData.startDate = new Date();
+  };
 
-  $scope.title = 'New Phase'
+
+  $scope.clear1 = function() {
+    $scope.phaseData.startDate = null;
+  };
+
+  $scope.today2 = function() {
+    $scope.phaseData.completionDate = new Date();
+  };
+
+  $scope.clear2 = function() {
+    $scope.phaseData.completionDate = null;
+  };
+
+ $scope.popup1 = {
+    opened: false
+  };
+
+ $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+ $scope.popup2 = {
+    opened: false
+  };
+
+ $scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
+
+ $scope.divisions = ['Planning', 'Engineering', 'Streets & Roads']
+ $scope.phases = ['Design', 'Construction', 'Utility Relocation', 'Right-Of-Way Acquisition', 'Implementation'];
 
   }]);
 
 /* Update Project */
-pdControllers.controller('phaseUpdate', ['$scope', '$location', 'CKAN', 'search', 'pagination',
+pdControllers.controller('projectUpdate', ['$scope', '$location', 'CKAN', 'search', 'pagination',
   function ($scope, $location, CKAN, search, pagination) {
   
   $scope.title = 'Project Update'
 
   }]);
-
-
-
-
-/* Bulding Permit Search */
-pdControllers.controller('PermitSearchCtrl', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
-	$scope.sort = $location.search().sort + ' ' + $location.search().dir
-	$scope.sortfield = $location.search().sort
-	$scope.sortdir =  $location.search().dir
-	$scope.keyword = $location.search().q
-	$scope.limit = $location.search().limit
-    $scope.page = $location.search().page
-
-    $scope.fields = [
-  	{field: 'Date', display: "Date", sortlow: "Oldest", sorthigh: "Newest" },
-  	{field: 'Address', display: "Address", sortlow: "A", sorthigh: "Z" },
-  	{field: 'PermitType', display: "Permit Type", sortlow: "A", sorthigh: "Z" },
-  	{field: 'ConstructionCost', display: "Construction Cost", sortlow: "Low", sorthigh: "High" },
-  	{field: 'OwnerName', display: "Owner", sortlow: "A", sorthigh: "Z" },
-  	{field: 'Contractor', display: "Contractor", sortlow: "A", sorthigh: "Z" }
-  	]
-  	
-  	$scope.first = function(){$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: 1})}
-  	$scope.prev = function() {if ($scope.disableprev) {} else {$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: parseInt($location.search().page) - 1})}}
-	$scope.next = function() {if ($scope.disablenext) {} else {$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: parseInt($location.search().page) + 1})}}
-  	$scope.last = function(){$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: $scope.totalpages})}
-
-  	CKAN.query(bi_resource, $location.search().q, $location.search().sort, $location.search().dir, $location.search().limit, ($location.search().page - 1) * $location.search().limit).success(function(data) {
-  			 $scope.rows = data.result.records
-  	})
-
-  	$scope.exportfields = ["_id", "ID","Date", "Address", "Suite", "PermitType", "ConstructionCost", "OwnerName", "Contractor", "CleanAddress", "MatchType", "MatchAddress", "parcelId", "lat", "lng"]
-
-  	CKAN.dump(bi_resource, $scope.exportfields, $location.search().q, $location.search().sort, $location.search().dir).success(function(data) {
-  			 $scope.export = JSON.parse(JSON.stringify( data.result.records, $scope.exportfields))
-  	})
-  	
-  	CKAN.count(bi_resource, $location.search().q).success(function(data) {
-  		  	$scope.RecordCount = data.result.records[0].count;
-  		  	$scope.totalpages = Math.ceil($scope.RecordCount / $location.search().limit)
-         	$scope.disablefirst = pagination.controls(parseInt($location.search().page), $scope.totalpages)[0]
-         	$scope.disableprev = pagination.controls(parseInt($location.search().page), $scope.totalpages)[1]
-         	$scope.disablenext = pagination.controls(parseInt($location.search().page), $scope.totalpages)[2]
-         	$scope.disablelast = pagination.controls(parseInt($location.search().page), $scope.totalpages)[3]
-  	})
-  }]);
-
-/* Code Cases Search */
-pdControllers.controller('CodeSearchCtrl', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
-	$scope.sort = $location.search().sort + ' ' + $location.search().dir
-	$scope.sortfield = $location.search().sort
-	$scope.sortdir =  $location.search().dir
-	$scope.keyword = $location.search().q
-	$scope.limit = $location.search().limit
-    $scope.page = $location.search().page
-
-  	$scope.fields = [
-  	{field: 'DateOpened', display: "Date Opened", sortlow: "Oldest", sorthigh: "Newest" },
-  	{field: 'Address', display: "Address", sortlow: "A", sorthigh: "Z" },
-  	{field: 'CaseType', display: "Case Type", sortlow: "A", sorthigh: "Z" },
-  	{field: 'Status', display: "Status", sortlow: "Low", sorthigh: "High" },
-  	{field: 'StatusDate', display: "Status Date", sortlow: "Oldest", sorthigh: "Newest" }]
-
-  	$scope.first = function(){$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: 1})}
-  	$scope.prev = function() {if ($scope.disableprev) {} else {$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: parseInt($location.search().page) - 1})}}
-	$scope.next = function() {if ($scope.disablenext) {} else {$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: parseInt($location.search().page) + 1})}}
-  	$scope.last = function(){$location.search({q : $scope.keyword, sort : $scope.sort.split(" ")[0], dir: $scope.sort.split(" ")[1], limit: $scope.limit, page: $scope.totalpages})}
-
-  	CKAN.query(ce_resource, $location.search().q, $location.search().sort, $location.search().dir, $location.search().limit, ($location.search().page - 1) * $location.search().limit).success(function(data) {
-  			 $scope.rows = data.result.records
-  	})
-
-  	$scope.exportfields = ["_id", "CaseNo", "DateOpened", "Address", "CaseType", "Closed", "Status", "StatusDate", "CleanAddress", "MatchType", "MatchAddress","parcelId", "lat", "lng"]
-
-  	CKAN.dump(ce_resource, $scope.exportfields, $location.search().q, $location.search().sort, $location.search().dir).success(function(data) {
-  			 $scope.export = JSON.parse(JSON.stringify( data.result.records, $scope.exportfields))
-  	})
-  	
-  	CKAN.count(ce_resource, $location.search().q).success(function(data) {
-  		  	$scope.RecordCount = data.result.records[0].count;
-  		  	$scope.totalpages = Math.ceil($scope.RecordCount / $location.search().limit)
-         	$scope.disablefirst = pagination.controls(parseInt($location.search().page), $scope.totalpages)[0]
-         	$scope.disableprev = pagination.controls(parseInt($location.search().page), $scope.totalpages)[1]
-         	$scope.disablenext = pagination.controls(parseInt($location.search().page), $scope.totalpages)[2]
-         	$scope.disablelast = pagination.controls(parseInt($location.search().page), $scope.totalpages)[3]
-  	})
-  }]);
-
-/* ROW Permit Search */
-pdControllers.controller('ROWSearchCtrl', ['$scope', '$http',
-  function ($scope, $http) {
-  var DataURL = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT * FROM "' + row_resource + '" ORDER BY "IssueDate" DESC, "_id " DESC LIMIT 500'
-  var CountURL = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT COUNT(*) FROM "' + row_resource + '"'
-
-  $http.get(DataURL).success(function(data) {
-  $scope.rowCollection = data.result.records;
-  $scope.displayedCollection = [].concat($scope.rowCollection);
-    });
-
-  $scope.getters={
-  Address: function (value) {return value.Address.replace(/[^a-z]/gi,'')}};
-
-  $http.get(CountURL).success(function(data) {
-  $scope.RecordCount = data.result.records[0].count;
-    });
-}]);
-
-
-/* Bulding Permit Record */
-pdControllers.controller('PermitDetailCtrl', ['$scope', '$routeParams', 'CKAN',
-  function ($scope, $routeParams, CKAN) {
-	CKAN.record(bi_resource, $routeParams.param).success(function(data){
-	     $scope.DetailData = data.result.records;
-	     var lng = data.result.records[0].lat
-	     var lat = data.result.records[0].lng
-	     $scope.map = { center: { latitude: lat, longitude: lng }, zoom: 17 };
-	     $scope.marker = { id: 0, coords: { latitude: lat, longitude: lng }}
-	     $scope.infowindow = {show: true}	
-     })
-
-    $scope.RecordType = 'Building Permit'
-    $scope.Meta = 'Building permits are issued by the Division of Building Inspection and the Division of Planning for a variety of activities including construction and certification of compliance with zoning. The permit information above is submitted by the applicant.'
-    $scope.Contact = 'If you have questions or concerns about building permits, please contact the the Division of Building Inspection at (859) 425-2255.'
-}]);
-
-
-/* Code Case Record */
-pdControllers.controller('CodeDetailCtrl', ['$scope', '$routeParams', 'CKAN',
-  function ($scope, $routeParams, CKAN) {
-	
-	CKAN.record(ce_resource, $routeParams.param).success(function(data){
-	     $scope.DetailData = data.result.records;
-	     var lng = data.result.records[0].lat
-	     var lat = data.result.records[0].lng
-	     $scope.map = { center: { latitude: lat, longitude: lng }, zoom: 17 };
-	     $scope.marker = { id: 0, coords: { latitude: lat, longitude: lng }}
-	     $scope.infowindow = {show: true}	
-     }) 
-
-    $scope.RecordType = 'Code Enforcement Case'
-    $scope.Meta = 'Code enforcement cases are opened based on citizen complaints for violations of nuisance code, the International Property Maintenance Code, and sidewalk regulations.'
-    $scope.Contact = 'If you have questions or concerns about code enforcement cases, please contact the the Division of Code Enforcement at (859) 425-2255.'
-}]);
-
-/* ROW Permit Record */
-pdControllers.controller('ROWDetailCtrl', ['$scope', '$http', '$routeParams',
-  function ($scope, $http, $routeParams) {
-  var DataURL = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT * FROM "' + row_resource + '" WHERE "_id"  =' + $routeParams.param
-    $http.get(DataURL).success(function(data) {
-    $scope.DetailData = data.result.records;
-    var lng = data.result.records[0].lat
-    var lat = data.result.records[0].lng
-    $scope.map = { center: { latitude: lat, longitude: lng }, zoom: 17 };
-    $scope.marker = { id: 0, coords: { latitude: lat, longitude: lng }}
-    $scope.infowindow = {show: true}
-   });
-    $scope.RecordType = 'Right of Way Permit'
-    $scope.Meta = 'Right-of-Way Permits are issued by the Division of Engineering for work performed by utility companies and other entities within the public right-of-way.'
-    $scope.Contact = 'If you have questions or concerns about right-of-way permits, please contact the the Division of Engineering, Right-of-Way Section at (859) 425-2255.'
-}]);
 
 /*--------------Directives--------------*/
 

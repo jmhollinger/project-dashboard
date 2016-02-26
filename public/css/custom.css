@@ -1,5 +1,4 @@
 body {
-  min-height: 2000px;
   font-family: Roboto, "Sans Serif"
 }
 
@@ -11,6 +10,11 @@ body {
   font-weight: 700;
   margin-top: 15px;
   color: #2C3E50;
+}
+
+.subtitle {
+  margin-top: 0px;
+  color: #777;
 }
 
 .white {
@@ -26,10 +30,41 @@ body {
 }
 
 #map-canvas { 
-  height: 400px; 
+  height: 350px; 
 }
 
 .btn-responsive {
   white-space: normal;
-  width: 100%;    
+  width: 100%;
+  margin-bottom: 15px;    
 }
+
+.footer-text {margin-top: 1.2em;}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.typeahead-demo .custom-popup-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    background-color: #f9f9f9;
+  }
+
+  .typeahead-demo .custom-popup-wrapper > .message {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    color: #868686;
+  }
+
+  .typeahead-demo .custom-popup-wrapper > .dropdown-menu {
+    position: static;
+    float: none;
+    display: block;
+    min-width: 160px;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }

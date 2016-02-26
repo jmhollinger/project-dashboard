@@ -18,16 +18,10 @@
     <input type="text" class="form-control"/ Placeholder="Select a Council District...">
   </div>
 </div>
-<hr>
-<div class="row">
-<div class="col-sm-3 col-sm-offset-3">
-  <a href="#projects/list" class="btn btn-primary btn-responsive">List</a>
-</div> 
-<div class="col-sm-3"> 
-  <a href="#projects/map" class="btn btn-success btn-responsive">Map</a>
-</div>
-</div>
-<hr>
 <h1 class="title"></h1>
-<h3>Map</h3>
+        <style>.angular-google-map-container { height: 600px; }</style>
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker ng-repeat="projectMarker in projectMarkers" coords="projectMarker.coords" options="projectMarker.options" events="projectMarker.events" idkey="projectMarker.id" click="markerClick">
+        </ui-gmap-marker>
+        </ui-gmap-google-map>
 </div>
