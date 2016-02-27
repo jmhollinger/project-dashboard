@@ -117,14 +117,14 @@ app.get('/api/v1/projects', function (req, res) {
 })
 
 //Projects by ID
-app.get('/api/projects/:project_id', function (req, res) {
+app.get('/api/v1/project/:project_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM projects WHERE project_id = ' + req.params.project_id, function(err, result) {
+    client.query('SELECT * FROM view_project_list WHERE project_id = ' + req.params.project_id, function(err, result) {
       done();
-      if (err)
-       { console.error(err); res.send("Error " + err); }
-      else
-       { res.json(result.rows); }
+      if (err){ console.error(err); res.send("Error " + err); }else
+       {  
+        res.json(result.rows); 
+       }
     });
   });
 })
