@@ -40,7 +40,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       }).
      /*View Project Page */
       state('projectPage', {
-        url: '/projects/id/:projectID',
+        url: '/project/:projectID',
         templateUrl: 'templates/projectPage.html',
         controller: 'projectPage'
       }).
@@ -73,11 +73,8 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
 /*--------------Controllers--------------*/
 
 /* Project List */
-pdControllers.controller('projectList', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
-  
-  $scope.title = 'Project List'
-  $scope.view = 'list'
+pdControllers.controller('projectList', ['$scope', '$location',
+  function ($scope, $location) {
 
   }]);
 
@@ -85,30 +82,15 @@ pdControllers.controller('projectList', ['$scope', '$location', 'CKAN', 'search'
 pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   function ($scope, $location, getData) {
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
-
   $scope.projectMarkers = getData.projectMap()
-
   }]);
 
 /* Project Page */
-pdControllers.controller('projectPage', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
-  
-  $scope.project = {
-  "projectId" : 6
-  "name" :
-  "desc" :
-  "lat" :
-  "lng" :
-  "council" :
-  }
-
-  $scope.phases {
-  "projectId" : 
-  "phaseid" : 
-  "" 
-  }
-
+pdControllers.controller('projectPage', ['$scope', '$location',
+  function ($scope, $location) {
+  $scope.center = {"latitude": 38.015350, "longitude": -84.523202}
+  $scope.coords = {"latitude": 38.015350, "longitude": -84.523202}
+  $scope.currentTab = 'Design'
   }]);
 
 /* Account */
@@ -443,8 +425,7 @@ var projects =
       "id": 0,
       "coords": {
         "latitude": 38.015350,
-        "longitude": -84.523202,
-          
+        "longitude": -84.523202
       },
       "properties": {
         "project": "Southland Drive Sidewalks",
@@ -453,14 +434,14 @@ var projects =
         "budget": "40%",
         "schedule": "25%",
         "workComplete": "30%",
-        "stateLink": 'projectList'
+        "stateLink": 'projectPage'
       }
     },
     {
       "id": 1,
       "coords": {
         "latitude": 38.043722,
-        "longitude": -84.496031,
+        "longitude": -84.496031
       },
       "properties" : {
         "project": "Town Branch Commons",
@@ -469,7 +450,7 @@ var projects =
         "budget": "40%",
         "schedule": "25%",
         "workComplete": "30%",
-        "stateLink": "projectList"
+        "stateLink": "projectPage"
       }
     }
   ]

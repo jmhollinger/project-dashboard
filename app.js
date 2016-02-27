@@ -106,7 +106,7 @@ app.get('/api/v1/divisions', function (req, res) {
 //All Projects
 app.get('/api/v1/projects', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM projects', function(err, result) {
+    client.query('SELECT * FROM view_projects_list', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }

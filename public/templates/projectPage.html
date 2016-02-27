@@ -1,3 +1,46 @@
-<div class="col-sm-12">
-  <h1 class="title">{{title}}</h1>
+<style>
+                        .angular-google-map-container {
+                            height: 200px;
+                        }
+</style>
+
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-sm-6">
+  <h1 class="title">Southland Drive Sidewalks</h1>
+  <h3 class="blue-title">One Mile of Sidewalks on Southland Dr.</h3>
+  <ul class="no-bullets">
+    <li><strong>Project ID:</strong> 784261</li>
+    <li><strong>Council Districts:</strong> 3, 10, 11</li>
+    <li><strong>Total Budget:</strong> $2,250,000</li>
+    <li><strong>Amount Funded:</strong> $250,000</li>
+  </ul> 
+  </div>
+  <div class="col-sm-6">
+                    <ui-gmap-google-map center="center" zoom='16'>
+                        <ui-gmap-marker coords="coords" idkey="0">
+                        </ui-gmap-marker>
+                    </ui-gmap-google-map>
+  </div>
+  </div>
+  <div>
+  <hr>
+  <div ng-repeat="x in ['Design', 'Right-of-Way Acquisition', 'Construction']">
+    <h3 class="subtitle">{{x}} Phase</h3>
+    <p>Phase description. | Last edited by Jonathan Hollinger on February 27, 2016</p>
+    <ul class="no-bullets">
+     <li>Status: </li>
+     <li>Department </li>
+     <li>Division: </li>
+     <li>Manager: </li>
+     <li>Start Date:</li>
+     <li>Estimated Completion Date:</li>
+     <li>Budget: </li>
+     <li>Actual: </li>
+     <li>Actual Work Complete: </li>
+     <li>Notes: </li>
+    </ul>
+  </div>
+  </div> 
+  </div>
 </div>

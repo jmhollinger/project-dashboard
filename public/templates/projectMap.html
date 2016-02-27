@@ -24,14 +24,11 @@
             <ui-gmap-marker ng-repeat="projectMarker in projectMarkers" coords="projectMarker.coords" options="projectMarker.options" events="projectMarker.events" idkey="projectMarker.id" click="markerClick">
             <ui-gmap-window>
                 <div>
-                  <a ui-sref="{{projectMarker.properties.stateLink}}"><h3>{{projectMarker.properties.project}}</h3></a>
-                  <h4>{{projectMarker.properties.phase}} Phase</h4>
-                  <ul class="no-bullets">
-                    <li><strong>Status:</strong> {{projectMarker.properties.status}}</li>
-                    <li><strong>Budget Spent:</strong> {{projectMarker.properties.budget}}</li>
-                    <li><strong>Schedule:</strong> {{projectMarker.properties.schedule}}</li>
-                    <li><strong>Work Complete:</strong> {{projectMarker.properties.workComplete}}</li>
-                  </ul>
+                  <span class="pointer" ui-sref="{{projectMarker.properties.stateLink}}">
+                  <h3 class="title">{{projectMarker.properties.project}}</h3>
+                  <h4 class="in-progress">{{projectMarker.properties.phase}} Phase {{projectMarker.properties.status}}</h4>
+                  <p class="phase-details">Budget: {{projectMarker.properties.budget}} | Schedule: {{projectMarker.properties.schedule}} | Work: {{projectMarker.properties.workComplete}}</p>
+                  </span>
                 </div>
             </ui-gmap-window>
         </ui-gmap-marker>

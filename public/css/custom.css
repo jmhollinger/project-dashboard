@@ -9,12 +9,17 @@ body {
 .title {
   font-weight: 700;
   margin-top: 15px;
-  color: #2C3E50;
+  color: #34495e;
 }
 
 .subtitle {
   margin-top: 0px;
-  color: #777;
+  color: #3498db;
+}
+
+.blue-title {
+  margin-top: 0px;
+  color: #16a085;
 }
 
 .white {
@@ -42,6 +47,8 @@ body {
 .footer-text {margin-top: 1.2em;}
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.pointer { cursor: pointer; }
 
 .typeahead-demo .custom-popup-wrapper {
     position: absolute;
@@ -71,6 +78,37 @@ body {
 
   .no-bullets{
   list-style-type: none;
-  margin: 0px;
+  margin: 1.2em;
   padding: 0px;
-  }  
+  } 
+
+.in-progress{
+  background-color: #2ecc71;
+  padding: .3em;
+  border-radius: 5px 5px 0px 0px;
+  color: #FFF;
+  margin: 10px 0px 0px 0px
+}
+.not-started{
+  background-color: #e67e22;
+  padding: .3em;
+  border-radius: 5px 5px 0px 0px;
+  color: #FFF;
+  margin: 10px 0px 0px 0px
+}
+.complete{
+  background-color: #3498db;
+  padding: .3em;
+  border-radius: 5px 5px 0px 0px;
+  color: #FFF;
+  margin: 10px 0px 0px 0px
+}
+
+.phase-details {
+  margin: 0px;
+  padding: .3em;
+  border-color: #999;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-radius: 0px 0px 5px 5px;
+}
