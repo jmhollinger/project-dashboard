@@ -93,7 +93,7 @@ app.get('/api/v1/departments', function (req, res) {
 //List Divisions
 app.get('/api/v1/divisions', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT DISTINCT division_id, division from divisions', function(err, result) {
+    client.query('SELECT division_id, division from divisions', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }

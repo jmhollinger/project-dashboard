@@ -20,6 +20,12 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       $urlRouterProvider.otherwise('/error');
       
       $stateProvider.
+      /*List View */
+      state('home', {
+        url: '',
+        templateUrl: 'templates/projectList.html',
+        controller: 'projectList'
+      }).
     /*List View */
       state('projectList', {
         url: '/projects/list',
@@ -34,7 +40,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       }).
      /*View Project Page */
       state('projectPage', {
-        url: '/projects/id/:param',
+        url: '/projects/id/:projectID',
         templateUrl: 'templates/projectPage.html',
         controller: 'projectPage'
       }).
@@ -56,13 +62,6 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         templateUrl: 'templates/account.html',
         controller: 'account'
       }).
-
-      /*Home*/
-      state('home', {
-        url: '/',
-        templateUrl: 'templates/projectList.html',
-        controller: 'projectList'
-      }).
       /*Error page*/
       state('error', {
         url: '/error',
@@ -83,33 +82,11 @@ pdControllers.controller('projectList', ['$scope', '$location', 'CKAN', 'search'
   }]);
 
 /* Project Map */
-pdControllers.controller('projectMap', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
+pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
+  function ($scope, $location, getData) {
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
 
-  $scope.projectMarkers = [
-    {
-      "id": 0,
-      "coords": {
-        "latitude": 38.015350,
-        "longitude": -84.523202,
-          
-      },
-      "window": {
-        "title": "Southland Drive Sidewalks"
-      }
-    },
-    {
-      "id": 1,
-      "coords": {
-        "latitude": 38.043722,
-        "longitude": -84.496031,
-      },
-      "window" : {
-        "title": "Town Branch Commons"
-      }
-    }
-  ]
+  $scope.projectMarkers = getData.projectMap()
 
   }]);
 
@@ -117,7 +94,20 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'CKAN', 'search',
 pdControllers.controller('projectPage', ['$scope', '$location', 'CKAN', 'search', 'pagination',
   function ($scope, $location, CKAN, search, pagination) {
   
-  $scope.title = 'Project Page'
+  $scope.project = {
+  "projectId" : 6
+  "name" :
+  "desc" :
+  "lat" :
+  "lng" :
+  "council" :
+  }
+
+  $scope.phases {
+  "projectId" : 
+  "phaseid" : 
+  "" 
+  }
 
   }]);
 
@@ -130,8 +120,8 @@ pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'p
   }]);
 
 /* New Project Page */
-pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log',
-  function ($http, $scope, $location, $log) {
+pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData',
+  function ($http, $scope, $location, $log, getData) {
 
   $scope.user= 'Jonathan Hollinger'
 
@@ -202,9 +192,9 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log',
     $scope.popup2.opened = true;
   };
 
- $scope.divisions = ['Planning', 'Engineering', 'Streets & Roads']
- $scope.phases = ['Design', 'Construction', 'Utility Relocation', 'Right-Of-Way Acquisition', 'Implementation'];
-
+ $scope.phases = getData.phases()
+ $scope.divisions = getData.divisions()
+  
   }]);
 
 /* Update Project */
@@ -217,30 +207,6 @@ pdControllers.controller('projectUpdate', ['$scope', '$location', 'CKAN', 'searc
 
 /*--------------Directives--------------*/
 
-pdDirectives.directive('paginate', function () {
-    return {
-        restrict: 'A',
-        template:
-          '<p class="text-center">Page {{page | number}} of {{totalpages | number}}</p>' +
-          '<p class="text-center">Your search returned {{RecordCount | number}} records.</p>' +
-          '<ul class="pagination">' +
-            '<li ng-class="{\'disabled\': disablefirst}" class="pointer" ng-click=\'first()\'><a>First</a></li>' +
-            '<li ng-class="{\'disabled\': disableprev}" class="pointer" ng-click=\'prev()\'><a>Previous</a></li>' +
-            '<li ng-class="{\'disabled\': disablenext}" class="pointer" ng-click=\'next()\'><a>Next</a></li>' +
-            '<li ng-class="{\'disabled\': disablelast}" class="pointer" ng-click=\'last()\'><a>Last</a></li>' +
-          '</ul>'
-    };
-});
-
-pdDirectives.directive('map', function () {
-    return {
-        restrict: 'A',
-        template:
-          '<div id="map-canvas"></div>' +
-          '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXqhUx3ZQwPBtAVsXg6tz9N_2yvrRydcQ&sensor=true&libraries=places&language=en"></script>' +
-          '<script>function initialize(){var o=[],e={overviewMapControl:!0,rotateControl:!0,scaleControl:!0,mapTypeControl:!0,mapTypeControlOptions:{style:google.maps.MapTypeControlStyle.HORIZONTAL_BAR,position:google.maps.ControlPosition.TOP_CENTER},zoomControl:!0,zoomControlOptions:{style:google.maps.ZoomControlStyle.DEFAULT}},t=new google.maps.Map(document.getElementById("map-canvas"),e),n=new google.maps.LatLngBounds(new google.maps.LatLng(37.921971,-84.663139),new google.maps.LatLng(38.155595,-84.334923));t.fitBounds(n),t.data.loadGeoJson("data/firestations.geojson"),t.data.setStyle({icon:{path:google.maps.SymbolPath.CIRCLE,fillColor:"red",fillOpacity:.4,scale:6,strokeColor:"red",strokeWeight:2}});var a=new google.maps.InfoWindow;t.data.addListener("click",function(o){a.setContent("<h4>"+o.feature.getProperty("MORE")+"</h4><p>"+o.feature.getProperty("ADDRESS")+"</p>"),a.setPosition(o.latLng),a.open(t)});var l=document.getElementById("pac-input"),s=new google.maps.places.SearchBox(l);google.maps.event.addListener(s,"places_changed",function(){var e=s.getPlaces();if(0!=e.length){for(var n,a=0;n=o[a];a++)n.setMap(null);o=[];for(var l,g=new google.maps.LatLngBounds,a=0;l=e[a];a++){var i={url:l.icon,size:new google.maps.Size(71,71),origin:new google.maps.Point(0,0),anchor:new google.maps.Point(17,34),scaledSize:new google.maps.Size(25,25)},n=new google.maps.Marker({map:t,icon:i,title:l.name,position:l.geometry.location});o.push(n),g.extend(l.geometry.location)}t.fitBounds(g),t.setZoom(14)}}),google.maps.event.addListener(t,"bounds_changed",function(){var o=t.getBounds();s.setBounds(o)})}google.maps.event.addDomListener(window,"load",initialize);</script>'
-    };
-});
 
 /*--------------Filters--------------*/
 
@@ -261,109 +227,255 @@ projectDashboard.filter('titlecase', function () {
 
 /*--------------Services--------------*/
 
-/*Generate UUID*/
+/*getData*/
 
-pdServices.factory('uuid', ['$http', function($http, search){
+pdServices.factory('getData', ['$http', function($http, search){
   return {
-    generate: function(){
-      return $http.get('http://localhost:3000/api/v1/create/uuid').then(function(response) {return response.data}
-        )
+    divisions: function(){
+      var divisions = [
+  {
+    "division_id": 7,
+    "division": "Planning"
+  },
+  {
+    "division_id": 8,
+    "division": "Purchase of Development Rights"
+  },
+  {
+    "division_id": 9,
+    "division": "Office of Affordable Housing"
+  },
+  {
+    "division_id": 10,
+    "division": "Code Enforcement"
+  },
+  {
+    "division_id": 11,
+    "division": "Historic Preservation"
+  },
+  {
+    "division_id": 12,
+    "division": "Environmental Services"
+  },
+  {
+    "division_id": 13,
+    "division": "Waste Management"
+  },
+  {
+    "division_id": 14,
+    "division": "Water Quality"
+  },
+  {
+    "division_id": 15,
+    "division": "Streets and Roads"
+  },
+  {
+    "division_id": 16,
+    "division": "Traffic Engineering"
+  },
+  {
+    "division_id": 19,
+    "division": "Accounting"
+  },
+  {
+    "division_id": 20,
+    "division": "Budgeting"
+  },
+  {
+    "division_id": 21,
+    "division": "Revenue"
+  },
+  {
+    "division_id": 22,
+    "division": "Purchasing"
+  },
+  {
+    "division_id": 24,
+    "division": "Facilities and Fleet Management"
+  },
+  {
+    "division_id": 25,
+    "division": "Parks and Recreation"
+  },
+  {
+    "division_id": 27,
+    "division": "Corporate Counsel"
+  },
+  {
+    "division_id": 28,
+    "division": "Litigation"
+  },
+  {
+    "division_id": 29,
+    "division": "Claims Management"
+  },
+  {
+    "division_id": 31,
+    "division": "Police"
+  },
+  {
+    "division_id": 32,
+    "division": "Fire and Emergency Services"
+  },
+  {
+    "division_id": 33,
+    "division": "Community Corrections"
+  },
+  {
+    "division_id": 34,
+    "division": "Emergency Management"
+  },
+  {
+    "division_id": 35,
+    "division": "E911"
+  },
+  {
+    "division_id": 36,
+    "division": "Adult and Tenant Services"
+  },
+  {
+    "division_id": 37,
+    "division": "Family Services"
+  },
+  {
+    "division_id": 38,
+    "division": "Youth Services"
+  },
+  {
+    "division_id": 40,
+    "division": "Partners for Youth"
+  },
+  {
+    "division_id": 41,
+    "division": "Office of Project Management"
+  },
+  {
+    "division_id": 42,
+    "division": "Office of Economic Development"
+  },
+  {
+    "division_id": 43,
+    "division": "Mayor's Office"
+  },
+  {
+    "division_id": 44,
+    "division": "CAO's Office"
+  },
+  {
+    "division_id": 45,
+    "division": "Grants and Special Programs"
+  },
+  {
+    "division_id": 46,
+    "division": "Internal Audit"
+  },
+  {
+    "division_id": 47,
+    "division": "Council Clerk"
+  },
+  {
+    "division_id": 48,
+    "division": "Government Communications"
+  },
+  {
+    "division_id": 49,
+    "division": "Risk Management"
+  },
+  {
+    "division_id": 50,
+    "division": "Computer Services"
+  },
+  {
+    "division_id": 51,
+    "division": "Enterprise Solutions"
+  },
+  {
+    "division_id": 52,
+    "division": "CIO's Office"
+  },
+  {
+    "division_id": 6,
+    "division": "Building Inspection"
+  },
+  {
+    "division_id": 5,
+    "division": "Engineering"
+  },
+  {
+    "division_id": 18,
+    "division": "Finance Commissioner's Office"
+  },
+  {
+    "division_id": 17,
+    "division": "EQ and Public Works Commissioner's Office"
+  },
+  {
+    "division_id": 23,
+    "division": "General Services Commissioner's Office"
+  },
+  {
+    "division_id": 26,
+    "division": "Law Commissioner's Office"
+  },
+  {
+    "division_id": 30,
+    "division": "Public Safety Commissioner's Office"
+  },
+  {
+    "division_id": 39,
+    "division": "Social Services Commissioner's Office"
+  },
+  {
+    "division_id": 4,
+    "division": "Planning Commissioner's Office"
+  }
+]
+      return divisions
+    },
+phases: function(){
+var phases = ['Construction', 'Utility Relocation', 'Right-of-Way Acquisition', 'Design', 'Implementation']  
+return phases
+},
+projectMap: function(){
+var projects = 
+[
+    {
+      "id": 0,
+      "coords": {
+        "latitude": 38.015350,
+        "longitude": -84.523202,
+          
+      },
+      "properties": {
+        "project": "Southland Drive Sidewalks",
+        "phase": "Design",
+        "status": "In Progress",
+        "budget": "40%",
+        "schedule": "25%",
+        "workComplete": "30%",
+        "stateLink": 'projectList'
+      }
+    },
+    {
+      "id": 1,
+      "coords": {
+        "latitude": 38.043722,
+        "longitude": -84.496031,
+      },
+      "properties" : {
+        "project": "Town Branch Commons",
+        "phase": "Design",
+        "status": "In Progress",
+        "budget": "40%",
+        "schedule": "25%",
+        "workComplete": "30%",
+        "stateLink": "projectList"
+      }
     }
+  ]
+return projects
 }
-}])
-
-pdServices.factory('CKAN', ['$http','search', function($http, search){
-	return {
-		query: function(dataset, terms, sortfield, sortdir, limit, offset){
-		if (!terms){
-			var fulltext = ''}
-		else {
-			var fulltext = ' WHERE "_full_text" @@ to_tsquery(\'' + search.clean(terms) + '\') '}	
-			var dataurl1 = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT * FROM "' + dataset + '"' + fulltext + 'ORDER BY "' + sortfield + '" ' + sortdir + ', "_id" DESC' + ' LIMIT ' + limit + ' OFFSET ' + offset
-		return $http.get(dataurl1)
-		},
-		dump: function(dataset, fields, terms, sortfield, sortdir){
-		var f = ''
-		var l = fields.length - 1  
-		for (i = 0; i < l; i++) { 
-		    f += '"' + fields[i] + '", '}
-	 
-	 	var f2 = f + '"' + fields[l] + '"'
-		
-		if (!terms){
-			var fulltext = ''}
-		else {
-			var fulltext = ' WHERE "_full_text" @@ to_tsquery(\'' + search.clean(terms) + '\') '}	
-			var dataurl1 = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT ' + f2 + ' FROM "' + dataset + '"' + fulltext + 'ORDER BY "' + sortfield + '" ' + sortdir + ', "_id" DESC'
-		return $http.get(dataurl1)
-		},
-		record: function(dataset, id){
-			var dataurl2 = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT * FROM "' + dataset + '" WHERE "_id" = ' + id
-		return $http.get(dataurl2)
-		},
-		count: function(dataset, terms){
-		if (!terms){
-			var fulltext = ''}
-		else {
-			var fulltext = ' WHERE "_full_text" @@ to_tsquery(\'' + search.clean(terms) + '\') '}	
-			var dataurl3 = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT COUNT(*) FROM "' + dataset + '"' + fulltext
-		return $http.get(dataurl3)
-		},
-}
-}])
-
-/* Cleans Search Input for CKAN API */
-pdServices.factory('searchbox', [function(){
-	return {
-	input: function(input){
-	var wordarray = input.trim().split(/\s+/gim)  
-	for (i = 0; i < wordarray.length; i++) { 
-	wordarray[i] = wordarray[i].replace(/[\W]|[_]|/gim,"").toUpperCase()
-	}
-	return wordarray.toString().replace(/,+/gim,",").replace(/,$/gim,"").replace(/,/gim,"%26")}	
-}
-}])
 
 
-pdServices.factory('search', ['$location', function($location){
-	return {
-		go: function (base, keyword, sortfield, sortdir, limit, page ){
-		if (keyword === ''){
-  			var link = '/' + base + '/' + 'null' + '/' + sortfield + '/' + sortdir + '/' + limit + '/' + page}
-  		else { 	
-    		var link = '/' + base + '/' + keyword + '/' + sortfield + '/' + sortdir + '/' + limit + '/' + page}
-		return $location.path(link)
-		},
-		checknull: function (input){
-  		if (input === 'null')
-  		{return ''}
-  		else {return input}
-  		},
-  		clean: function(input){
-		var wordarray = input.trim().split(/\s+/gim)  
-		for (i = 0; i < wordarray.length; i++) { 
-		wordarray[i] = wordarray[i].replace(/[\W]|[_]|/gim,"").toUpperCase()
-		}
-		return wordarray.toString().replace(/,+/gim,",").replace(/,$/gim,"").replace(/,/gim,"%26")}	
-}
-}])
-
-/* Disabled pagination button, returns an arrary of boolean values in the order of [first, prev, next, last] */
-pdServices.factory('pagination', [function(){
-  return {
-  controls: function(page, totalpages){
-        if (totalpages === 1 && page === 1){
-        var result = [true, true, true, true]
-        }
-        else if (totalpages > 1 && page === 1){
-        var result = [true, true, false, false] 
-        }
-        else if (totalpages > 1  && page === totalpages){
-        var result = [false, false, true, true] 
-        }
-        else {
-        var result = [false, false, false, false] 
-        }
-      return result
-  }    
 }}])
+

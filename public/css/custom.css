@@ -68,3 +68,9 @@ body {
     border-radius: 0;
     box-shadow: none;
   }
+
+  .no-bullets{
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  }  
