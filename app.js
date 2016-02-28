@@ -90,10 +90,34 @@ app.get('/api/v1/departments', function (req, res) {
   });
 })
 
+app.get('/api/v1/department/:id', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT department from divisions WHERE department_id =' req.params.id, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
 //List Divisions
 app.get('/api/v1/divisions', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT division_id, division from divisions', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
+app.get('/api/v1/division/:id', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT division from divisions WHERE division_id =' req.params.id, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }

@@ -81,28 +81,61 @@ pdControllers.controller('projectList', ['$scope', '$location',
 /* Project Map */
 pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   function ($scope, $location, getData) {
-  
+
+  $scope.searchTerm = $location.search().q
+  $scope.departmentId = $location.search().dept
+  $scope.divisionId = $location.search().div
+  $scope.councilDistrict = $location.search().cd
+  $scope.showC = $location.search().showC
+  $scope.showNs = $location.search().showNs
+  $scope.showIp = $location.search().showIp
+  $scope.divisionName = 
+  $scope.departmentName =
+
+
+  $scope.updateFilter = function() {
+    $location.search({q: $scope.searchTerm, dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
+    showIp: $scope.showIp, showNs : $scope.showNs})
+    console.log("Fire Query")
+}
+
   $scope.onSelect = function ($item, $model, $label) {
     if (Object.keys($item)[1] === 'department'){
       $scope.departmentId = $item.department_id
-      console.log($item.department_id)
+      $location.search({q: $scope.searchTerm ,dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
+    showIp: $scope.showIp, showNs : $scope.showNs})
       }
     else if (Object.keys($item)[1] === 'division'){
       $scope.divisionId = $item.division_id
-      console.log($item.division_id)
+      $location.search({q: $scope.searchTerm ,dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
+    showIp: $scope.showIp, showNs : $scope.showNs})
       }
     else {}
+    console.log("Fire Query") 
   }
-
-  $scope.selectDepartment = function ($item, $model, $label) {
-  $scope.departmentId = $item.department_id
-  console.log('Department: ' + $item.department_id)
+  $scope.clearFilter = function () {
+  $scope.searchTerm = null
+  $scope.departmentId = null
+  $scope.divisionId = null
+  $scope.councilDistrict = null
+  $scope.showC = true
+  $scope.showNs = true
+  $scope.showIp = true
+  $location.search({})
   }
 
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
+  
   $scope.projectMarkers = getData.projectMap()
+  
+  $scope.divisions = getData.divisions().success(function(data) {
+    return data
+  }
+  
   $scope.divisions = getData.divisions()
+  
   $scope.departments = getData.departments()
+  
   $scope.council = getData.councilDistricts()
   }]);
 
@@ -234,256 +267,28 @@ projectDashboard.filter('titlecase', function () {
 
 pdServices.factory('getData', ['$http', function($http, search){
   return {
-    departments: function(){
-      return [
-{
-"department_id": 8,
-"department": "Mayor's Office"
-},
-{
-"department_id": 5,
-"department": "Law"
-},
-{
-"department_id": 7,
-"department": "Social Services"
-},
-{
-"department_id": 3,
-"department": "Finance"
-},
-{
-"department_id": 4,
-"department": "General Services"
-},
-{
-"department_id": 2,
-"department": "Environmental Quality and Public Works"
-},
-{
-"department_id": 10,
-"department": "Chief Information Officer"
-},
-{
-"department_id": 6,
-"department": "Public Safety"
-},
-{
-"department_id": 9,
-"department": "Chief Administrative Office"
-},
-{
-"department_id": 1,
-"department": "Planning, Preservation, and Development"
-}
-]
-    },
     councilDistricts: function(){
-      return ["1","2","3","4","5","6","7","8","9","10","11","12"]
+      var districts = ["1","2","3","4","5","6","7","8","9","10","11","12"]
+      return districts
+    },
+    departments: function(){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/departments")
+    },
+    departmentByid: function(dept_id){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/" + dept_id)
+    },
+    divisionByid: function (div_id){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/" + div_id)
     },
     divisions: function(){
-      var divisions = [
-  {
-    "division_id": 7,
-    "division": "Planning"
-  },
-  {
-    "division_id": 8,
-    "division": "Purchase of Development Rights"
-  },
-  {
-    "division_id": 9,
-    "division": "Office of Affordable Housing"
-  },
-  {
-    "division_id": 10,
-    "division": "Code Enforcement"
-  },
-  {
-    "division_id": 11,
-    "division": "Historic Preservation"
-  },
-  {
-    "division_id": 12,
-    "division": "Environmental Services"
-  },
-  {
-    "division_id": 13,
-    "division": "Waste Management"
-  },
-  {
-    "division_id": 14,
-    "division": "Water Quality"
-  },
-  {
-    "division_id": 15,
-    "division": "Streets and Roads"
-  },
-  {
-    "division_id": 16,
-    "division": "Traffic Engineering"
-  },
-  {
-    "division_id": 19,
-    "division": "Accounting"
-  },
-  {
-    "division_id": 20,
-    "division": "Budgeting"
-  },
-  {
-    "division_id": 21,
-    "division": "Revenue"
-  },
-  {
-    "division_id": 22,
-    "division": "Purchasing"
-  },
-  {
-    "division_id": 24,
-    "division": "Facilities and Fleet Management"
-  },
-  {
-    "division_id": 25,
-    "division": "Parks and Recreation"
-  },
-  {
-    "division_id": 27,
-    "division": "Corporate Counsel"
-  },
-  {
-    "division_id": 28,
-    "division": "Litigation"
-  },
-  {
-    "division_id": 29,
-    "division": "Claims Management"
-  },
-  {
-    "division_id": 31,
-    "division": "Police"
-  },
-  {
-    "division_id": 32,
-    "division": "Fire and Emergency Services"
-  },
-  {
-    "division_id": 33,
-    "division": "Community Corrections"
-  },
-  {
-    "division_id": 34,
-    "division": "Emergency Management"
-  },
-  {
-    "division_id": 35,
-    "division": "E911"
-  },
-  {
-    "division_id": 36,
-    "division": "Adult and Tenant Services"
-  },
-  {
-    "division_id": 37,
-    "division": "Family Services"
-  },
-  {
-    "division_id": 38,
-    "division": "Youth Services"
-  },
-  {
-    "division_id": 40,
-    "division": "Partners for Youth"
-  },
-  {
-    "division_id": 41,
-    "division": "Office of Project Management"
-  },
-  {
-    "division_id": 42,
-    "division": "Office of Economic Development"
-  },
-  {
-    "division_id": 43,
-    "division": "Mayor's Office"
-  },
-  {
-    "division_id": 44,
-    "division": "CAO's Office"
-  },
-  {
-    "division_id": 45,
-    "division": "Grants and Special Programs"
-  },
-  {
-    "division_id": 46,
-    "division": "Internal Audit"
-  },
-  {
-    "division_id": 47,
-    "division": "Council Clerk"
-  },
-  {
-    "division_id": 48,
-    "division": "Government Communications"
-  },
-  {
-    "division_id": 49,
-    "division": "Risk Management"
-  },
-  {
-    "division_id": 50,
-    "division": "Computer Services"
-  },
-  {
-    "division_id": 51,
-    "division": "Enterprise Solutions"
-  },
-  {
-    "division_id": 52,
-    "division": "CIO's Office"
-  },
-  {
-    "division_id": 6,
-    "division": "Building Inspection"
-  },
-  {
-    "division_id": 5,
-    "division": "Engineering"
-  },
-  {
-    "division_id": 18,
-    "division": "Finance Commissioner's Office"
-  },
-  {
-    "division_id": 17,
-    "division": "EQ and Public Works Commissioner's Office"
-  },
-  {
-    "division_id": 23,
-    "division": "General Services Commissioner's Office"
-  },
-  {
-    "division_id": 26,
-    "division": "Law Commissioner's Office"
-  },
-  {
-    "division_id": 30,
-    "division": "Public Safety Commissioner's Office"
-  },
-  {
-    "division_id": 39,
-    "division": "Social Services Commissioner's Office"
-  },
-  {
-    "division_id": 4,
-    "division": "Planning Commissioner's Office"
-  }
-]
-      return divisions
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/divisions")
     },
 phases: function(){
 var phases = ['Construction', 'Utility Relocation', 'Right-of-Way Acquisition', 'Design', 'Implementation']  
+return phases
+},
+status: function(){
+var status = ['Construction', 'Utility Relocation', 'Right-of-Way Acquisition', 'Design', 'Implementation']  
 return phases
 },
 projectMap: function(){
