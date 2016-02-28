@@ -1,25 +1,26 @@
 <div class="container-fluid">
-<h1 class="title">Find a Project</h1>
 <div class="row">
-  <div class="form-group col-sm-3">
+<div class="col-sm-2">
+<h1 class="title">Find a Project</h1>
+  <div class="form-group">
     <label>Search</label>
     <input type="text" class="form-control"/ Placeholder="Search for a project...">
   </div>
-  <div class="form-group col-sm-3">
+  <div class="form-group">
     <label>Department</label>
-    <input type="text" class="form-control"/ Placeholder="Select a Department...">
+    <input type="text" ng-model="departmentFilter" uib-typeahead="department.department for department in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department...">
   </div>
-  <div class="form-group col-sm-3">
+  <div class="form-group">
     <label>Division</label>
-    <input type="text" class="form-control"/ Placeholder="Select a Division...">
+    <input type="text" ng-model="divisionFilter" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
   </div>
-  <div class="form-group col-sm-3">
+  <div class="form-group">
     <label>Council District</label>
-    <input type="text" class="form-control"/ Placeholder="Select a Council District...">
+    <input type="text" ng-model="councilFilter" uib-typeahead="council for council in council | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" placeholder="Select a council district...">
   </div>
 </div>
-<h1 class="title"></h1>
-        <style>.angular-google-map-container { height: 600px; }</style>
+<div class="col-sm-10">
+        <style>.angular-google-map-container { height: 600px; margin-top:15px; }</style>
         <ui-gmap-google-map center='map.center' zoom='map.zoom'>
             <ui-gmap-marker ng-repeat="projectMarker in projectMarkers" coords="projectMarker.coords" options="projectMarker.options" events="projectMarker.events" idkey="projectMarker.id" click="markerClick">
             <ui-gmap-window>
@@ -33,4 +34,6 @@
             </ui-gmap-window>
         </ui-gmap-marker>
         </ui-gmap-google-map>
+</div>
+</div>
 </div>

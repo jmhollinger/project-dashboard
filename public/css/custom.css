@@ -56,7 +56,7 @@ body {
     left: 0;
     z-index: 1000;
     display: none;
-    background-color: #f9f9f9;
+    background-color: #34495e;
   }
 
   .typeahead-demo .custom-popup-wrapper > .message {

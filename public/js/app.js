@@ -81,8 +81,29 @@ pdControllers.controller('projectList', ['$scope', '$location',
 /* Project Map */
 pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   function ($scope, $location, getData) {
+  
+  $scope.onSelect = function ($item, $model, $label) {
+    if (Object.keys($item)[1] === 'department'){
+      $scope.departmentId = $item.department_id
+      console.log($item.department_id)
+      }
+    else if (Object.keys($item)[1] === 'division'){
+      $scope.divisionId = $item.division_id
+      console.log($item.division_id)
+      }
+    else {}
+  }
+
+  $scope.selectDepartment = function ($item, $model, $label) {
+  $scope.departmentId = $item.department_id
+  console.log('Department: ' + $item.department_id)
+  }
+
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
   $scope.projectMarkers = getData.projectMap()
+  $scope.divisions = getData.divisions()
+  $scope.departments = getData.departments()
+  $scope.council = getData.councilDistricts()
   }]);
 
 /* Project Page */
@@ -213,6 +234,53 @@ projectDashboard.filter('titlecase', function () {
 
 pdServices.factory('getData', ['$http', function($http, search){
   return {
+    departments: function(){
+      return [
+{
+"department_id": 8,
+"department": "Mayor's Office"
+},
+{
+"department_id": 5,
+"department": "Law"
+},
+{
+"department_id": 7,
+"department": "Social Services"
+},
+{
+"department_id": 3,
+"department": "Finance"
+},
+{
+"department_id": 4,
+"department": "General Services"
+},
+{
+"department_id": 2,
+"department": "Environmental Quality and Public Works"
+},
+{
+"department_id": 10,
+"department": "Chief Information Officer"
+},
+{
+"department_id": 6,
+"department": "Public Safety"
+},
+{
+"department_id": 9,
+"department": "Chief Administrative Office"
+},
+{
+"department_id": 1,
+"department": "Planning, Preservation, and Development"
+}
+]
+    },
+    councilDistricts: function(){
+      return ["1","2","3","4","5","6","7","8","9","10","11","12"]
+    },
     divisions: function(){
       var divisions = [
   {
