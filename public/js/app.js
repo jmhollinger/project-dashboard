@@ -128,10 +128,10 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   
   $scope.projectMarkers = getData.projectMap()
   
-  $scope.divisions = getData.divisions().success(function(data) {
-    return data
-  }
-  
+  getData.divisions().then(function(data) {
+    $scope.divisions = data
+  })
+
   $scope.divisions = getData.divisions()
   
   $scope.departments = getData.departments()
