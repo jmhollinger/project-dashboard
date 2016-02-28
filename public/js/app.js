@@ -128,14 +128,22 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   
   $scope.projectMarkers = getData.projectMap()
   
-  getData.divisions().then(function(data) {
-    $scope.divisions = data
+  getData.divisions().then(function(result) {
+    $scope.divisions = result.data
   })
 
-  $scope.divisions = getData.divisions()
-  
-  $scope.departments = getData.departments()
-  
+  getData.divisionByid($scope.divisionId).then(function(result) {
+    $scope.divisionName = result.data[0].division
+  })
+
+  getData.departmentByid($scope.departmentId).then(function(result) {
+    $scope.departmentName = result.data[0]
+  })
+
+  getData.departments().then(function(result) {
+    $scope.departments = result.data
+  })
+
   $scope.council = getData.councilDistricts()
   }]);
 
@@ -275,7 +283,7 @@ pdServices.factory('getData', ['$http', function($http, search){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/departments")
     },
     departmentByid: function(dept_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/" + dept_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/" + dept_id)
     },
     divisionByid: function (div_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/" + div_id)
