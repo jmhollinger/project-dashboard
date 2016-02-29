@@ -137,7 +137,7 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   })
 
   getData.departmentByid($scope.departmentId).then(function(result) {
-    $scope.departmentName = result.data[0]
+    $scope.departmentName = result.data[0].department
   })
 
   getData.departments().then(function(result) {

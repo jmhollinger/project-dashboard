@@ -8,11 +8,11 @@
   </div>
   <div class="form-group">
     <label>Department</label>
-    <input type="text" ng-model="departmentFilter" uib-typeahead="department.department for department in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department...">
+    <input type="text" ng-model="departmentName" uib-typeahead="department.department for department in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department...">
   </div>
   <div class="form-group">
     <label>Division</label>
-    <input type="text" ng-model="divisionFilter" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
+    <input type="text" ng-model="divisionName" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
   </div>
   <div class="row">
   <div class="form-group col-sm-6">
@@ -32,17 +32,15 @@
   </div>
   </div>
 </div>
-<button class="btn btn-primary" ng-click="clearFilter()">Clear Filters</button>
+<button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
 <pre>
-  Q {{searchTerm}}
-  DEPT {{departmentId}}
-  {{departmentName}}
-  DIV {{divisionId}}
-  {{divisionName}}
-  CD {{councilDistrict}}
-  C {{showC}}
-  NS {{showNs}}
-  IP {{showIp}}
+  SELECT * from view_project_list 
+  WHERE 
+  full_text @@ to_tsquery('{{searchTerm}}') 
+  AND department_id = {{departmentId}} 
+  AND division_id = {{divisionId}} 
+  AND council_districts ? '{{councilDistrict}}'
+  AND (phase_status = 'Not Started')
 </pre>
 </div>
 <div class="col-sm-9">
