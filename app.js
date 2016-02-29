@@ -179,6 +179,7 @@ app.get('/api/v1/phase-types', function (req, res) {
   });
 })
 
+
 //Phase Statuses
 app.get('/api/v1/status-types', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
