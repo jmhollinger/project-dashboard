@@ -89,14 +89,10 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   $scope.showC = $location.search().showC
   $scope.showNs = $location.search().showNs
   $scope.showIp = $location.search().showIp
-  $scope.divisionName = 
-  $scope.departmentName =
-
 
   $scope.updateFilter = function() {
     $location.search({q: $scope.searchTerm, dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
     showIp: $scope.showIp, showNs : $scope.showNs})
-    console.log("Fire Query")
 }
 
   $scope.onSelect = function ($item, $model, $label) {
@@ -111,7 +107,6 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
     showIp: $scope.showIp, showNs : $scope.showNs})
       }
     else {}
-    console.log("Fire Query") 
   }
   $scope.clearFilter = function () {
   $scope.searchTerm = null
@@ -138,22 +133,21 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
     $scope.divisionName = result.data[0].division
   })
 
-  getData.departmentByid($scope.departmentId).then(function(result) {
-    $scope.departmentName = result.data[0].department
-  })
-
   getData.departments().then(function(result) {
     $scope.departments = result.data
+  })
+
+  getData.departmentByid($scope.departmentId).then(function(result) {
+    $scope.departmentName = result.data[0].department
   })
 
   getData.councilDistricts().then(function(result) {
     var districtArray = []
     for (var i = result.data.length - 1; i >= 0; i--) {
-      districtArray.push(result.data[i].district_name)
+      districtArray.push(result.data[i].district_name) 
     }
-    $scope.council = districtArray.reverse()
-  })
-
+    })
+    return districtArray
   }]);
 
 /* Project Page */
@@ -285,7 +279,7 @@ projectDashboard.filter('titlecase', function () {
 pdServices.factory('getData', ['$http', function($http, search){
   return {
     councilDistricts: function(){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/council-districts")
+    $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/council-districts")
     },
     departments: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/departments")

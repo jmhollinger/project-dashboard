@@ -135,6 +135,25 @@ app.get('/api/v1/division/:div_id', function (req, res) {
 })
 
 //Council Districts
+app.get('/api/v1/council-districts/array', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * from council_districts ORDER BY district_id DESC', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       {
+       var districtArray = []
+       for (var i = result.rows.length - 1; i >= 0; i--) {
+          districtArray.push(result.rows[i].district_name) 
+        }
+       res.json(districtArray) 
+        }
+    });
+  });
+})
+
+//Council Districts
 app.get('/api/v1/council-districts', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * from council_districts ORDER BY district_id DESC', function(err, result) {
@@ -142,7 +161,7 @@ app.get('/api/v1/council-districts', function (req, res) {
       if (err)
        { console.error(err); res.send("Error " + err); }
       else
-       { res.json(result.rows); }
+       { res.json(result.rows)}
     });
   });
 })
