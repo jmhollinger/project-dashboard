@@ -33,16 +33,6 @@
   </div>
 </div>
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
-<pre>
-  {{council}}
-  SELECT * from view_project_list 
-  WHERE 
-  full_text @@ to_tsquery('{{searchTerm}}') 
-  AND department_id = {{departmentId}} 
-  AND division_id = {{divisionId}} 
-  AND council_districts ? '{{councilDistrict}}'
-  AND (phase_status = 'Not Started')
-</pre>
 </div>
 <div class="col-sm-9">
         <style>.angular-google-map-container { height: 600px; margin-top:15px; }</style>
