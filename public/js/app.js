@@ -76,7 +76,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
 pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   function ($scope, $location, getData) {
 
-    $scope.searchTerm = $location.search().q
+  $scope.searchTerm = $location.search().q
   $scope.departmentId = $location.search().dept
   $scope.divisionId = $location.search().div
   $scope.councilDistrict = $location.search().cd
@@ -134,6 +134,10 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
 
   getData.councilArray().then(function(result) {
     $scope.council = result.data
+  })
+
+  getData.status_types().then(function(result) {
+    $scope.statusTypes = result.data
   })
 
   }]);

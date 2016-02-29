@@ -21,17 +21,14 @@
   </div>
   <div class="form-group col-sm-6">
   <label>Status</label>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="showNs" ng-change="updateFilter()" checked>Not Started</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="showIp" ng-change="updateFilter()" checked>In Progess</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="showC" ng-change="updateFilter()" checked>Completed</label>
+  <div ng-repeat="x in statusTypes" class="checkbox">
+    <label><input type="checkbox" ng-model="status" ng-change="updateFilter()" checked>{{x.status_name}}</label>
   </div>
   </div>
 </div>
+<pre>
+  {{status}}
+</pre>
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
 </div>
 <div class="col-sm-9">
