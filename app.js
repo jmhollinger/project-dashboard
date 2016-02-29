@@ -226,7 +226,3 @@ var port = server.address().port;
 
 console.log('App listening at http://%s:%s', host, port);
 });
-
-for (var i = result.length - 1; i >= 0; i--) {
-  result[i]
-};
