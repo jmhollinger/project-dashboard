@@ -27,8 +27,9 @@
   <div>
   <hr>
  <div ng-repeat="x in projects">
-    <h3 class="subtitle">{{x.phase_name}} Phase</h3>
-    <p>{{x.phase_description}}</p>
+    <h2 class="subtitle">{{x.phase_name}} Phase</h2>
+    <h4>{{x.phase_description}}</h4>
+    <p>Last updated by {{x.phase_mod_user}} on {{ x.phase_mod_time | date: 'short'}}</p>
     <ul class="no-bullets">
      <li><strong>Status: </strong>{{x.status_name}}</li>
      <li><strong>Department: </strong>{{x.department}}</li>
@@ -39,7 +40,7 @@
      <li><strong>Budget: </strong>{{x.budget | currency}}</li>
      <li><strong>Actual: </strong>{{x.actual | currency}}</li>
      <li><strong>Actual Work Complete: </strong>{{x.work_complete | percent}}</li>
-     <li><strong>Notes: </strong></li>
+     <li><strong>Notes: </strong> {{x.notes}}</li>
     </ul>
   </div>
   </div> 

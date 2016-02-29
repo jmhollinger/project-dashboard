@@ -192,6 +192,10 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
 
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
   
+  getData.projects().then(function(result) {
+    $scope.projects = result.data
+  })
+
   $scope.projectMarkers = getData.projectMap()
   
   getData.divisions().then(function(result) {
