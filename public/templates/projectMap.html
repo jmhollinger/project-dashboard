@@ -34,6 +34,7 @@
 </div>
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
 <pre>
+  {{council}}
   SELECT * from view_project_list 
   WHERE 
   full_text @@ to_tsquery('{{searchTerm}}') 

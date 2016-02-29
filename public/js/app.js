@@ -144,7 +144,10 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
     $scope.departments = result.data
   })
 
-  $scope.council = getData.councilDistricts()
+  getData.councilDistricts().then(function(result) {
+    $scope.council = result.data
+  })
+
   }]);
 
 /* Project Page */
@@ -276,8 +279,7 @@ projectDashboard.filter('titlecase', function () {
 pdServices.factory('getData', ['$http', function($http, search){
   return {
     councilDistricts: function(){
-      var districts = ["1","2","3","4","5","6","7","8","9","10","11","12"]
-      return districts
+      $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/council-districts")
     },
     departments: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/departments")
@@ -291,53 +293,49 @@ pdServices.factory('getData', ['$http', function($http, search){
     divisions: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/divisions")
     },
-phases: function(){
-var phases = ['Construction', 'Utility Relocation', 'Right-of-Way Acquisition', 'Design', 'Implementation']  
-return phases
-},
-status: function(){
-var status = ['Construction', 'Utility Relocation', 'Right-of-Way Acquisition', 'Design', 'Implementation']  
-return phases
-},
-projectMap: function(){
-var projects = 
-[
-    {
-      "id": 0,
-      "coords": {
-        "latitude": 38.015350,
-        "longitude": -84.523202
-      },
-      "properties": {
-        "project": "Southland Drive Sidewalks",
-        "phase": "Design",
-        "status": "In Progress",
-        "budget": "40%",
-        "schedule": "25%",
-        "workComplete": "30%",
-        "stateLink": 'projectPage'
-      }
+    phase_types: function(){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase-types")
     },
-    {
-      "id": 1,
-      "coords": {
-        "latitude": 38.043722,
-        "longitude": -84.496031
-      },
-      "properties" : {
-        "project": "Town Branch Commons",
-        "phase": "Design",
-        "status": "In Progress",
-        "budget": "40%",
-        "schedule": "25%",
-        "workComplete": "30%",
-        "stateLink": "projectPage"
-      }
+    status_types: function(){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/status-types")
+    },
+    projectMap: function(){
+    var projects = 
+    [
+        {
+          "id": 0,
+          "coords": {
+            "latitude": 38.015350,
+            "longitude": -84.523202
+          },
+          "properties": {
+            "project": "Southland Drive Sidewalks",
+            "phase": "Design",
+            "status": "In Progress",
+            "budget": "40%",
+            "schedule": "25%",
+            "workComplete": "30%",
+            "stateLink": 'projectPage'
+          }
+        },
+        {
+          "id": 1,
+          "coords": {
+            "latitude": 38.043722,
+            "longitude": -84.496031
+          },
+          "properties" : {
+            "project": "Town Branch Commons",
+            "phase": "Design",
+            "status": "In Progress",
+            "budget": "40%",
+            "schedule": "25%",
+            "workComplete": "30%",
+            "stateLink": "projectPage"
+          }
+        }
+      ]
+    return projects
     }
-  ]
-return projects
-}
-
-
 }}])
 

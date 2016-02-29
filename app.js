@@ -95,6 +95,7 @@ app.get('/api/v1/departments', function (req, res) {
   });
 })
 
+//Department Name by ID 
 app.get('/api/v1/department/:dept_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT DISTINCT department from divisions WHERE department_id = ' + req.params.dept_id, function(err, result) {
@@ -120,9 +121,49 @@ app.get('/api/v1/divisions', function (req, res) {
   });
 })
 
+//Division Name by ID
 app.get('/api/v1/division/:div_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT division from divisions WHERE division_id = ' + req.params.div_id, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
+//Council Districts
+app.get('/api/v1/council-districts', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * from council_districts', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
+//Phase Types
+app.get('/api/v1/phase-types', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * from phase_types', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows); }
+    });
+  });
+})
+
+//Phase Statuses
+app.get('/api/v1/status-types', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * from status', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
