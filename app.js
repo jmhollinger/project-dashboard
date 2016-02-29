@@ -169,7 +169,7 @@ app.get('/api/v1/council-districts', function (req, res) {
 //Phase Types
 app.get('/api/v1/phase-types', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * from phase_types', function(err, result) {
+    client.query('SELECT * from phase_type', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
@@ -182,7 +182,7 @@ app.get('/api/v1/phase-types', function (req, res) {
 //Phase Statuses
 app.get('/api/v1/status-types', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * from status', function(err, result) {
+    client.query('SELECT * from status_type', function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
