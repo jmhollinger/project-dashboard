@@ -11,23 +11,21 @@ division_id = 4 AND
 council_districts ? '3';
 
 
--- View: view_project_list
-
--- DROP VIEW view_project_list;
-
-CREATE OR REPLACE VIEW view_project_list AS 
+CREATE OR REPLACE VIEW vw_project_list AS 
  SELECT pr.project_id,
-    to_tsvector((((((((((((((pr.project_name::text || ' '::text) || pr.project_description::text) || ' '::text) || ph.phase_name::text) || ' '::text) || ph.phase_description::text) || ' '::text) || ph.phase_manager::text) || ' '::text) || ph.resolution_number::text) || ' '::text) || d.department::text) || ' '::text) || d.division::text) AS full_text,
+    to_tsvector((((((((((((((pr.project_name::text || ' '::text) || pr.project_description::text) || ' '::text) || ph_s.status_name::text) || ' '::text) || ph.phase_description::text) || ' '::text) || ph.phase_manager::text) || ' '::text) || ph.resolution_number::text) || ' '::text) || d.department::text) || ' '::text) || d.division::text) AS full_text,
     ph.phase_id,
     d.department_id,
     ph.division_id,
     pr.council_districts,
+    ph.phase_type,
+    ph.phase_status,
     pr.lat,
     pr.lng,
-    ph.phase_status,
+    ph_s.status_name,
     pr.project_name,
     pr.project_description,
-    ph.phase_name,
+    ph_t.phase_name,
     ph.phase_description,
     d.department,
     d.division,
@@ -39,12 +37,10 @@ CREATE OR REPLACE VIEW view_project_list AS
     ph.work_complete * 100::numeric AS work_complete
    FROM projects pr
      JOIN phases ph ON pr.project_id = ph.project_id
-     JOIN divisions d ON d.division_id = ph.division_id;
+     JOIN divisions d ON d.division_id = ph.division_id
+     JOIN phase_type ph_t ON ph.phase_type = ph_t.phase_type_id
+     JOIN status_type ph_s ON ph.phase_status = ph_s.status_type_id
 
-ALTER TABLE view_project_list
-  OWNER TO puwvzezwflqvei;
-
--- DROP TRIGGER phases_history_trigger ON phases;
 
 CREATE TRIGGER phases_history_trigger
   AFTER INSERT OR UPDATE OR DELETE

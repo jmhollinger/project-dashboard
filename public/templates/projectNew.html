@@ -64,14 +64,10 @@
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label>Phase Type</label>
-                        <input type="text" ng-model="phaseData.phaseName" uib-typeahead="phase for phase in phases | filter:$viewValue | limitTo:3" class="form-control"> </div>
+                        <input type="text" ng-model="phaseData.phaseType.name" uib-typeahead="phase.phase_name for phase in phases | filter:$viewValue | limitTo:8" class="form-control" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)"> </div>
                     <div class="form-group col-sm-6">
                         <label>Phase Status</label>
-                        <select class="form-control" ng-model="phaseData.Status">
-                            <option>Not Started</option>
-                            <option>In Progress</option>
-                            <option>Complete</option>
-                        </select>
+                        <select class="form-control" ng-options="item as item.status_name for item in statusTypes track by item.status_type_id" ng-model="phaseData.phaseStatus"></select>
                     </div>
                   </div>
                   <div class="row">
@@ -81,7 +77,7 @@
                     </div>
                     <div class="form-group col-sm-6">
                         <label>Division</label>
-                        <input type="text" ng-model="phaseData.phaseDivision" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:3" class="form-control" typeahead-show-hint="true" typeahead-editable="false"> </div>
+                        <input type="text" ng-model="phaseData.division.name" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)"> </div>
                     </div>                 
 
                 <div class="form-group">
@@ -99,6 +95,7 @@
                     <div class="form-group col-sm-6">
                         <label>Accounting String</label>
                         <input class="form-control" type="text" ng-model="phaseData.accounting.fund" /> </div>
+                </div>
                 </div>
                 <div class="col-sm-6">
             <h3 class="subtitle">Phase Details</h3>
@@ -142,6 +139,6 @@
 <div class="col-sm-4 col-sm-offset-4">
     <button class="btn btn-lg btn-primary center-block btn-responsive" ng-show="phaseForm" ng-click="projectForm=true;phaseForm=false"><i class="fa fa-arrow-left"></i> Back to Project Information</button>
     <button class="btn btn-lg btn-primary center-block btn-responsive" ng-show="projectForm" ng-click="projectForm=false;phaseForm=true">Go to Phase Information <i class="fa fa-arrow-right"></i></button>
-    <button class="btn btn-lg btn-success center-block btn-responsive" ng-show="phaseForm" ui-sref="home">Save Project</button>
+    <button class="btn btn-lg btn-success center-block btn-responsive" ng-show="phaseForm" ui-sref="projectList">Save Project</button>
 </div>
 </div>

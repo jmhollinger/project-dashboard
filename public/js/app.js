@@ -228,6 +228,16 @@ pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'p
 pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData',
   function ($http, $scope, $location, $log, getData) {
 
+  $scope.onSelect = function ($item, $model, $label) {
+    if (Object.keys($item)[1] === 'phase_name'){
+      $scope.phaseData.phaseType.id = $item.phase_type_id
+      }
+    else if (Object.keys($item)[1] === 'division'){
+      $scope.phaseData.division.id = $item.division_id
+      }
+    else {}
+  }
+
   $scope.user= 'Jonathan Hollinger'
 
   $scope.projectForm = true
@@ -253,16 +263,12 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
       }
  
   $scope.projectData = {
-    "submittedBy" : $scope.user,
-    "lat" : 38.046373,
-    "lng" : -84.497034
+    "submittedBy" : $scope.user
   }
 
   $scope.phaseData = {
     "submittedBy" : $scope.user,
-    "phaseName" : null
   }
-
 
   $scope.today1 = function() {
     $scope.phaseData.startDate = new Date();
@@ -297,9 +303,18 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
     $scope.popup2.opened = true;
   };
 
- $scope.phases = getData.phases()
- $scope.divisions = getData.divisions()
-  
+  getData.divisions().then(function(result) {
+    $scope.divisions = result.data
+  })
+
+  getData.phase_types().then(function(result) {
+    $scope.phases = result.data
+  })
+
+  getData.status_types().then(function(result) {
+    $scope.statusTypes = result.data
+  })
+
   }]);
 
 /* Update Project */

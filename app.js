@@ -196,12 +196,13 @@ app.get('/api/v1/status-types', function (req, res) {
 //All Projects
 app.get('/api/v1/projects', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM view_project_list', function(err, result) {
+    client.query("SELECT DISTINCT project_id, project_name, lat, lng FROM vw_project_list WHERE council_districts ? '3'", function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
       else
-       { res.json(result.rows); }
+       { res.json(result.rows);
+      }
     });
   });
 })
@@ -209,7 +210,7 @@ app.get('/api/v1/projects', function (req, res) {
 //Projects by ID
 app.get('/api/v1/project/:project_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM view_project_list WHERE project_id = ' + req.params.project_id, function(err, result) {
+    client.query('SELECT * FROM vw_project_list WHERE project_id = ' + req.params.project_id, function(err, result) {
       done();
       if (err){ console.error(err); res.send("Error " + err); }else
        {  
