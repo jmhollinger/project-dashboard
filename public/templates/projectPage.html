@@ -8,38 +8,38 @@
 <div class="container-fluid">
   <div class="row">
   <div class="col-sm-6">
-  <h1 class="title">Southland Drive Sidewalks</h1>
-  <h3 class="blue-title">One Mile of Sidewalks on Southland Dr.</h3>
+  <h1 class="title">{{projectName}}</h1>
+  <h3 class="blue-title">{{projectDesc}}</h3>
   <ul class="no-bullets">
-    <li><strong>Project ID:</strong> 784261</li>
-    <li><strong>Council Districts:</strong> 3, 10, 11</li>
-    <li><strong>Total Budget:</strong> $2,250,000</li>
-    <li><strong>Amount Funded:</strong> $250,000</li>
+    <li><strong>Project ID:</strong> {{projectId}}</li>
+    <li><strong>Council Districts:</strong> {{councilDistricts}}</li>
+    <li><strong>Total Budget:</strong> {{total | currency}}</li>
+    <li><strong>Amount Funded:</strong> {{funded | currency}}</li>
   </ul> 
   </div>
   <div class="col-sm-6">
                     <ui-gmap-google-map center="center" zoom='16'>
-                        <ui-gmap-marker coords="coords" idkey="0">
+                        <ui-gmap-marker coords="markerCoords" idkey="0">
                         </ui-gmap-marker>
                     </ui-gmap-google-map>
   </div>
   </div>
   <div>
   <hr>
-  <div ng-repeat="x in ['Design', 'Right-of-Way Acquisition', 'Construction']">
-    <h3 class="subtitle">{{x}} Phase</h3>
-    <p>Phase description. | Last edited by Jonathan Hollinger on February 27, 2016</p>
+ <div ng-repeat="x in projects">
+    <h3 class="subtitle">{{x.phase_name}} Phase</h3>
+    <p>{{x.phase_description}}</p>
     <ul class="no-bullets">
-     <li>Status: </li>
-     <li>Department </li>
-     <li>Division: </li>
-     <li>Manager: </li>
-     <li>Start Date:</li>
-     <li>Estimated Completion Date:</li>
-     <li>Budget: </li>
-     <li>Actual: </li>
-     <li>Actual Work Complete: </li>
-     <li>Notes: </li>
+     <li><strong>Status: </strong>{{x.status_name}}</li>
+     <li><strong>Department: </strong>{{x.department}}</li>
+     <li><strong>Division: </strong>{{x.division}}</li>
+     <li><strong>Manager: </strong>{{x.phase_manager}}</li>
+     <li><strong>Start Date: </strong>{{x.start_date | date: 'shortDate'}}</li>
+     <li><strong>Estimated Completion Date: </strong>{{x.estimated_completion | date: 'shortDate'}}</li>
+     <li><strong>Budget: </strong>{{x.budget | currency}}</li>
+     <li><strong>Actual: </strong>{{x.actual | currency}}</li>
+     <li><strong>Actual Work Complete: </strong>{{x.work_complete | percent}}</li>
+     <li><strong>Notes: </strong></li>
     </ul>
   </div>
   </div> 

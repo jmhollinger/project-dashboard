@@ -40,7 +40,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       }).
      /*View Project Page */
       state('projectPage', {
-        url: '/project/:projectID',
+        url: '/project/{projectId:int}',
         templateUrl: 'templates/projectPage.html',
         controller: 'projectPage'
       }).
@@ -116,6 +116,10 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
  
+  getData.projects().then(function(result) {
+    $scope.projects = result.data
+  })
+
   getData.divisions().then(function(result) {
     $scope.divisions = result.data
   })
@@ -213,11 +217,23 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   }]);
 
 /* Project Page */
-pdControllers.controller('projectPage', ['$scope', '$location',
-  function ($scope, $location) {
-  $scope.center = {"latitude": 38.015350, "longitude": -84.523202}
-  $scope.coords = {"latitude": 38.015350, "longitude": -84.523202}
-  $scope.currentTab = 'Design'
+pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$stateParams',
+  function ($scope, $location, getData, $stateParams) {
+
+  getData.projectByid($stateParams.projectId).then(function(result) {
+    $scope.projects = result.data
+    $scope.projectName = result.data[0].project_name
+    $scope.projectDesc = result.data[0].project_description
+    $scope.projectId = result.data[0].project_id
+    $scope.councilDistricts = result.data[0].council_districts.toString()
+    $scope.total = result.data[0].estimated_total_budget
+    $scope.funded = result.data[0].funded
+    $scope.markerCoords = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
+    $scope.center = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
+  })
+
+ 
+
   }]);
 
 /* Account */
@@ -349,6 +365,12 @@ projectDashboard.filter('titlecase', function () {
   }
 });
 
+projectDashboard.filter('percent', function () {
+  return function (input) {
+  return input * 100 + '%'
+  }
+  })
+
 /*--------------Services--------------*/
 
 /*getData*/
@@ -378,6 +400,12 @@ pdServices.factory('getData', ['$http', function($http, search){
     },
     status_types: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/status-types")
+    },
+    projects: function(){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projects")
+    },
+    projectByid: function(project_id){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id)
     },
     projectMap: function(){
     var projects = 
