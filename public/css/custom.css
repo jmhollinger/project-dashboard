@@ -120,3 +120,8 @@ body {
   margin: 3px;
   padding: 3px;
 }
+
+.chart-tile{
+  width:200px;
+  height: 200px;
+}

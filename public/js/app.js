@@ -1,7 +1,7 @@
 /*--------------Modules--------------*/
 
 /* Main Project Dashboard App Module */
-var projectDashboard = angular.module('projectDashboard', [ 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'ngCsv']);
+var projectDashboard = angular.module('projectDashboard', [ 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'chart.js']);
 
 /* Directives Module */
 var pdDirectives = angular.module('pdDirectives', []);
@@ -100,6 +100,10 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
 
+$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+  $scope.data = [300, 500, 100];
+
+//Update Dept and Div ID
 $scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
 if (newValues[0]){
     getData.departmentByname(newValues[0]).then(function(result) {
@@ -124,8 +128,14 @@ if (newValues[0]){
       if (result.data.length===0) {$scope.noResults = true}
       else{$scope.noResults = false}
     })
+
+  /*getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+      
+    })*/
+
   });
 
+//Data
   getData.divisions().then(function(result) {
     $scope.divisions = result.data
   })
@@ -470,6 +480,30 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       var query_string = paramArray.toString().replace(/,/g,"&")
 
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectQuery?" + query_string)
+    },
+    projectStats: function(q, dept, div, cd){
+      var paramArray = []
+      if (q){
+        var cleanQ = inputTools.clean(q)
+        paramArray.push("q=" + cleanQ) 
+      } else {
+      }
+      if (dept){
+        paramArray.push("dept=" + dept)
+      } else {
+      }
+      if (div){
+        paramArray.push("div=" + div)
+      } else {
+      }
+      if (cd){
+        paramArray.push("cd=" + cd)
+      } else {
+      }
+
+      var query_string = paramArray.toString().replace(/,/g,"&")
+
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectStats?" + query_string)
     },
     projectByid: function(project_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id)

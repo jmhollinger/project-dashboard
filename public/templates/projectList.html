@@ -25,6 +25,25 @@
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
 </div>
 <div class="col-sm-9">
+<h1 class="title">Summary</h1>
+<div class="row">
+  <div class="col-sm-3">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
+  </canvas>
+  </div>
+  <div class="col-sm-3">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
+  </canvas>
+  </div>
+  <div class="col-sm-3">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
+  </canvas>
+  </div>
+  <div class="col-sm-3">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
+  </canvas>
+  </div>
+</div>
 <h1 class="title">Projects</h1>
 <div class="table-responsive">
 <table class="table table-striped">
@@ -47,7 +66,7 @@
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.department}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.division}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.contractor}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.actual / x.budget | percent : 2}}</a></td>
+      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.budget | currency}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.days_in / x.total_days | percent : 2}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.work_complete | percent: 2}}</a></td>
     </tr>
