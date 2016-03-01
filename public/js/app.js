@@ -83,14 +83,14 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   function ($scope, $location, getData) {
 
   $scope.searchTerm = $location.search().q
-  $scope.departmentId = $location.search().dept
-  $scope.divisionId = $location.search().div
+  $scope.departmentName = $location.search().dept
+  $scope.divisionName = $location.search().div
   $scope.councilDistrict = $location.search().cd
   $scope.showC = true
   $scope.showNs = true
   $scope.showIp = true
 
-  $scope.updateFilter = function() {
+  /*$scope.updateFilter = function() {
     $location.search({q: $scope.searchTerm, dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
     showIp: $scope.showIp, showNs : $scope.showNs})
 }
@@ -107,7 +107,8 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
     showIp: $scope.showIp, showNs : $scope.showNs})
       }
     else {}
-  }
+  }*/
+
 
   $scope.clearFilter = function () {
   $scope.searchTerm = null
@@ -122,15 +123,25 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
  
- $scope.$watchGroup(['divisionId', 'departmentId','councilDistrict'], function(newValues, oldValues) {
-  getData.projectSearch($scope.searchTerm, $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
-      $scope.projects = result.data
+//Update Query
+ $scope.$watchGroup(['searchTerm','divisionName', 'departmentName','councilDistrict'], function(newValues, oldValues) {
+  
+  $location.search({q: $scope.searchTerm ,dept : $scope.departmentName, div : $scope.divisionName, cd : $scope.councilDistrict})
+
+  getDate.divisionByname($scope.divisionName).then(function(result) {
+      $scope.divisionId = result.data[0].division_id
     })
-  });
+
+  getDate.departmentByname($scope.departmentName).then(function(result) {
+      $scope.departmentId = result.data[0].department_id
+    })
 
   getData.projectSearch($scope.searchTerm, $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
-    $scope.projects = result.data
-  })
+      $scope.projects = result.data
+      if (result.data.length===0) {$scope.noResults = true}
+      else{$scope.noResults = false}
+    })
+  });
 
   getData.divisions().then(function(result) {
     $scope.divisions = result.data
@@ -444,10 +455,16 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/departments")
     },
     departmentByid: function(dept_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/" + dept_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/id/" + dept_id)
+    },
+    departmentByname: function(dept_name){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/name/" + dept_name)
     },
     divisionByid: function (div_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/" + div_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/id/" + div_id)
+    },
+    divisionByname: function (div_name){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/name/" + div_name)
     },
     divisions: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/divisions")
@@ -462,28 +479,28 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projects")
     },
     projectSearch: function(q, dept, div, cd){
+      var paramArray = []
       if (q){
         var cleanQ = inputTools.clean(q)
-        qParam = "q=" + cleanQ 
+        paramArray.push("q=" + cleanQ) 
       } else {
-        qParam = ""
       }
       if (dept){
-        deptParam = "dept=" + dept
+        paramArray.push("dept=" + dept)
       } else {
-        deptParam = ""
       }
       if (div){
-        divParam = "div=" + div
+        paramArray.push("div=" + div)
       } else {
-        divParam = ""
       }
       if (cd){
-        cdParam = "cd=" + cd
+        paramArray.push("cd=" + cd)
       } else {
-        cdParam = ""
       }
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectQuery?" + qParam + deptParam + divParam + cdParam)
+
+      var query_string = paramArray.toString().replace(/,/g,"&")
+
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectQuery?" + query_string)
     },
     projectByid: function(project_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id)

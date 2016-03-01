@@ -95,15 +95,33 @@ app.get('/api/v1/departments', function (req, res) {
   });
 })
 
-//Department Name by ID 
-app.get('/api/v1/department/:dept_id', function (req, res) {
+//Department by ID 
+app.get('/api/v1/department/id/:dept_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT DISTINCT department from divisions WHERE department_id = ' + req.params.dept_id, function(err, result) {
+    client.query('SELECT DISTINCT department_id, department from divisions WHERE department_id = ' + req.params.dept_id, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
       else
        { res.json(result.rows); }
+    });
+  });
+})
+
+//Department by Name
+app.get('/api/v1/division/name/:dept_name', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query("SELECT DISTINCT department_id, department from divisions WHERE department_id = '" + req.params.dept_name + "'", function(err, result) {
+      done();
+      if (err)
+       { console.error(err); 
+        res.json({"query" : "SELECT DISTINCT department_id, department from divisions WHERE department_id = '" + req.params.dept_name + "'", 
+          "error": err}); }
+      else
+       {res.json({
+        "query" : "query": "SELECT DISTINCT department_id, department from divisions WHERE department_id = '" + req.params.dept_name + "'",
+        "response" : result.rows
+       }); }
     });
   });
 })
@@ -121,8 +139,8 @@ app.get('/api/v1/divisions', function (req, res) {
   });
 })
 
-//Division Name by ID
-app.get('/api/v1/division/:div_id', function (req, res) {
+//Division by ID
+app.get('/api/v1/division/id/:div_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT division from divisions WHERE division_id = ' + req.params.div_id, function(err, result) {
       done();
@@ -130,6 +148,23 @@ app.get('/api/v1/division/:div_id', function (req, res) {
        { console.error(err); res.send("Error " + err); }
       else
        { res.json(result.rows); }
+    });
+  });
+})
+
+//Division by Name
+app.get('/api/v1/division/name/:div_name', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query("SELECT division from divisions WHERE division = '" + req.params.div_name + "'", function(err, result) {
+      done();
+      if (err)
+       { console.error(err); 
+        res.json({"query" : "SELECT division from divisions WHERE division = '" + req.params.div_name + "'", "error": err}); }
+      else
+       {res.json({
+        "query" : "query": "SELECT division from divisions WHERE division = '" + req.params.div_name + "'",
+        "response" : result.rows
+       }); }
     });
   });
 })
