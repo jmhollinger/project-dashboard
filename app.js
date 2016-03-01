@@ -111,15 +111,15 @@ app.get('/api/v1/department/id/:dept_id', function (req, res) {
 //Department by Name
 app.get('/api/v1/department/name/:dept_name', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query("SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name + "'", function(err, result) {
+    client.query("SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g,"''") + "'", function(err, result) {
       done();
       if (err)
        { console.error(err); 
-        res.json({"query" : "SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name + "'", 
+        res.json({"query" : "SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g,"''") + "'", 
           "error": err}); }
       else
        {res.json({
-        "query" : "SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name + "'",
+        "query" : "SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g,"''") + "'",
         "response" : result.rows
        }); }
     });
@@ -155,14 +155,14 @@ app.get('/api/v1/division/id/:div_id', function (req, res) {
 //Division by Name
 app.get('/api/v1/division/name/:div_name', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query("SELECT division_id, division from divisions WHERE division = '" + req.params.div_name + "'", function(err, result) {
+    client.query("SELECT division_id, division from divisions WHERE division = '" + req.params.div_name.replace(/'/g,"''") + "'", function(err, result) {
       done();
       if (err)
        { console.error(err); 
-        res.json({"query" : "SELECT division from divisions WHERE division = '" + req.params.div_name + "'", "error": err}); }
+        res.json({"query" : "SELECT division from divisions WHERE division = '" + req.params.div_name.replace(/'/g,"''") + "'", "error": err}); }
       else
        {res.json({
-        "query" : "SELECT division from divisions WHERE division = '" + req.params.div_name + "'",
+        "query" : "SELECT division from divisions WHERE division = '" + req.params.div_name.replace(/'/g,"''") + "'",
         "response" : result.rows
        }); }
     });
