@@ -142,7 +142,7 @@ app.get('/api/v1/divisions', function (req, res) {
 //Division by ID
 app.get('/api/v1/division/id/:div_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT division from divisions WHERE division_id = ' + req.params.div_id, function(err, result) {
+    client.query('SELECT division_id, division from divisions WHERE division_id = ' + req.params.div_id, function(err, result) {
       done();
       if (err)
        { console.error(err); res.send("Error " + err); }
