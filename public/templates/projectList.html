@@ -41,7 +41,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat = "x in projects">
+    <tr ng-repeat = "x in projects track by $index">
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.project_name}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.phase_name}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.department}}</a></td>
@@ -54,6 +54,7 @@
   </tbody>
 </table>
 </div>
+<pre>{{projects}}</pre>
 </div>
 </div>
 </div>

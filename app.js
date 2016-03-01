@@ -234,7 +234,10 @@ app.get('/api/v1/projectQuery', function (req, res) {
     client.query('SELECT * from project_list' + whereClause + query_string, function(err, result) {
       done();
       if (err)
-       { console.error(err); res.send("Error " + err); }
+       { console.error(err); res.json(
+        {'query' : 'SELECT * from project_list' + whereClause + query_string,
+         'error' : err
+         }); }
       else
        { res.json(result.rows)}
     });

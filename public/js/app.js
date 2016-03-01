@@ -122,7 +122,13 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
  
-  getData.projects().then(function(result) {
+ $scope.$watchGroup(['divisionId', 'departmentId','councilDistrict'], function(newValues, oldValues) {
+  getData.projectSearch($scope.searchTerm, $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+      $scope.projects = result.data
+    })
+  });
+
+  getData.projectSearch($scope.searchTerm, $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
     $scope.projects = result.data
   })
 
@@ -415,7 +421,18 @@ projectDashboard.filter('percent', function () {
 
 /*getData*/
 
-pdServices.factory('getData', ['$http', function($http, search){
+pdServices.factory('inputTools', ['$http', function($http){
+return{
+  clean: function(input){
+    var wordarray = input.trim().split(/\s+/gim)  
+    for (i = 0; i < wordarray.length; i++) { 
+    wordarray[i] = wordarray[i].replace(/[\W]|[_]|/gim,"").toUpperCase()
+    }
+    return wordarray.toString().replace(/,+/gim,",").replace(/,$/gim,"").replace(/,/gim,"%26")} 
+}
+}])
+
+pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools){
   return {
     councilDistricts: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/council-districts")
@@ -443,6 +460,30 @@ pdServices.factory('getData', ['$http', function($http, search){
     },
     projects: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projects")
+    },
+    projectSearch: function(q, dept, div, cd){
+      if (q){
+        var cleanQ = inputTools.clean(q)
+        qParam = "q=" + cleanQ 
+      } else {
+        qParam = ""
+      }
+      if (dept){
+        deptParam = "dept=" + dept
+      } else {
+        deptParam = ""
+      }
+      if (div){
+        divParam = "div=" + div
+      } else {
+        divParam = ""
+      }
+      if (cd){
+        cdParam = "cd=" + cd
+      } else {
+        cdParam = ""
+      }
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectQuery?" + qParam + deptParam + divParam + cdParam)
     },
     projectByid: function(project_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id)
