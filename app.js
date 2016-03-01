@@ -212,10 +212,22 @@ app.get('/api/v1/projectQuery', function (req, res) {
     var queryArray = [] 
     var whereClause = ''
 
-    if (req.query.q){queryArray.push("full_text = @@ to_tsquery('" + req.query.q + "')") whereClause = 'WHERE '} else {}
-    if (req.query.dept){queryArray.push("department_id = " + req.query.dept) whereClause = 'WHERE '} else {}
-    if (req.query.div){queryArray.push("division_id = " + req.query.div) whereClause = 'WHERE '} else {}
-    if (req.query.cd){queryArray.push("council_districts ? '" + req.query.cd + "'") whereClause = 'WHERE '} else {}
+    if (req.query.q){
+      queryArray.push("full_text = @@ to_tsquery('" + req.query.q + "')") 
+      whereClause = 'WHERE '
+    } else {}
+    if (req.query.dept){
+      queryArray.push("department_id = " + req.query.dept) 
+      whereClause = 'WHERE '
+    } else {}
+    if (req.query.div){
+      queryArray.push("division_id = " + req.query.div) 
+      whereClause = 'WHERE '
+    } else {}
+    if (req.query.cd){
+      queryArray.push("council_districts ? '" + req.query.cd + "'")
+       whereClause = 'WHERE '
+     } else {}
 
     var query_string = queryArray.toString().replace(/,/g," AND ")
 
