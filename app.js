@@ -119,7 +119,7 @@ app.get('/api/v1/department/name/:dept_name', function (req, res) {
           "error": err}); }
       else
        {res.json({
-        "query" : "query": "SELECT DISTINCT department_id, department from divisions WHERE department_id = '" + req.params.dept_name + "'",
+        "query" : "SELECT DISTINCT department_id, department from divisions WHERE department_id = '" + req.params.dept_name + "'",
         "response" : result.rows
        }); }
     });
@@ -162,7 +162,7 @@ app.get('/api/v1/division/name/:div_name', function (req, res) {
         res.json({"query" : "SELECT division from divisions WHERE division = '" + req.params.div_name + "'", "error": err}); }
       else
        {res.json({
-        "query" : "query": "SELECT division from divisions WHERE division = '" + req.params.div_name + "'",
+        "query" : "SELECT division from divisions WHERE division = '" + req.params.div_name + "'",
         "response" : result.rows
        }); }
     });
