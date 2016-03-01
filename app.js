@@ -109,7 +109,7 @@ app.get('/api/v1/department/id/:dept_id', function (req, res) {
 })
 
 //Department by Name
-app.get('/api/v1/division/name/:dept_name', function (req, res) {
+app.get('/api/v1/department/name/:dept_name', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query("SELECT DISTINCT department_id, department from divisions WHERE department_id = '" + req.params.dept_name + "'", function(err, result) {
       done();
