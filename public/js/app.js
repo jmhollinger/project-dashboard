@@ -405,8 +405,9 @@ projectDashboard.filter('titlecase', function () {
 });
 
 projectDashboard.filter('percent', function () {
-  return function (input) {
-  return input * 100 + '%'
+  return function (input, decimals) {
+  var per = input * 100
+  return per.toFixed(decimals) + '%'
   }
   })
 

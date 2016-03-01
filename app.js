@@ -206,6 +206,29 @@ app.get('/api/v1/projects', function (req, res) {
   });
 })
 
+//Search Projects
+app.get('/api/v1/projectQuery', function (req, res) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    var queryArray = [] 
+    var whereClause = ''
+
+    if (req.query.q){queryArray.push("full_text = @@ to_tsquery('" + req.query.q + "')") whereClause = 'WHERE '} else {}
+    if (req.query.dept){queryArray.push("department_id = " + req.query.dept whereClause = 'WHERE '} else {}
+    if (req.query.div){queryArray.push("division_id = " + req.query.div whereClause = 'WHERE '} else {}
+    if (req.query.cd){queryArray.push("council_districts ? '" + req.query.cd + "'" whereClause = 'WHERE '} else {}
+
+    var query_string = queryArray.toString().replace(/,/g," AND ")
+
+    client.query('SELECT * from project_list' + whereClause + query_string, function(err, result) {
+      done();
+      if (err)
+       { console.error(err); res.send("Error " + err); }
+      else
+       { res.json(result.rows)}
+    });
+  });
+})
+
 //Projects by ID
 app.get('/api/v1/project/:project_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {

@@ -20,17 +20,14 @@
     <select class="form-control" ng-change="updateFilter()" ng-options="district for district in council" ng-model="councilDistrict"></select>
   </div>
   <div class="form-group col-sm-6">
-  <label>Status</label>
-  <div ng-repeat="x in statusTypes" class="checkbox">
-    <label><input type="checkbox" ng-model="showC" ng-true-value="true" ng-change="updateFilter()">{{x.status_name}}</label>
-  </div>
   </div>
 </div>
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
 </div>
 <div class="col-sm-9">
 <h1 class="title">Projects</h1>
-<table class="table table-striped table-responsive">
+<div class="table-responsive">
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Project</th>
@@ -50,12 +47,13 @@
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.department}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.division}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.contractor}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.budget_percentage | percent}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.schedule_elapsed | percent}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.work_complete| percent}}</a></td>
+      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.actual / x.budget | percent : 2}}</a></td>
+      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.days_in / x.total_days | percent : 2}}</a></td>
+      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.work_complete | percent: 2}}</a></td>
     </tr>
   </tbody>
 </table>
+</div>
 </div>
 </div>
 </div>

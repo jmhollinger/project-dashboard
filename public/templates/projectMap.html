@@ -21,16 +21,6 @@
     <select class="form-control" ng-change="updateFilter()" ng-options="district for district in council" ng-model="councilDistrict"></select>
   </div>
   <div class="form-group col-sm-6">
-  <label>Status</label>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="showNs" ng-change="updateFilter()" checked>Not Started</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="showIp" ng-change="updateFilter()" checked>In Progess</label>
-  </div>
-  <div class="checkbox">
-    <label><input type="checkbox" ng-model="showC" ng-change="updateFilter()" checked>Completed</label>
-  </div>
   </div>
 </div>
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>

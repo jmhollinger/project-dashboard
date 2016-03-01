@@ -10,47 +10,12 @@ department_id = 1 AND
 division_id = 4 AND
 council_districts ? '3';
 
-
-CREATE OR REPLACE VIEW vw_project_list AS 
- SELECT pr.project_id,
-    to_tsvector((((((((((((((pr.project_name::text || ' '::text) || pr.project_description::text) || ' '::text) || ph_s.status_name::text) || ' '::text) || ph.phase_description::text) || ' '::text) || ph.phase_manager::text) || ' '::text) || ph.resolution_number::text) || ' '::text) || d.department::text) || ' '::text) || d.division::text) AS full_text,
-    ph.phase_id,
-    d.department_id,
-    ph.division_id,
-    pr.council_districts,
-    ph.phase_type,
-    ph.phase_status,
-    pr.lat,
-    pr.lng,
-    ph_s.status_name,
-    pr.project_name,
-    pr.project_description,
-    ph_t.phase_name,
-    ph.phase_description,
-    d.department,
-    d.division,
-    ph.budget,
-    ph.actual,
-    ph.start_date,
-    ph.estimated_completion,
-    ph.actual / ph.budget * 100::double precision AS budget_percentage,
-    ph.work_complete * 100::numeric AS work_complete
-   FROM projects pr
-     JOIN phases ph ON pr.project_id = ph.project_id
-     JOIN divisions d ON d.division_id = ph.division_id
-     JOIN phase_type ph_t ON ph.phase_type = ph_t.phase_type_id
-     JOIN status_type ph_s ON ph.phase_status = ph_s.status_type_id
-
-
 CREATE TRIGGER phases_history_trigger
   AFTER INSERT OR UPDATE OR DELETE
   ON phases
   FOR EACH ROW
   EXECUTE PROCEDURE phases_log();
 
-
-
-DROP FUNCTION phases_log();
 
 CREATE OR REPLACE FUNCTION phases_log()
   RETURNS trigger AS
