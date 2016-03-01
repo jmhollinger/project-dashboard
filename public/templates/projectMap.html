@@ -40,11 +40,11 @@
             <ui-gmap-marker ng-repeat="marker in projects" coords="marker.coordinates" idkey="marker.project_id">
             <ui-gmap-window>
                 <div>
-                  <span class="pointer" ui-sref="projectPage({projectId: marker.project_id})">
-                  <h3 class="title">{{marker.project_name}}</h3>
+                  
+                  <a ng-href="#/project/{{marker.project_id}}"><h3 class="title">{{marker.project_name}}</h3></a>
                   <h4 class="in-progress">{{marker.phase_name}} Phase {{marker.status_name}}</h4>
                   <p class="phase-details">Budget: {{marker.budget_percentage | percent}} | Schedule: {{marker.schedule_elapsed | percent}} | Work: {{marker.work_complete | percent}}</p>
-                  </span>
+                  
                 </div>
             </ui-gmap-window>
         </ui-gmap-marker>

@@ -16,7 +16,7 @@ var pdServices = angular.module('pdServices', []);
 
 projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider) {
-      
+
       $urlRouterProvider.otherwise('/error');
       
       $stateProvider.
@@ -43,6 +43,12 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         url: '/project/{projectId:int}',
         templateUrl: 'templates/projectPage.html',
         controller: 'projectPage'
+      }).
+       /*View Project Page */
+      state('projectEdit', {
+        url: '/project/edit/{projectId:int}',
+        templateUrl: 'templates/projectEdit.html',
+        controller: 'projectEdit'
       }).
       /*New Project*/
       state('newProject', {
@@ -80,9 +86,9 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $scope.departmentId = $location.search().dept
   $scope.divisionId = $location.search().div
   $scope.councilDistrict = $location.search().cd
-  $scope.showC = $location.search().showNs
-  $scope.showNs = $location.search().showNs
-  $scope.showIp = $location.search().showIp
+  $scope.showC = true
+  $scope.showNs = true
+  $scope.showIp = true
 
   $scope.updateFilter = function() {
     $location.search({q: $scope.searchTerm, dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
@@ -154,9 +160,9 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   $scope.departmentId = $location.search().dept
   $scope.divisionId = $location.search().div
   $scope.councilDistrict = $location.search().cd
-  $scope.showC = $location.search().showNs
-  $scope.showNs = $location.search().showNs
-  $scope.showIp = $location.search().showIp
+  $scope.showC = true
+  $scope.showNs = true
+  $scope.showIp = true
 
   $scope.updateFilter = function() {
     $location.search({q: $scope.searchTerm, dept : $scope.departmentId, div : $scope.divisionId, cd : $scope.councilDistrict, showC : $scope.showC,
@@ -236,6 +242,35 @@ pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$sta
     $scope.center = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
   })
 
+ 
+
+  }]);
+
+/* Project Edit Page */
+pdControllers.controller('projectEdit', ['$scope', '$location', 'getData', '$stateParams',
+  function ($scope, $location, getData, $stateParams) {
+
+  getData.projectByid($stateParams.projectId).then(function(result) {
+    $scope.projects = result.data
+    $scope.projectName = result.data[0].project_name
+    $scope.projectDesc = result.data[0].project_description
+    $scope.projectId = result.data[0].project_id
+    $scope.councilDistricts = result.data[0].council_districts
+    $scope.total = result.data[0].estimated_total_budget
+    $scope.funded = result.data[0].funded
+    $scope.markerCoords = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
+    $scope.center = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
+  })
+
+  $scope.marker = {
+      options: { draggable: true },
+      events: {
+        dragend: function (marker, eventName, args) {
+          console.log(marker.getPosition().lat());
+          console.log(marker.getPosition().lng());
+          }
+        }
+      }
  
 
   }]);

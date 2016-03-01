@@ -22,18 +22,15 @@
   <div class="form-group col-sm-6">
   <label>Status</label>
   <div ng-repeat="x in statusTypes" class="checkbox">
-    <label><input type="checkbox" ng-model="status" ng-change="updateFilter()" checked>{{x.status_name}}</label>
+    <label><input type="checkbox" ng-model="showC" ng-true-value="true" ng-change="updateFilter()">{{x.status_name}}</label>
   </div>
   </div>
 </div>
-<pre>
-  {{status}}
-</pre>
 <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
 </div>
 <div class="col-sm-9">
 <h1 class="title">Projects</h1>
-<table class="table table-striped">
+<table class="table table-striped table-responsive">
   <thead>
     <tr>
       <th>Project</th>

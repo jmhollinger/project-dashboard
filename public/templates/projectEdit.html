@@ -8,19 +8,32 @@
 <div class="container-fluid">
   <div class="row">
   <div class="col-sm-6">
-  <h1 class="title">{{projectName}}</h1>
-  <h3 class="blue-title">{{projectDesc}}</h3>
+  <h1 class="title"><input class="editor" type="text" ng-model="projectName"></h1>
+  <h3 class="blue-title"><textarea class="editor" type="text" ng-model="projectDesc"></textarea></h3>  
   <ul class="no-bullets">
     <li><strong>Project ID:</strong> {{projectId}}</li>
-    <li><strong>Council Districts:</strong> {{councilDistricts}}</li>
-    <li><strong>Total Budget:</strong> {{total | currency}}</li>
-    <li><strong>Amount Funded:</strong> {{funded | currency}}</li>
-  </ul> 
-  <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</button>
+    <li><strong>Council Districts:</strong> <select multiple class="form-control" ng-model="councilDistricts" size=12>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>7</option>
+                            <option>8</option>
+                            <option>9</option>
+                            <option>10</option>
+                            <option>11</option>
+                            <option>12</option>
+    </select></li>
+    <li><strong>Total Budget:</strong> <input class="editor" type="text" ng-model="total"></li>
+    <li><strong>Amount Funded:</strong> <input class="editor" type="text" ng-model="funded"></li>
+  </ul>
+  <button ui-sref="projectPage({projectId:projectId})"class="btn btn-success"><i class="fa fa-floppy-o"></i> Save Changes</button> 
   </div>
   <div class="col-sm-6">
                     <ui-gmap-google-map center="center" zoom='16'>
-                        <ui-gmap-marker coords="markerCoords" idkey="0">
+                        <ui-gmap-marker coords="markerCoords" options="marker.options" events="marker.events" idkey="0">
                         </ui-gmap-marker>
                     </ui-gmap-google-map>
   </div>
