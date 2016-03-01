@@ -117,9 +117,9 @@ if (newValues[0]){
 
 //Update Query
  $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) { 
-  $location.search({q: newValues[0] ,dept : newValues[1], div : newValues[2], cd : newValues[3]})
+  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3]})
 
-   getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+  getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
       $scope.projects = result.data
       if (result.data.length===0) {$scope.noResults = true}
       else{$scope.noResults = false}
@@ -149,16 +149,16 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   function ($scope, $location, getData) {
 
   $scope.searchTerm = $location.search().q
-  $scope.departmentId = $location.search().dept
-  $scope.divisionId = $location.search().div
+  $scope.department = $location.search().dept
+  $scope.division = $location.search().div
   $scope.councilDistrict = $location.search().cd
 
   $scope.clearFilter = function () {
   $scope.searchTerm = null
+  $scope.department = null
+  $scope.division = null
   $scope.departmentId = null
-  $scope.departmentName = null
   $scope.divisionId = null
-  $scope.divisionName = null
   $scope.councilDistrict = null
   $scope.showC = true
   $scope.showNs = true
@@ -166,34 +166,50 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   $location.search({})
   }
 
-  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
-  
-  getData.projects().then(function(result) {
-    $scope.projects = result.data
-  })
+$scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
+if (newValues[0]){
+    getData.departmentByname(newValues[0]).then(function(result) {
+      $scope.departmentId = result.data.response[0].department_id
+    })
+  }
+    else {$scope.departmentId = null}
+  if (newValues[1]){
+    getData.divisionByname(newValues[1]).then(function(result) {
+      $scope.divisionId = result.data.response[0].division_id
+    })
+    } 
+    else {$scope.divisionId = null}
+})
 
-  $scope.projectMarkers = getData.projectMap()
-  
+//Update Query
+ $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) { 
+  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3]})
+
+  getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+      $scope.projects = result.data
+      if (result.data.length===0) {$scope.noResults = true}
+      else{$scope.noResults = false}
+    })
+  });
+
   getData.divisions().then(function(result) {
     $scope.divisions = result.data
-  })
-
-  getData.divisionByid($scope.divisionId).then(function(result) {
-    $scope.divisionName = result.data[0].division
   })
 
   getData.departments().then(function(result) {
     $scope.departments = result.data
   })
 
-  getData.departmentByid($scope.departmentId).then(function(result) {
-    $scope.departmentName = result.data[0].department
-  })
-
   getData.councilArray().then(function(result) {
     $scope.council = result.data
   })
 
+  getData.status_types().then(function(result) {
+    $scope.statusTypes = result.data
+  })
+
+  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
+  
   }]);
 
 /* Project Page */
