@@ -100,9 +100,6 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
 
-$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
-  $scope.data = [300, 500, 100];
-
 //Update Dept and Div ID
 $scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
 if (newValues[0]){
@@ -129,9 +126,13 @@ if (newValues[0]){
       else{$scope.noResults = false}
     })
 
-  /*getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
-      
-    })*/
+  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+      $scope.projectStats = result.data[0]
+      if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
+      if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
+      $scope.finData = [result.data[0].budget - result.data[0].actual, result.data[0].actual]
+      $scope.finLabels = ["Remaining", "Spent"]
+    })
 
   });
 
