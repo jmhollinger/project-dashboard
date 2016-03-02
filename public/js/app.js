@@ -228,9 +228,11 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
   function ($scope, $location, getData, $stateParams) {
 
   getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
-    $scope.phase = result.data
-    $scope.markerCoords = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
-    $scope.center = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
+    $scope.phases = result.data.phases
+    $scope.phaseData = result.data.phaseData[0]
+    $scope.cdText = result.data.phaseData[0].council_districts.toString()
+    $scope.markerCoords = {"latitude": result.data.phaseData[0].lat, "longitude": result.data.phaseData[0].lng}
+    $scope.center = {"latitude": result.data.phaseData[0].lat, "longitude": result.data.phaseData[0].lng}
   })
 
   }]);

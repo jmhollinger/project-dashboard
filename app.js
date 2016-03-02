@@ -366,7 +366,7 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', function(req, res) {
             } else {
                 var phaseData = result.rows;
                 client.query({
-                    text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date DESC;',
+                    text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
                     values: [req.params.project_id]
                 }, function(err, result) {
                     done();

@@ -7,15 +7,20 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6">
-            <h1 class="title">{{phase[0].project_name}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Project</button></h1>
-            <h3 class="blue-title">{{phase[0].project_description}}</h3>
+            <h1 class="title">{{phaseData.project_name}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Project</button></h1>
+            <h3 class="blue-title">{{phaseData.project_description}}</h3>
             <ul class="no-bullets">
-                <li><span class="bold">Project ID:</span>{{phase[0].project_id}}</li>
-                <li><span class="bold">Council Districts:</span>{{phase[0].council_districts}}</li>
-                <li><span class="bold">Total Budget:</span> {{phase[0].estimated_total_budget | currency}}</li>
-                <li><span class="bold">Amount Funded:</span> {{phase[0].funded | currency}}</li>
+                <li><span class="bold">Project ID:</span> {{phaseData.project_id}}</li>
+                <li><span class="bold">Council Districts:</span> {{cdtext}}</li>
+                <li><span class="bold">Total Budget:</span> {{phaseData.estimated_total_budget | currency}}</li>
+                <li><span class="bold">Amount Funded:</span> {{phaseData.funded | currency}}</li>
             </ul>
+        <div class="btn-group" role="group" aria-label="...">
+              <a ng-repeat="x in phases" class="btn btn-default" ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}} Phase</a>
         </div>
+        <a class="btn btn-default"><i class="fa fa-plus"></i> Add Phase</a>
+        </div>
+
         <div class="col-sm-6">
             <ui-gmap-google-map center="center" zoom='16'>
                 <ui-gmap-marker coords="markerCoords" idkey="0"> </ui-gmap-marker>
@@ -24,26 +29,26 @@
     </div>
     <div>
         <hr>
-        <div>
-          <a class="btn btn-default btn-space" ui-sref="phasePage({projectId: phase[0].project_id, phaseId: phase[0].phase_id})">{{phase[0].phase_name}}</a>
-          <a class="btn btn-success"><i class="fa fa-plus"></i> Add Phase</a>
+
+
+          
         </div>
         <div>
-            <h2 class="text-info bold">{{phase[0].phase_name}} Phase <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Phase</button></h2>
-            <h4>{{phase[0].phase_description}}</h4>
-            <p>Last updated by {{phase[0].phase_mod_user}} on {{ phase[0].phase_mod_time | date: 'short'}}</p>
+            <h2 class="text-info bold">{{phaseData.phase_name}} Phase <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Phase</button></h2>
+            <h4>{{phaseData.phase_description}}</h4>
+            <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
             <ul class="no-bullets">
-                <li><span class="bold">Phase ID: </span>{{phase[0].phase_id}}</li>
-                <li><span class="bold">Status: </span>{{phase[0].status_name}}</li>
-                <li><span class="bold">Department: </span>{{phase[0].department}}</li>
-                <li><span class="bold">Division: </span>{{phase[0].division}}</li>
-                <li><span class="bold">Manager: </span>{{phase[0].phase_manager}}</li>
-                <li><span class="bold">Start Date: </span>{{phase[0].start_date | date: 'shortDate'}}</li>
-                <li><span class="bold">Estimated Completion Date: </span>{{phase[0].estimated_completion | date: 'shortDate'}}</li>
-                <li><span class="bold">Budget: </span>{{phase[0].budget | currency}}</li>
-                <li><span class="bold">Actual: </span>{{phase[0].actual | currency}}</li>
-                <li><span class="bold">Actual Work Complete: </span>{{phase[0].work_complete | percent}}</li>
-                <li><span class="bold">Notes: </span> {{phase[0].notes}}</li>
+                <li><span class="bold">Phase ID: </span>{{phaseData.phase_id}}</li>
+                <li><span class="bold">Status: </span>{{phaseData.status_name}}</li>
+                <li><span class="bold">Department: </span>{{phaseData.department}}</li>
+                <li><span class="bold">Division: </span>{{phaseData.division}}</li>
+                <li><span class="bold">Manager: </span>{{phaseData.phase_manager}}</li>
+                <li><span class="bold">Start Date: </span>{{phaseData.start_date | date: 'shortDate'}}</li>
+                <li><span class="bold">Estimated Completion Date: </span>{{phaseData.estimated_completion | date: 'shortDate'}}</li>
+                <li><span class="bold">Budget: </span>{{phaseData.budget | currency}}</li>
+                <li><span class="bold">Actual: </span>{{phaseData.actual | currency}}</li>
+                <li><span class="bold">Actual Work Complete: </span>{{phaseData.work_complete | percent}}</li>
+                <li><span class="bold">Notes: </span> {{phaseData.notes}}</li>
             </ul>
         </div>
     </div>
