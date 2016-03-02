@@ -227,19 +227,11 @@ if (newValues[0]){
 pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
-  getData.projectByid($stateParams.projectId).then(function(result) {
-    $scope.projects = result.data
-    $scope.projectName = result.data[0].project_name
-    $scope.projectDesc = result.data[0].project_description
-    $scope.projectId = result.data[0].project_id
-    $scope.councilDistricts = result.data[0].council_districts.toString()
-    $scope.total = result.data[0].estimated_total_budget
-    $scope.funded = result.data[0].funded
+  getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
+    $scope.phase = result.data
     $scope.markerCoords = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
     $scope.center = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
   })
-
-  $scope.phaseId = $stateParams.phaseId
 
   }]);
 
@@ -515,7 +507,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectStats?" + query_string)
     },
     phaseByid: function(project_id, phase_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + '/phase/' + phase_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)
     },
     projectMap: function(){
     var projects = 

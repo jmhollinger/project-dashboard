@@ -90,7 +90,7 @@
   </thead>
   <tbody>
     <tr ng-repeat = "x in projects">
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.project_name}}</status-flag></a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.project_name}}</status-flag></a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.phase_name}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.department}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.division}}</a></td>
