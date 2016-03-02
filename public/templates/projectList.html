@@ -21,48 +21,55 @@
   </div>
   <div class="form-group col-sm-6">
   <label>&nbsp</label>
-  <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear</button>
+  <button class="btn btn-info btn-responsive" ng-click="clearFilter()">Clear</button>
   </div>
 </div>
 <div class="row">
   <div class="form-group col-sm-6">
     <label>Phase Type</label>
-    <select class="form-control" ng-options="district for district in council" ng-model="councilDistrict"></select>
+    <select class="form-control" ng-options="district for district in council" ng-model="phaseType"></select>
   </div>
   <div class="form-group col-sm-6">
   <label>&nbsp</label>
-  <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear</button>
+  <button class="btn btn-info btn-responsive" ng-click="clearFilter()">Clear</button>
   </div>
 </div>
 <div class="row">
   <div class="form-group col-sm-6">
     <label>Phase Status</label>
-    <select class="form-control" ng-options="district for district in council" ng-model="councilDistrict"></select>
+    <select class="form-control" ng-options="district for district in council" ng-model="phaseStatus"></select>
   </div>
   <div class="form-group col-sm-6">
   <label>&nbsp</label>
-  <button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear</button>
+  <button class="btn btn-info btn-responsive" ng-click="clearFilter()">Clear</button>
   </div>
 </div>
-<button class="btn btn-primary btn-responsive" ng-click="clearFilter()">Clear Filters</button>
+<button class="btn btn-danger btn-responsive" ng-click="clearFilter()">Clear All Filters</button>
 </div>
 <div class="col-sm-9">
-<h1 class="title">Summary</h1>
+<h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}} | {{projectStats.phases}} {{phaseLabel}}</h1>
 <div class="row">
-  <div class="col-sm-3">
-    <h1>{{projectStats.projects}} {{projectLabel}}</h1>
-    <h1>{{projectStats.phases}} {{phaseLabel}}</h1>
-  </div>
-  <div class="col-sm-3">
-  <canvas id="doughnut" class="chart chart-pie" chart-data="finData" chart-labels="finLabels" chart-legend="true">
+</div>
+<div class="row">
+  <div class="col-sm-4">
+  <h4 class="text-info bold">Financial</h4>
+  <p><span class="bold">Total Budget: </span>{{projectStats.budget | currency}}</p>
+  <p><span class="bold">Total Spent: </span>{{projectStats.actual | currency}}</p>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="finData" chart-labels="finLabels">
   </canvas>
   </div>
-  <div class="col-sm-3">
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="summaryData" chart-labels="summaryLabels"">
+  <div class="col-sm-4">
+  <h4 class="text-info bold">Schedule</h4>
+  <p><span class="bold">Total Budget: </span>{{projectStats.budget | currency}}</p>
+  <p><span class="bold">Total Spent: </span>{{projectStats.actual | currency}}</p>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="finData" chart-labels="finLabels">
   </canvas>
   </div>
-  <div class="col-sm-3">
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="summaryData" chart-labels="summaryLabels">
+  <div class="col-sm-4">
+  <h4 class="text-info bold">Work Complete</h4>
+  <p><span class="bold">Total Budget: </span>{{projectStats.budget | currency}}</p>
+  <p><span class="bold">Total Spent: </span>{{projectStats.actual | currency}}</p>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="finData" chart-labels="finLabels">
   </canvas>
   </div>
 </div>
@@ -83,7 +90,7 @@
   </thead>
   <tbody>
     <tr ng-repeat = "x in projects">
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.project_name}}</a></td>
+      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.project_name}}</status-flag></a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.phase_name}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.department}}</a></td>
       <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.division}}</a></td>

@@ -1,53 +1,47 @@
 <style>
-                        .angular-google-map-container {
-                            height: 200px;
-			    margin-top: 15px;
-                        }
+    .angular-google-map-container {
+        height: 200px;
+        margin-top: 15px;
+    }
 </style>
-
 <div class="container-fluid">
-  <div class="row">
-  <div class="col-sm-6">
-  <h1 class="title">{{projectName}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-primary"><i class="fa fa-pencil"></i> Edit Project</button></h1>
-  <h3 class="blue-title">{{projectDesc}}</h3>
-  <ul class="no-bullets">
-    <li><strong>Project ID:</strong> {{projectId}}</li>
-    <li><strong>Council Districts:</strong> {{councilDistricts}}</li>
-    <li><strong>Total Budget:</strong> {{total | currency}}</li>
-    <li><strong>Amount Funded:</strong> {{funded | currency}}</li>
-  </ul> 
-  </div>
-  <div class="col-sm-6">
-                    <ui-gmap-google-map center="center" zoom='16'>
-                        <ui-gmap-marker coords="markerCoords" idkey="0">
-                        </ui-gmap-marker>
-                    </ui-gmap-google-map>
-  </div>
-  </div>
-  <div>
-  <hr>
-<div>
-<button class="btn btn-default" role="presentation" ng-repeat="x in projects">{{x.phase_name}}</button>
-<button class="btn btn-default" role="presentation"><i class="fa fa-plus"></i> Add Phase</button>
-</ul>
+    <div class="row">
+        <div class="col-sm-6">
+            <h1 class="title">{{projectName}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Project</button></h1>
+            <h3 class="blue-title">{{projectDesc}}</h3>
+            <ul class="no-bullets">
+                <li><strong>Project ID:</strong> {{projectId}}</li>
+                <li><strong>Council Districts:</strong> {{councilDistricts}}</li>
+                <li><strong>Total Budget:</strong> {{total | currency}}</li>
+                <li><strong>Amount Funded:</strong> {{funded | currency}}</li>
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <ui-gmap-google-map center="center" zoom='16'>
+                <ui-gmap-marker coords="markerCoords" idkey="0"> </ui-gmap-marker>
+            </ui-gmap-google-map>
+        </div>
+    </div>
+    <div>
+        <hr>
+        <div> <a class="btn btn-default btn-space" ng-repeat="x in projects">{{x.phase_name}}</a><a class="btn btn-success"><i class="fa fa-plus"></i> Add Phase</a> </div>
+        <div ng-repeat="x in projects" name="{{x.phase_id}}">
+            <h2 class="text-info bold">{{x.phase_name}} Phase <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Phase</button></h2>
+            <h4>{{x.phase_description}}</h4>
+            <p>Last updated by {{x.phase_mod_user}} on {{ x.phase_mod_time | date: 'short'}}</p>
+            <ul class="no-bullets">
+                <li><strong>Status: </strong>{{x.status_name}}</li>
+                <li><strong>Department: </strong>{{x.department}}</li>
+                <li><strong>Division: </strong>{{x.division}}</li>
+                <li><strong>Manager: </strong>{{x.phase_manager}}</li>
+                <li><strong>Start Date: </strong>{{x.start_date | date: 'shortDate'}}</li>
+                <li><strong>Estimated Completion Date: </strong>{{x.estimated_completion | date: 'shortDate'}}</li>
+                <li><strong>Budget: </strong>{{x.budget | currency}}</li>
+                <li><strong>Actual: </strong>{{x.actual | currency}}</li>
+                <li><strong>Actual Work Complete: </strong>{{x.work_complete | percent}}</li>
+                <li><strong>Notes: </strong> {{x.notes}}</li>
+            </ul>
+        </div>
+    </div>
 </div>
- <div ng-repeat="x in projects" name="{{x.phase_id}}">
-    <h2 class="text-info bold">{{x.phase_name}} Phase <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-primary"><i class="fa fa-pencil"></i> Edit Phase</button></h2>
-    <h4>{{x.phase_description}}</h4>
-    <p>Last updated by {{x.phase_mod_user}} on {{ x.phase_mod_time | date: 'short'}}</p>
-    <ul class="no-bullets">
-     <li><strong>Status: </strong>{{x.status_name}}</li>
-     <li><strong>Department: </strong>{{x.department}}</li>
-     <li><strong>Division: </strong>{{x.division}}</li>
-     <li><strong>Manager: </strong>{{x.phase_manager}}</li>
-     <li><strong>Start Date: </strong>{{x.start_date | date: 'shortDate'}}</li>
-     <li><strong>Estimated Completion Date: </strong>{{x.estimated_completion | date: 'shortDate'}}</li>
-     <li><strong>Budget: </strong>{{x.budget | currency}}</li>
-     <li><strong>Actual: </strong>{{x.actual | currency}}</li>
-     <li><strong>Actual Work Complete: </strong>{{x.work_complete | percent}}</li>
-     <li><strong>Notes: </strong> {{x.notes}}</li>
-    </ul>
-  </div>
-  </div> 
-  </div>
 </div>

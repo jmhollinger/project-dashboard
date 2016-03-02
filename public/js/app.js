@@ -38,11 +38,11 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         templateUrl: 'templates/projectMap.html',
         controller: 'projectMap'
       }).
-     /*View Project Page */
-      state('projectPage', {
-        url: '/project/{projectId:int}',
+      /*View Phase Page */
+      state('phasePage', {
+        url: '/project/{projectId:int}/phase/{phaseId:int}',
         templateUrl: 'templates/projectPage.html',
-        controller: 'projectPage'
+        controller: 'phasePage'
       }).
        /*View Project Page */
       state('projectEdit', {
@@ -224,7 +224,7 @@ if (newValues[0]){
   }]);
 
 /* Project Page */
-pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$stateParams',
+pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
   getData.projectByid($stateParams.projectId).then(function(result) {
@@ -239,7 +239,7 @@ pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$sta
     $scope.center = {"latitude": result.data[0].lat, "longitude": result.data[0].lng}
   })
 
- 
+  $scope.phaseId = $stateParams.phaseId
 
   }]);
 
@@ -247,7 +247,7 @@ pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$sta
 pdControllers.controller('projectEdit', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
-  getData.projectByid($stateParams.projectId).then(function(result) {
+  getData.phaseByid($stateParams.projectId).then(function(result) {
     $scope.projects = result.data
     $scope.projectName = result.data[0].project_name
     $scope.projectDesc = result.data[0].project_description
@@ -380,6 +380,18 @@ pdControllers.controller('projectUpdate', ['$scope', '$location', 'CKAN', 'searc
 /*--------------Directives--------------*/
 
 
+pdDirectives.directive('statusFlag', function () {
+    return {
+        restrict: 'AE',
+        scope: {
+          label: '@'
+        },
+        template:
+          '<span class="btn btn-success">{{label}}</span>'
+    };
+});
+
+
 /*--------------Filters--------------*/
 
 /* titlecase filter */
@@ -502,8 +514,8 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
 
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectStats?" + query_string)
     },
-    projectByid: function(project_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id)
+    phaseByid: function(project_id, phase_id){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + '/phase/' + phase_id)
     },
     projectMap: function(){
     var projects = 
