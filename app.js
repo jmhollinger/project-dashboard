@@ -319,7 +319,7 @@ app.get('/api/v1/projectStats', function (req, res) {
 //Projects by ID
 app.get('/api/v1/project/:project_id', function (req, res) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM all_project_phases WHERE project_id = ' + req.params.project_id, function(err, result) {
+    client.query('SELECT * FROM all_project_phases WHERE project_id = ' + req.params.project_id + 'ORDER BY start_date ASC;', function(err, result) {
       done();
       if (err){ console.error(err); res.send("Error " + err); }else
        {  

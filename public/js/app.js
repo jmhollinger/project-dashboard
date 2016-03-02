@@ -295,10 +295,6 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
   }
 
   $scope.user= 'Jonathan Hollinger'
-
-  $scope.projectForm = true
-  
-  $scope.phaseForm = false
   
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
     $scope.coordsUpdates = 0;

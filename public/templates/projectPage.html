@@ -8,7 +8,7 @@
 <div class="container-fluid">
   <div class="row">
   <div class="col-sm-6">
-  <h1 class="title">{{projectName}}</h1>
+  <h1 class="title">{{projectName}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-primary"><i class="fa fa-pencil"></i> Edit Project</button></h1>
   <h3 class="blue-title">{{projectDesc}}</h3>
   <ul class="no-bullets">
     <li><strong>Project ID:</strong> {{projectId}}</li>
@@ -16,7 +16,6 @@
     <li><strong>Total Budget:</strong> {{total | currency}}</li>
     <li><strong>Amount Funded:</strong> {{funded | currency}}</li>
   </ul> 
-  <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</button>
   </div>
   <div class="col-sm-6">
                     <ui-gmap-google-map center="center" zoom='16'>
@@ -27,8 +26,13 @@
   </div>
   <div>
   <hr>
- <div ng-repeat="x in projects">
-    <h2 class="subtitle">{{x.phase_name}} Phase</h2>
+<div>
+<button class="btn btn-default" role="presentation" ng-repeat="x in projects">{{x.phase_name}}</button>
+<button class="btn btn-default" role="presentation"><i class="fa fa-plus"></i> Add Phase</button>
+</ul>
+</div>
+ <div ng-repeat="x in projects" name="{{x.phase_id}}">
+    <h2 class="text-info bold">{{x.phase_name}} Phase <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-primary"><i class="fa fa-pencil"></i> Edit Phase</button></h2>
     <h4>{{x.phase_description}}</h4>
     <p>Last updated by {{x.phase_mod_user}} on {{ x.phase_mod_time | date: 'short'}}</p>
     <ul class="no-bullets">
