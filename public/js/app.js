@@ -228,11 +228,12 @@ if (newValues[0]){
   
   }]);
 
-/* Project Page */
+/* Phase Page */
 pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
   getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
+    $scope.phaseCount = result.data.phases.length
     $scope.phases = result.data.phases
     $scope.phaseData = result.data.phaseData[0]
     $scope.cdText = result.data.phaseData[0].council_districts.toString()
