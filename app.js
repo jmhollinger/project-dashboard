@@ -197,7 +197,7 @@ app.get('/api/v1/division/name/:div_name', function(req, res) {
 //Council Districts
 app.get('/api/v1/council-districts', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query({'SELECT * from council_districts ORDER BY district_id ASC;'}, function(err, result) {
+        client.query('SELECT * from council_districts ORDER BY district_id ASC;', function(err, result) {
             done();
             if (err) {
                 console.error(err);
