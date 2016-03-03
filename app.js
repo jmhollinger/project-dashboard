@@ -155,7 +155,10 @@ app.get('/api/v1/divisions', function(req, res) {
 //Division by ID
 app.get('/api/v1/division/id/:div_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT division_id, division from divisions WHERE division_id = ' + req.params.div_id, function(err, result) {
+        client.query({
+            "text" : 'SELECT division_id, division from divisions WHERE division_id = $1;',
+            "values" : [req.params.div_id]
+        }, function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -170,7 +173,10 @@ app.get('/api/v1/division/id/:div_id', function(req, res) {
 //Division by Name
 app.get('/api/v1/division/name/:div_name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query("SELECT division_id, division from divisions WHERE division = '" + req.params.div_name.replace(/'/g, "''") + "'", function(err, result) {
+        client.query({
+            "text" : 'SELECT division_id, division from divisions WHERE division = $1;',
+            "values" : [req.params.div_name.replace(/'/g, "''")]
+        }, function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -189,28 +195,9 @@ app.get('/api/v1/division/name/:div_name', function(req, res) {
 })
 
 //Council Districts
-app.get('/api/v1/council-districts/array', function(req, res) {
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * from council_districts ORDER BY district_id DESC', function(err, result) {
-            done();
-            if (err) {
-                console.error(err);
-                res.send("Error " + err);
-            } else {
-                var districtArray = []
-                for (var i = result.rows.length - 1; i >= 0; i--) {
-                    districtArray.push(result.rows[i].district_name)
-                }
-                res.json(districtArray)
-            }
-        });
-    });
-})
-
-//Council Districts
 app.get('/api/v1/council-districts', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * from council_districts ORDER BY district_id DESC', function(err, result) {
+        client.query({'SELECT * from council_districts ORDER BY district_id ASC;'}, function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -225,7 +212,7 @@ app.get('/api/v1/council-districts', function(req, res) {
 //Phase Types
 app.get('/api/v1/phase-types', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * from phase_type', function(err, result) {
+        client.query('SELECT * from phase_type ORDER BY phase_name ASC;', function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -241,7 +228,7 @@ app.get('/api/v1/phase-types', function(req, res) {
 //Phase Statuses
 app.get('/api/v1/status-types', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * from status_type', function(err, result) {
+        client.query('SELECT * from status_type ORDER BY status_name ASC;', function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -256,7 +243,7 @@ app.get('/api/v1/status-types', function(req, res) {
 //All Projects
 app.get('/api/v1/projects', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT * from project_list', function(err, result) {
+        client.query('SELECT * from project_list;', function(err, result) {
             done();
             if (err) {
                 console.error(err);

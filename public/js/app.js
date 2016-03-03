@@ -41,7 +41,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       /*View Phase Page */
       state('phasePage', {
         url: '/project/{projectId:int}/phase/{phaseId:int}',
-        templateUrl: 'templates/projectPage.html',
+        templateUrl: 'templates/phasePage.html',
         controller: 'phasePage'
       }).
        /*View Project Page */
@@ -86,6 +86,8 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $scope.department = $location.search().dept
   $scope.division = $location.search().div
   $scope.councilDistrict = $location.search().cd
+  $scope.phaseStatus = $location.search().status
+  $scope.phaseType = $location.search().type
 
   $scope.clearFilter = function () {
   $scope.searchTerm = null
@@ -117,8 +119,8 @@ if (newValues[0]){
 })
 
 //Update Query
- $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) { 
-  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3]})
+ $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatus', 'phaseType'], function(newValues, oldValues) { 
+  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3], status: newValues[4], type: newValues[5]})
 
   getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
       $scope.projects = result.data
@@ -126,7 +128,7 @@ if (newValues[0]){
       else{$scope.noResults = false}
     })
 
-  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseStatus, $scope.phaseType).then(function(result) {
       $scope.projectStats = result.data[0]
       if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
       if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
@@ -145,14 +147,17 @@ if (newValues[0]){
     $scope.departments = result.data
   })
 
-  getData.councilArray().then(function(result) {
+  getData.councilDistricts().then(function(result) {
     $scope.council = result.data
+  })
+
+  getData.phase_types().then(function(result) {
+    $scope.phaseTypes = result.data
   })
 
   getData.status_types().then(function(result) {
     $scope.statusTypes = result.data
   })
-
   }]);
 
 /* Project Map */
@@ -429,9 +434,6 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
   return {
     councilDistricts: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/council-districts")
-    },
-    councilArray: function(){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/council-districts/array")
     },
     departments: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/departments")
