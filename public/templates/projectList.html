@@ -52,24 +52,27 @@
 </div>
 <div class="row">
   <div class="col-sm-4">
-  <h4 class="text-info bold">Financial</h4>
-  <p><span class="bold">Total Budget: </span>{{projectStats.budget | currency}}</p>
-  <p><span class="bold">Total Spent: </span>{{projectStats.actual | currency}}</p>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="finData" chart-labels="finLabels">
+  <h4 class="text-info bold">Budget</h4>
+  <p><span class="bold">Under Budget: </span>{{projectStats.budget | currency}}</p>
+  <p><span class="bold">On Budget: </span>{{projectStats.budget | currency}}</p>
+  <p><span class="bold">Over Budget: </span>{{projectStats.actual | currency}}</p>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['5','1','2']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
   </canvas>
   </div>
   <div class="col-sm-4">
   <h4 class="text-info bold">Schedule</h4>
-  <p><span class="bold">Total Budget: </span>{{projectStats.budget | currency}}</p>
-  <p><span class="bold">Total Spent: </span>{{projectStats.actual | currency}}</p>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="finData" chart-labels="finLabels">
+  <p><span class="bold">Ahead of Schedule: </span>{{3}}</p>
+  <p><span class="bold">On Schedule: </span>{{2}}</p>
+  <p><span class="bold">Behind Schedule: </span>{{4}}</p>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['2','3','4']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
   </canvas>
   </div>
   <div class="col-sm-4">
-  <h4 class="text-info bold">Work Complete</h4>
-  <p><span class="bold">Total Budget: </span>{{projectStats.budget | currency}}</p>
-  <p><span class="bold">Total Spent: </span>{{projectStats.actual | currency}}</p>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="finData" chart-labels="finLabels">
+  <h4 class="text-info bold">Status</h4>
+    <p><span class="bold">Not Started: </span>{{3 | currency}}</p>
+    <p><span class="bold">In Progress: </span>{{3 | currency}}</p>
+    <p><span class="bold">Completed: </span>{{6 | currency}}</p>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['6','2','1']" chart-labels="['Not Started', 'In Progress', 'Completed']">
   </canvas>
   </div>
 </div>

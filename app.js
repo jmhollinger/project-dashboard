@@ -8,7 +8,7 @@ var app = express();
 
 app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded({
+app.use(bodyParser.json({
     extended: false
 }));
 
@@ -24,50 +24,61 @@ app.use(function(req, res, next) {
 
 //New Project and Phase
 app.post('/api/v1/create/project', function(req, res) {
-    var project_input = {
-        "project-name": req.body.project_name,
-        "lat": req.body.lat,
-        "lng": req.body.lng,
-        "RFP-number": req.body.RFP_number,
-        "project-description": req.body.project_description,
-        "project-manager": req.body.project_manager,
-        "department": req.body.department,
-        "division": req.body.division,
-        "districts": req.body.districts,
-        "contractor": req.body.contractor,
-        "start-date": req.body.start_date,
-        "estimated-completion": req.body.estimated_completion,
-        "estimated-budget": req.body.estimated_budget,
-        "work-complete": req.body.work_complete,
-        "budget-spent": req.body.budget_spent,
-        "notes": req.body.notes,
-        "submitted-by": req.body.submitted_by
-    }
-    res.json(input_obj)
+    var response = {}
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+            client.query({
+                    text: 'WITH project_insert AS ( INSERT INTO projects (project_name, project_description, estimated_total_budget,funded, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING project_ID) ' +
+                        'INSERT INTO phases (project_id, phase_status, phase_type, phase_description,phase_manager, division_id, resolution_number, accounting, rfp_number,contractor, start_date, estimated_completion, budget, work_complete,actual, notes, modified_by) SELECT project_insert.project_id, $9 , $10 , $11, $12, $13, $14, $15 , $16, $17, $18, $19, $20, $21, $22, $23, $24 FROM project_insert RETURNING project_id, phase_id;',
+                    values: [
+                        req.body.projectName,
+                        req.body.projectDesc,
+                        req.body.estBudget,
+                        req.body.funded,
+                        req.body.councilDistricts,
+                        req.body.lat,
+                        req.body.lng,
+                        req.body.modifiedBy,
+                        req.body.phaseStatus,
+                        req.body.phaseType,
+                        req.body.phaseDesc,
+                        req.body.phaseManager,
+                        req.body.division.division_id,
+                        req.body.resoNumber,
+                        req.body.accounting,
+                        req.body.rfpNumber,
+                        req.body.contractor,
+                        req.body.startDate,
+                        req.body.completionDate,
+                        req.body.phaseBudget,
+                        req.body.workComplete,
+                        req.body.phaseActual,
+                        req.body.notes,
+                        req.body.modifiedBy
+                    ]
+                }),
+                function(err, result) {
+                    done();
+                    if (err) {
+                        console.error(err);
+                        response = {
+                            "success": false,
+                            "error": err
+                        };
+                    } else {
+                        response = {
+                            "success" : true,
+                            "response" : result.rows
+                        }
+                    }
+                };
+    });
+res.json(response)
 })
 
 //Update Project and Phase Update
 app.put('/api/v1/update/project', function(req, res) {
-    var input_obj = {
-        "project-name": req.body.project_name,
-        "lat": req.body.lat,
-        "lng": req.body.lng,
-        "RFP-number": req.body.RFP_number,
-        "project-description": req.body.project_description,
-        "project-manager": req.body.project_manager,
-        "department": req.body.department,
-        "division": req.body.division,
-        "districts": req.body.districts,
-        "contractor": req.body.contractor,
-        "start-date": req.body.start_date,
-        "estimated-completion": req.body.estimated_completion,
-        "estimated-budget": req.body.estimated_budget,
-        "work-complete": req.body.work_complete,
-        "budget-spent": req.body.budget_spent,
-        "notes": req.body.notes,
-        "submitted-by": req.body.submitted_by
-    }
-    res.json(input_obj)
+
+    res.json(req.body)
 })
 
 
@@ -140,7 +151,7 @@ app.get('/api/v1/department/name/:dept_name', function(req, res) {
 //List Divisions
 app.get('/api/v1/divisions', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT division_id, division from divisions', function(err, result) {
+        client.query('SELECT division_id, division, department_id, department from divisions;', function(err, result) {
             done();
             if (err) {
                 console.error(err);

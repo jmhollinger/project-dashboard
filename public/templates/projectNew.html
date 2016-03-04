@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label>Estimated Total Budget ($)</label>
-                            <input type="text" class="form-control" ng-model="projectData.EstBudget"> </div>
+                            <input type="text" class="form-control" ng-model="projectData.estBudget"> </div>
                         <div class="form-group col-sm-6">
                             <label>Current Funded Amount</label>
                             <input type="text" class="form-control" ng-model="ProjectData.Funded"> </div>
@@ -56,83 +56,82 @@
         </div>
     </div>
     <div>
-        <h1 class="title">{{projectData.projectName}}</h1>
         <div class="row">
             <div class="col-sm-6">
                 <h3 class="text-info bold">Phase Information</h3>
                 <div class="row">
                     <div class="form-group col-sm-6">
                         <label>Phase Type</label>
-                        <input type="text" ng-model="phaseData.phaseType.name" uib-typeahead="phase.phase_name for phase in phases | filter:$viewValue | limitTo:8" class="form-control" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)"> </div>
+                        <select class="form-control" ng-options="item as item.phase_name for item in phaseTypes" ng-model="projectData.phaseType"></select>
+                    </div>
                     <div class="form-group col-sm-6">
                         <label>Phase Status</label>
-                        <select class="form-control" ng-options="item as item.status_name for item in statusTypes track by item.status_type_id" ng-model="phaseData.phaseStatus"></select>
+                        <select class="form-control" ng-options="item as item.status_name for item in statusTypes" ng-model="projectData.phaseStatus"></select>
                     </div>
                   </div>
                   <div class="row">
                     <div class="form-group col-sm-6">
                         <label>Phase Manager</label>
-                        <input class="form-control" type="text" ng-model="phaseData.phaseManager" />
+                        <input class="form-control" type="text" ng-model="projectData.phaseManager" />
                     </div>
                     <div class="form-group col-sm-6">
                         <label>Division</label>
-                        <input type="text" ng-model="phaseData.division.name" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)"> </div>
+                        <input type="text" ng-model="projectData.division" uib-typeahead="item as item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)"> </div>
                     </div>                 
-
                 <div class="form-group">
                     <label>Phase Description</label>
-                    <textarea class="form-control" ng-model="phaseData.phaseDesc"></textarea>
+                    <textarea class="form-control" ng-model="projectData.phaseDesc"></textarea>
                 </div>
                 <div class="row">
                 <div class="form-group col-sm-6">
                     <label>Resolution Number</label>
-                    <input class="form-control" type="text" ng-model="phaseData.resoNumber" />
+                    <input class="form-control" type="text" ng-model="projectData.resoNumber" />
                 </div>
                                 <div class="form-group col-sm-6">
                 <label>RFP Number</label>
-                    <input class="form-control" type="text" ng-model="phaseData.rfpNumber" />
+                    <input class="form-control" type="text" ng-model="projectData.rfpNumber" />
                 </div>
                 </div>
                 <h3 class="text-info bold">Financial Information</h3>
                 <div class="row">
-                    <div class="form-group col-sm-2"><label>Fiscal Year</label><input class="form-control" type="text" ng-model="phaseData.accounting['1'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><label>Project ID</label><input class="form-control" type="text" ng-model="phaseData.accounting['1'].projectId" /></div>
-                    <div class="form-group col-sm-2"><label>Fund</label><input class="form-control" type="text" ng-model="phaseData.accounting['1'].fund" /></div>
-                    <div class="form-group col-sm-2"><label>Department</label><input class="form-control" type="text" ng-model="phaseData.accounting['1'].department" /></div>
-                    <div class="form-group col-sm-2"><label>Section</label><input class="form-control" type="text" ng-model="phaseData.accounting['1'].section" /></div>
-                    <div class="form-group col-sm-2"><label>Account</label><input class="form-control" type="text" ng-model="phaseData.accounting['1'].account" /></div>
+                    <div class="form-group col-sm-2"><label>Fiscal Year</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].fiscalYear" /> </div>
+                    <div class="form-group col-sm-2"><label>Project ID</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].projectId" /></div>
+                    <div class="form-group col-sm-2"><label>Fund</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].fund" /></div>
+                    <div class="form-group col-sm-2"><label>Department</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].department" /></div>
+                    <div class="form-group col-sm-2"><label>Section</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].section" /></div>
+                    <div class="form-group col-sm-2"><label>Account</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].account" /></div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['2'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['2'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['2'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['2'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['2'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['2'].account" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].fiscalYear" /> </div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].projectId" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].fund" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].department" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].section" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].account" /></div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['3'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['3'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['3'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['3'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['3'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['3'].account" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].fiscalYear" /> </div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].projectId" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].fund" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].department" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].section" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].account" /></div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['4'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['4'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['4'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['4'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['4'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['4'].account" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].fiscalYear" /> </div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].projectId" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].fund" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].department" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].section" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].account" /></div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['5'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['5'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['5'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['5'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['5'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="phaseData.accounting['5'].account" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].fiscalYear" /> </div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].projectId" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].fund" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].department" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].section" /></div>
+                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].account" /></div>
                 </div>
                 </div>
 
@@ -141,19 +140,19 @@
             <h3 class="text-info bold">Phase Details</h3>
             <div class="form-group">
                 <label>Consultant/Contractor</label>
-                <input class="form-control" type="text" ng-model="phaseData.contractor" /> </div>
+                <input class="form-control" type="text" ng-model="projectData.contractor" /> </div>
             <div class="row">
                 <div class="form-group col-sm-6">
                     <label>Start Date</label>
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="phaseData.startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" /> <span class="input-group-btn">
+                        <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" /> <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
           </span> </p>
                 </div>
                 <div class="form-group col-sm-6">
                     <label>Estimated Completion Date</label>
                     <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="phaseData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" /> <span class="input-group-btn">
+                        <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" /> <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
           </span> </p>
                 </div>
@@ -161,22 +160,22 @@
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label>Budget ($)</label>
-                    <input class="form-control" type="text" ng-model="phaseData.budget" /> </div>
+                    <input class="form-control" type="text" ng-model="projectData.phaseBudget" /> </div>
                 <div class="form-group col-sm-4">
                     <label>Actual Spent ($)</label>
-                    <input class="form-control" type="text" ng-model="phaseData.actual" /> </div>
+                    <input class="form-control" type="text" ng-model="projectData.phaseActual" /> </div>
                 <div class="form-group col-sm-4">
                     <label>Actual Work Complete (%)</label>
-                    <input class="form-control" type="text" ng-model="phaseData.workComplete" /> </div>
+                    <input class="form-control" type="text" ng-model="projectData.workComplete" /> </div>
             </div>
             <div class="form-group">
                 <label>Notes</label>
-                <textarea rows="5" ng-model="phaseData.phaseNotes" class="form-control"></textarea>
+                <textarea rows="5" ng-model="projectData.phaseNotes" class="form-control"></textarea>
             </div>
         </div>
     </div>
 </div>
 <div class="col-sm-4 col-sm-offset-4">
-    <button class="btn btn-lg btn-success center-block btn-responsive" ui-sref="projectList">Save Project</button>
+    <button class="btn btn-lg btn-success center-block btn-responsive" ng-click="save()">Save Project</button>
 </div>
 </div>

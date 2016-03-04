@@ -281,8 +281,8 @@ pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'p
   }]);
 
 /* New Project Page */
-pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData',
-  function ($http, $scope, $location, $log, getData) {
+pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
+  function ($http, $scope, $location, $log, getData, addData) {
 
   $scope.onSelect = function ($item, $model, $label) {
     if (Object.keys($item)[1] === 'phase_name'){
@@ -294,8 +294,6 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
     else {}
   }
 
-  $scope.user= 'Jonathan Hollinger'
-  
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
     $scope.coordsUpdates = 0;
     $scope.dynamicMoveCtr = 0;
@@ -315,11 +313,7 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
       }
  
   $scope.projectData = {
-    "submittedBy" : $scope.user
-  }
-
-  $scope.phaseData = {
-    "submittedBy" : $scope.user,
+    "modifiedBy" : $scope.user
   }
 
   $scope.today1 = function() {
@@ -360,12 +354,19 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
   })
 
   getData.phase_types().then(function(result) {
-    $scope.phases = result.data
+    $scope.phaseTypes = result.data
   })
 
   getData.status_types().then(function(result) {
     $scope.statusTypes = result.data
   })
+
+  $scope.save = function() { 
+    addData.newProject($scope.projectData).then(function(result) {
+      console.log("Request Received!")
+      console.log(result.data)
+  })
+}
 
   }]);
 
@@ -430,6 +431,17 @@ return{
     return wordarray.toString().replace(/,+/gim,",").replace(/,$/gim,"").replace(/,/gim,"%26")} 
 }
 }])
+
+pdServices.factory('addData', ['$http', 'inputTools', function($http, inputTools){
+  return {
+    newProject: function(formData){
+      return $http({
+                    method: "post",
+                    url: "https://lexington-project-dashboard.herokuapp.com/api/v1/create/project",
+                    data: formData
+                })
+    }
+}}]);
 
 pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools){
   return {

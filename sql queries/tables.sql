@@ -49,6 +49,10 @@ CREATE TABLE projects_history
 
 
 /*Phases History Logger*/
+DROP TRIGGER phases_history_trigger ON phases;
+
+DROP FUNCTION phases_log();
+
 CREATE OR REPLACE FUNCTION phases_log()
   RETURNS trigger AS
 $BODY$
@@ -56,40 +60,34 @@ BEGIN
  IF (TG_OP = 'INSERT') THEN
   INSERT INTO phases_history(
             log_type, phase_id, project_id, phase_status, 
-            phase_name, phase_description, phase_manager, division_id, resolution_number, 
-            accounting_fy, accounting_fund, accouting_dept, accounting_section, 
-            accounting_account, contractor, start_date, estimated_completion, 
+            phase_type, phase_description, phase_manager, division_id, resolution_number,
+            accounting, rfp_number, contractor, start_date, estimated_completion, 
             budget, work_complete, actual, notes, modified_by, date_modified)
     VALUES ('Initial', NEW.phase_id, NEW.project_id, NEW.phase_status, 
-            NEW.phase_name, NEW.phase_description, NEW.phase_manager, NEW.division_id, NEW.resolution_number, 
-            NEW.accounting_fy, NEW.accounting_fund, NEW.accouting_dept, NEW.accounting_section, 
-            NEW.accounting_account, NEW.contractor, NEW.start_date, NEW.estimated_completion, 
+            NEW.phase_type, NEW.phase_description, NEW.phase_manager, NEW.division_id, NEW.resolution_number, 
+            NEW.accounting, NEW.rfp_number, NEW.contractor, NEW.start_date, NEW.estimated_completion, 
             NEW.budget, NEW.work_complete, NEW.actual, NEW.notes, NEW.modified_by, NEW.date_modified);
   RETURN NEW;
- ELSIF (TG_OP = 'UPDATE') AND (NEW.Status = 'Complete' )THEN
+ ELSIF (TG_OP = 'UPDATE') AND (NEW.phase_status = 3 )THEN
   INSERT INTO phases_history(
             log_type, phase_id, project_id, phase_status, 
-            phase_name, phase_description, phase_manager, division_id, resolution_number, 
-            accounting_fy, accounting_fund, accouting_dept, accounting_section, 
-            accounting_account, contractor, start_date, estimated_completion, 
+            phase_type, phase_description, phase_manager, division_id, resolution_number, 
+            accounting, rfp_number, contractor, start_date, estimated_completion, 
             budget, work_complete, actual, notes, modified_by, date_modified)
     VALUES ('Final', NEW.phase_id, NEW.project_id, NEW.phase_status, 
             NEW.phase_name, NEW.phase_description, NEW.phase_manager, NEW.division_id, NEW.resolution_number, 
-            NEW.accounting_fy, NEW.accounting_fund, NEW.accouting_dept, NEW.accounting_section, 
-            NEW.accounting_account, NEW.contractor, NEW.start_date, NEW.estimated_completion, 
+            NEW.accounting, NEW.rfp_number, NEW.contractor, NEW.start_date, NEW.estimated_completion, 
             NEW.budget, NEW.work_complete, NEW.actual, NEW.notes, NEW.modified_by, NEW.date_modified);
   RETURN NEW;
- ELSIF (TG_OP = 'UPDATE') AND (NEW.Status != 'Complete' ) THEN
+ ELSIF (TG_OP = 'UPDATE') AND (NEW.phase_status != 3 ) THEN
   INSERT INTO phases_history(
             log_type, phase_id, project_id, phase_status, 
-            phase_name, phase_description, phase_manager, division_id, resolution_number, 
-            accounting_fy, accounting_fund, accouting_dept, accounting_section, 
-            accounting_account, contractor, start_date, estimated_completion, 
+            phase_type, phase_description, phase_manager, division_id, resolution_number, 
+            accounting, rfp_number, contractor, start_date, estimated_completion, 
             budget, work_complete, actual, notes, modified_by, date_modified)
     VALUES ('Update', NEW.phase_id, NEW.project_id, NEW.phase_status, 
-            NEW.phase_name, NEW.phase_description, NEW.phase_manager, NEW.division_id, NEW.resolution_number, 
-            NEW.accounting_fy, NEW.accounting_fund, NEW.accouting_dept, NEW.accounting_section, 
-            NEW.accounting_account, NEW.contractor, NEW.start_date, NEW.estimated_completion, 
+            NEW.phase_type, NEW.phase_description, NEW.phase_manager, NEW.division_id, NEW.resolution_number, 
+            NEW.accounting, NEW.rfp_number, NEW.contractor, NEW.start_date, NEW.estimated_completion, 
             NEW.budget, NEW.work_complete, NEW.actual, NEW.notes, NEW.modified_by, NEW.date_modified);
   RETURN NEW;
  ELSE
@@ -97,7 +95,17 @@ BEGIN
  END IF;
 END;
 $BODY$
-LANGUAGE plpgsql VOLATILE
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION phases_log()
+  OWNER TO puwvzezwflqvei;
+
+
+CREATE TRIGGER phases_history_trigger
+  AFTER INSERT OR UPDATE OR DELETE
+  ON phases
+  FOR EACH ROW
+  EXECUTE PROCEDURE phases_log();
 
 /*Project History Trigger*/
 CREATE OR REPLACE FUNCTION projects_log()
@@ -129,12 +137,6 @@ END;
 $BODY$
 LANGUAGE plpgsql VOLATILE
 
-/*Phases History Trigger*/
-CREATE TRIGGER phases_history_trigger
-  AFTER INSERT OR UPDATE OR DELETE
-  ON phases
-  FOR EACH ROW
-  EXECUTE PROCEDURE project_phases_log();
 
 /*Project History Trigger*/
 CREATE TRIGGER projects_history_trigger
@@ -148,8 +150,9 @@ WITH project_insert AS (
     INSERT INTO projects (project_name, project_description, estimated_total_budget, 
             funded, council_districts, lat, lng, modified_by, date_modified)
     VALUES ('Southland Drive Sidewalks','One Mile of Sidewalks on Southland Drive', 2250000, 250000, '["3","10","11"]', 38.123456, -84.123456, 'Jonathan Hollinger', now())
-    RETURNING Project_ID
+    RETURNING project_ID
     ) 
+WITH phase_insert AS (
 INSERT INTO phases (project_id, phase_status, phase_name, phase_description, 
             phase_manager, division_id, resolution_number, accounting_fy, 
             accounting_fund, accouting_dept, accounting_section, accounting_account, 
@@ -159,3 +162,6 @@ SELECT project_insert.project_id,'Not Started','Scoping and Design', 'Scoping an
 'Jonathan Hollinger', 1, 'R2016-56', '2016',
  '1101', '162101', '1601', '71299', 'Palmer Engineering', '2016-01-01','2017-01-01', 250000, .0, 0, 'Negotiating contract.', 'Jonathan Hollinger', now()
  FROM project_insert
+RETURNING projectidphase_id
+ )
+SELECT project_id, phase_id FROM phase_insert;
