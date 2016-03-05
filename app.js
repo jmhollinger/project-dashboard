@@ -25,7 +25,7 @@ app.use(function(req, res, next) {
 //New Project and Phase
 app.post('/api/v1/project', function(req, res) {
     var response = {}
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    /*pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'WITH project_insert AS ( INSERT INTO projects (project_name, project_description, estimated_total_budget,funded, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING project_ID) ' +
                         'INSERT INTO phases (project_id, phase_status, phase_type, phase_description,phase_manager, division_id, resolution_number, accounting, rfp_number,contractor, start_date, estimated_completion, budget, work_complete,actual, notes, modified_by) SELECT project_insert.project_id, $9 , $10 , $11, $12, $13, $14, $15 , $16, $17, $18, $19, $20, $21, $22, $23, $24 FROM project_insert RETURNING project_id, phase_id;',
@@ -71,8 +71,34 @@ app.post('/api/v1/project', function(req, res) {
                         }
                     }
                 };
-    });
-res.json(response)
+    });*/
+res.json(
+    [
+                        req.body.projectName,
+                        req.body.projectDesc,
+                        req.body.estBudget,
+                        req.body.funded,
+                        "'" + JSON.stringify(req.body.councilDistricts) + "'",
+                        req.body.lat,
+                        req.body.lng,
+                        req.body.modifiedBy,
+                        req.body.phaseStatus.status_type_id,
+                        req.body.phaseType.phase_type_id,
+                        req.body.phaseDesc,
+                        req.body.phaseManager,
+                        req.body.division.division_id,
+                        req.body.resoNumber,
+                        "'" + JSON.stringify(req.body.accounting) + "'",
+                        req.body.rfpNumber,
+                        req.body.contractor,
+                        req.body.startDate,
+                        req.body.completionDate,
+                        req.body.phaseBudget,
+                        req.body.workComplete,
+                        req.body.phaseActual,
+                        req.body.notes,
+                        req.body.modifiedBy
+                    ])
 })
 
 //Update Project and Phase Update
