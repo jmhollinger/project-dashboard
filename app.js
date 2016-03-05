@@ -57,45 +57,12 @@ app.post('/api/v1/project', function(req, res) {
                 }),function(err, result) {
                     done();
                     if (err) {
-                        res.json({
-                            "success": false,
-                            "error": err
-                        });
+                        res.json({"success": false,"error": err});
                     } else {
-                        res.json({
-                            "success" : true,
-                            "response" : result.rows
-                        });
+                        res.json({"success" : true, "response" : result.rows});
                     }
-                };
-    });
-/*res.json(
-    [
-                        req.body.projectName,
-                        req.body.projectDesc,
-                        req.body.estBudget,
-                        req.body.funded,
-                        JSON.stringify(req.body.councilDistricts),
-                        req.body.lat,
-                        req.body.lng,
-                        req.body.modifiedBy,
-                        req.body.phaseStatus.status_type_id,
-                        req.body.phaseType.phase_type_id,
-                        req.body.phaseDesc,
-                        req.body.phaseManager,
-                        req.body.division.division_id,
-                        req.body.resoNumber,
-                        JSON.stringify(req.body.accounting),
-                        req.body.rfpNumber,
-                        req.body.contractor,
-                        req.body.startDate,
-                        req.body.completionDate,
-                        req.body.phaseBudget,
-                        req.body.workComplete,
-                        req.body.phaseActual,
-                        req.body.notes,
-                        req.body.modifiedBy
-                    ])*/
+                }
+    })
 })
 
 //Update Project and Phase Update
