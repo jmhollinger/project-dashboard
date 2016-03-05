@@ -24,7 +24,7 @@ app.use(function(req, res, next) {
 
 //New Project and Phase
 app.post('/api/v1/project', function(req, res) {
-    var response = {}
+    var resObj = {}
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'WITH project_insert AS ( INSERT INTO projects (project_name, project_description, estimated_total_budget,funded, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING project_ID) ' +
@@ -59,20 +59,19 @@ app.post('/api/v1/project', function(req, res) {
                 function(err, result) {
                     done();
                     if (err) {
-                        console.error(err);
-                        response = {
+                        resObj = {
                             "success": false,
                             "error": err
                         };
                     } else {
-                        response = {
+                        resObj = {
                             "success" : true,
                             "response" : result.rows
                         }
                     }
                 };
     });
-res.json(response)
+res.json(resObj)
 /*res.json(
     [
                         req.body.projectName,
