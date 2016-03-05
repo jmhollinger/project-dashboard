@@ -1,181 +1,366 @@
+<style>.angular-google-map-container { height: 400px;}</style>
+<form name="projectForm" novalidate>
 <div class="container-fluid">
-    <div>
-        <div class="row">
-            <div class="col-md-6">
-                <h3 class="text-info bold">Project Information</h3>
-                <form>
-                    <div class="form-group">
-                        <label>Project Name</label>
-                        <input class="form-control" type="text" ng-model="projectData.projectName" /> </div>
-                    <div class="form-group">
-                        <label>Project Description</label>
-                        <textarea class="form-control" ng-model="projectData.projectDesc"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-sm-6">
-                            <label>Estimated Total Budget ($)</label>
-                            <input type="text" class="form-control" ng-model="projectData.estBudget"> </div>
-                        <div class="form-group col-sm-6">
-                            <label>Current Funded Amount</label>
-                            <input type="text" class="form-control" ng-model="ProjectData.Funded"> </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Council Districts (hold CTRL to select multiple)</label>
-                        <select multiple class="form-control" ng-model="projectData.councilDistricts" size=12>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                            <option>7</option>
-                            <option>8</option>
-                            <option>9</option>
-                            <option>10</option>
-                            <option>11</option>
-                            <option>12</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <h3 class="text-info bold">Project Location</h3>
-                <div class="form-group">
-                    <label>Location (drag the marker to the location of your project)</label>
-                    <style>
-                        .angular-google-map-container {
-                            height: 400px;
-                        }
-                    </style>
-                    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-                        <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-                        </ui-gmap-marker>
-                    </ui-gmap-google-map>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="text-info bold">
+        Project Information
+      </h3>
+        <div class="form-group" ng-class="{ 'has-error' : projectForm.projectName.$invalid && !projectForm.projectName.$pristine }">
+          <label>
+            Project Name
+          </label>
+          <input type="text" name="projectName" class="form-control" ng-model="projectData.projectName" required/>
+          <p ng-show="projectForm.projectName.$invalid && !projectForm.projectName.$pristine" class="help-block">Please enter a project name.</p>
         </div>
-    </div>
-    <div>
+        <div class="form-group" ng-class="{ 'has-error' : projectForm.projectDesc.$invalid && !projectForm.projectDesc.$pristine }">
+          <label>
+            Project Description
+          </label>
+          <textarea name="projectDesc" class="form-control" ng-model="projectData.projectDesc" required>
+          </textarea>
+          <p ng-show="projectForm.projectDesc.$invalid && !projectForm.projectDesc.$pristine" class="help-block">Please enter a project description.</p></div>
         <div class="row">
-            <div class="col-sm-6">
-                <h3 class="text-info bold">Phase Information</h3>
-                <div class="row">
-                    <div class="form-group col-sm-6">
-                        <label>Phase Type</label>
-                        <select class="form-control" ng-options="item as item.phase_name for item in phaseTypes" ng-model="projectData.phaseType"></select>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label>Phase Status</label>
-                        <select class="form-control" ng-options="item as item.status_name for item in statusTypes" ng-model="projectData.phaseStatus"></select>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                        <label>Phase Manager</label>
-                        <input class="form-control" type="text" ng-model="projectData.phaseManager" />
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label>Division</label>
-                        <input type="text" ng-model="projectData.division" uib-typeahead="item as item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)"> </div>
-                    </div>                 
-                <div class="form-group">
-                    <label>Phase Description</label>
-                    <textarea class="form-control" ng-model="projectData.phaseDesc"></textarea>
-                </div>
-                <div class="row">
-                <div class="form-group col-sm-6">
-                    <label>Resolution Number</label>
-                    <input class="form-control" type="text" ng-model="projectData.resoNumber" />
-                </div>
-                                <div class="form-group col-sm-6">
-                <label>RFP Number</label>
-                    <input class="form-control" type="text" ng-model="projectData.rfpNumber" />
-                </div>
-                </div>
-                <h3 class="text-info bold">Financial Information</h3>
-                <div class="row">
-                    <div class="form-group col-sm-2"><label>Fiscal Year</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><label>Project ID</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].projectId" /></div>
-                    <div class="form-group col-sm-2"><label>Fund</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].fund" /></div>
-                    <div class="form-group col-sm-2"><label>Department</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].department" /></div>
-                    <div class="form-group col-sm-2"><label>Section</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].section" /></div>
-                    <div class="form-group col-sm-2"><label>Account</label><input class="form-control" type="text" ng-model="projectData.accounting['1'].account" /></div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['2'].account" /></div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['3'].account" /></div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['4'].account" /></div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].fiscalYear" /> </div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].projectId" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].fund" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].department" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].section" /></div>
-                    <div class="form-group col-sm-2"><input class="form-control" type="text" ng-model="projectData.accounting['5'].account" /></div>
-                </div>
-                </div>
-
-
-                <div class="col-sm-6">
-            <h3 class="text-info bold">Phase Details</h3>
-            <div class="form-group">
-                <label>Consultant/Contractor</label>
-                <input class="form-control" type="text" ng-model="projectData.contractor" /> </div>
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <label>Start Date</label>
-                    <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" /> <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span> </p>
-                </div>
-                <div class="form-group col-sm-6">
-                    <label>Estimated Completion Date</label>
-                    <p class="input-group">
-                        <input type="text" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" /> <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span> </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-sm-4">
-                    <label>Budget ($)</label>
-                    <input class="form-control" type="text" ng-model="projectData.phaseBudget" /> </div>
-                <div class="form-group col-sm-4">
-                    <label>Actual Spent ($)</label>
-                    <input class="form-control" type="text" ng-model="projectData.phaseActual" /> </div>
-                <div class="form-group col-sm-4">
-                    <label>Actual Work Complete (%)</label>
-                    <input class="form-control" type="text" ng-model="projectData.workComplete" /> </div>
-            </div>
-            <div class="form-group">
-                <label>Notes</label>
-                <textarea rows="5" ng-model="projectData.phaseNotes" class="form-control"></textarea>
-            </div>
+          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine }">
+            <label>
+              Estimated Total Budget ($)
+            </label>
+            <input type="number" name="estBudget" class="form-control" ng-model="projectData.estBudget" required>
+            <p ng-show="projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine" class="help-block">Please enter a total project budget.</p>
+          </div>
+          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.funded.$invalid && !projectForm.funded.$pristine }">
+            <label>
+              Current Funded Amount
+            </label>
+            <input type="number" name="funded" class="form-control" ng-model="ProjectData.funded" required>
+          <p ng-show="projectForm.funded.$invalid && !projectForm.funded.$pristine" class="help-block">Please enter the amo/unt currently funded.</p>
+          </div>
         </div>
+        <div class="form-group" ng-class="{ 'has-error' : projectForm.councilDistricts.$invalid && !projectForm.councilDistricts.$pristine }" >
+          <label>
+            Council Districts (hold CTRL to select multiple)
+          </label>
+          <select multiple name="councilDistricts" class="form-control" ng-model="projectData.councilDistricts" size=12 required>
+            <option>
+              1
+            </option>
+            <option>
+              2
+            </option>
+            <option>
+              3
+            </option>
+            <option>
+              4
+            </option>
+            <option>
+              5
+            </option>
+            <option>
+              6
+            </option>
+            <option>
+              7
+            </option>
+            <option>
+              8
+            </option>
+            <option>
+              9
+            </option>
+            <option>
+              10
+            </option>
+            <option>
+              11
+            </option>
+            <option>
+              12
+            </option>
+          </select>
+          <p ng-show="projectForm.councilDistricts.$invalid && !projectForm.councilDistricts.$pristine" class="help-block">Please select at least one Council District.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3 class="text-info bold">
+          Project Location
+        </h3>
+        <div class="form-group" ng-class="{ 'has-error' : !projectData.lat }">
+          <label>
+            Location (drag the marker to the location of your project)
+          </label>
+          <p ng-show="!projectData.lat" class="help-block">Please use the marker to select a location for the project.</p>
+          <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
+            </ui-gmap-marker>
+          </ui-gmap-google-map>
+        
+        </div>
+      </div>
     </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="text-info bold">
+            Phase Information
+          </h3>
+          <div class="row">
+            <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.phaseType.$invalid && !projectForm.phaseType.$pristine }">
+              <label>
+                Phase Type
+              </label>
+              <select name="phaseType" class="form-control" ng-options="item as item.phase_name for item in phaseTypes" ng-model="projectData.phaseType" required>
+              </select>
+              <p ng-show="projectForm.phaseType.$invalid && !projectForm.phaseType.$pristine" class="help-block">Please select a phase type.</p>
+            </div>
+            <div class="form-group col-md-6">
+              <label>
+                Phase Status
+              </label>
+              <select name="phaseStatus" class="form-control" ng-options="item as item.status_name for item in statusTypes" ng-model="projectData.phaseStatus" required>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.phaseManager.$invalid && !projectForm.phaseManager.$pristine }">
+              <label>
+                Phase Manager
+              </label>
+              <input type="text" name="phaseManager" class="form-control" type="text" ng-model="projectData.phaseManager" required/>
+              <p ng-show="projectForm.phaseManager.$invalid && !projectForm.phaseManager.$pristine" class="help-block">Please enter the phase manager.</p>
+            </div>
+            <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.division.$invalid && !projectForm.division.$pristine }">
+              <label>
+                Division
+              </label>
+              <input type="text" name="division" ng-model="projectData.division" uib-typeahead="item as item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" required>
+              <p ng-show="projectForm.division.$invalid && !projectForm.division.$pristine" class="help-block">Please select a division.</p>
+            </div>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : projectForm.phaseDesc.$invalid && !projectForm.phaseDesc.$pristine }">
+            <label>
+              Phase Description
+            </label>
+            <textarea name="phaseDesc" class="form-control" ng-model="projectData.phaseDesc" required>
+            </textarea>
+            <p ng-show="projectForm.phaseDesc.$invalid && !projectForm.phaseDesc.$pristine" class="help-block">Please enter a phase description.</p>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label>
+                Resolution Number
+              </label>
+              <input class="form-control" type="text" name="resoNumber" ng-model="projectData.resoNumber" />
+            </div>
+            <div class="form-group col-md-6">
+              <label>
+                RFP Number
+              </label>
+              <input class="form-control" type="text" name="rfpNumber" ng-model="projectData.rfpNumber" />
+            </div>
+          </div>
+          <h3 class="text-info bold">
+            Financial Information
+          </h3>
+          <div class="row">
+            <div class=" col-md-12 has-error"> 
+                <p ng-show="(projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine)" class="help-block">Please enter a funding source.</p>
+            </div> 
+            <div class="form-group col-md-12 hidden-md"><label>Line 1</div>
+            <div class="form-group col-md-2" ng-class="{ 'has-error' : projectForm.fy.$invalid && !projectForm.fy.$pristine }"> 
+              <input class="form-control" type="text" name="fy" ng-model="projectData.accounting['1'].fiscalYear" placeholder="Fiscal Year"/ required>     
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['1'].projectId" placeholder="Project ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" name="fund" ng-model="projectData.accounting['1'].fund" placeholder="Fund"/ required>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" name="dept" ng-model="projectData.accounting['1'].department" placeholder="Dept ID"/ required>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" name="section" ng-model="projectData.accounting['1'].section"  placeholder="Section"/ required>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" name="account" ng-model="projectData.accounting['1'].account"  placeholder="Account"/ required>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-12 hidden-md hidden-lg"><label>Line 2</div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['2'].fiscalYear" placeholder="Fiscal Year"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['2'].projectId" placeholder="Project ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['2'].fund" placeholder="Fund"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['2'].department" placeholder="Dept ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['2'].section" placeholder="Section"/>  
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['2'].account"  placeholder="Account"/>
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="form-group col-md-12 hidden-md"><label>Line 3</div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['3'].fiscalYear" placeholder="Fiscal Year"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['3'].projectId" placeholder="Project ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['3'].fund" placeholder="Fund"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['3'].department" placeholder="Dept ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['3'].section" placeholder="Section"/>  
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['3'].account"  placeholder="Account"/>
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="form-group col-md-12 hidden-md"><label>Line 4</div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['4'].fiscalYear" placeholder="Fiscal Year"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['4'].projectId" placeholder="Project ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['4'].fund" placeholder="Fund"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['4'].department" placeholder="Dept ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['4'].section" placeholder="Section"/>  
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['4'].account"  placeholder="Account"/>
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="form-group col-md-12 hidden-md"><label>Line 5</div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['5'].fiscalYear" placeholder="Fiscal Year"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['5'].projectId" placeholder="Project ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['5'].fund" placeholder="Fund"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['5'].department" placeholder="Dept ID"/>
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['5'].section" placeholder="Section"/>  
+            </div>
+            <div class="form-group col-md-2">
+              <input class="form-control" type="text" ng-model="projectData.accounting['5'].account"  placeholder="Account"/>
+            </div>
+          </div>
+
+      </div>
+      <div class="col-md-6">
+        <h3 class="text-info bold">
+          Phase Details
+        </h3>
+        <div class="form-group" ng-class="{ 'has-error' : projectForm.contractor.$invalid && !projectForm.contractor.$pristine }">
+          <label>
+            Consultant/Contractor
+          </label>
+          <input class="form-control" type="text" name="contractor" ng-model="projectData.contractor" required/>
+          <p ng-show="projectForm.contractor.$invalid && !projectForm.contractor.$pristine" class="help-block">Please enter the consultant or contractor.</p>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.startDate.$invalid && !projectForm.startDate.$pristine }">
+            <label>
+              Start Date
+            </label>
+            <p class="input-group">
+              <input type="text" name="startDate" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" placeholder="ex. 1/1/16" required/>
+              
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open1()">
+                  <i class="glyphicon glyphicon-calendar">
+                  </i>
+                </button>
+              </span>
+              
+            </p>
+            <p ng-show="projectForm.startDate.$invalid && !projectForm.startDate.$pristine" class="help-block">Please enter a start date.</p>
+          </div>
+          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.completionDate.$invalid && !projectForm.completionDate.$pristine }">
+            <label>
+              Estimated Completion Date
+            </label>
+            <p class="input-group">
+              <input type="text" name="completionDate" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" placeholder="ex. 12/31/16" required/>
+              
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open2()">
+                  <i class="glyphicon glyphicon-calendar">
+                  </i>
+                </button>
+              </span>
+              
+            </p>
+            <p ng-show="projectForm.completionDate.$invalid && !projectForm.completionDate.$pristine" class="help-block">Please enter a completion date.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4" ng-class="{ 'has-error' : projectForm.phaseBudget.$invalid && !projectForm.phaseBudget.$pristine }">
+            <label>
+              Budget ($)
+            </label>
+            <input class="form-control" type="number" name="phaseBudget" ng-model="projectData.phaseBudget" required/>
+            <p ng-show="projectForm.phaseBudget.$invalid && !projectForm.phaseBudget.$pristine" class="help-block">Please enter the budget for this phase.</p>
+          </div>
+          <div class="form-group col-md-4" ng-class="{ 'has-error' : projectForm.phaseActual.$invalid && !projectForm.phaseActual.$pristine }">
+            <label>
+              Actual Spent ($)
+            </label>
+            <input class="form-control" type="number" name="phaseActual" ng-model="projectData.phaseActual" required/>
+            <p ng-show="projectForm.phaseActual.$invalid && !projectForm.phaseActual.$pristine" class="help-block">Please enter the actual spent.</p>
+          </div>
+          <div class="form-group col-md-4" ng-class="{ 'has-error' : projectForm.workComplete.$invalid && !projectForm.workComplete.$pristine }">
+            <label>
+              Actual Work Complete (%)
+            </label>
+            <input class="form-control" type="number" name="workComplete" ng-model="projectData.workComplete" ng-min="0" ng-max="1" required/>
+            <p ng-show="projectForm.workComplete.$invalid && !projectForm.workComplete.$pristine" class="help-block">Please enter the percent complete. Must be between 0 and 1.</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>
+            Notes
+          </label>
+          <textarea rows="5" ng-model="projectData.phaseNotes" class="form-control">
+          </textarea>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-4 col-md-offset-4">
+        <button class="btn btn-lg btn-success center-block btn-responsive" ng-disabled="projectForm.$invalid || !projectData.lat " ng-click="save()">
+          Save Project
+        </button>
+      </div>
+      <div ng-if="saveSuccess" class="col-md-12 text-center">
+            <h3>Project Saved! <a ui-sref="projectList">Visit the project page.</a></h3>
+      </div>
 </div>
-<div class="col-sm-4 col-sm-offset-4">
-    <button class="btn btn-lg btn-success center-block btn-responsive" ng-click="save()">Save Project</button>
-</div>
-</div>
+</form>

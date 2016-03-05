@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
 //API Endpoints
 
 //New Project and Phase
-app.post('/api/v1/create/project', function(req, res) {
+app.post('/api/v1/project', function(req, res) {
     var response = {}
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({

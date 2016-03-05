@@ -284,16 +284,6 @@ pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'p
 pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
   function ($http, $scope, $location, $log, getData, addData) {
 
-  $scope.onSelect = function ($item, $model, $label) {
-    if (Object.keys($item)[1] === 'phase_name'){
-      $scope.phaseData.phaseType.id = $item.phase_type_id
-      }
-    else if (Object.keys($item)[1] === 'division'){
-      $scope.phaseData.division.id = $item.division_id
-      }
-    else {}
-  }
-
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
     $scope.coordsUpdates = 0;
     $scope.dynamicMoveCtr = 0;
@@ -313,40 +303,40 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
       }
  
   $scope.projectData = {
-    "modifiedBy" : $scope.user
+    "modifiedBy" : 'Jonathan Hollinger'
   }
 
   $scope.today1 = function() {
     $scope.phaseData.startDate = new Date();
   };
 
+  $scope.today2 = function() {
+    $scope.phaseData.completionDate = new Date();
+  };
 
   $scope.clear1 = function() {
     $scope.phaseData.startDate = null;
-  };
-
-  $scope.today2 = function() {
-    $scope.phaseData.completionDate = new Date();
   };
 
   $scope.clear2 = function() {
     $scope.phaseData.completionDate = null;
   };
 
- $scope.popup1 = {
-    opened: false
-  };
 
  $scope.open1 = function() {
     $scope.popup1.opened = true;
   };
 
- $scope.popup2 = {
+$scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
+
+ $scope.popup1 = {
     opened: false
   };
 
- $scope.open2 = function() {
-    $scope.popup2.opened = true;
+ $scope.popup2 = {
+    opened: false
   };
 
   getData.divisions().then(function(result) {
@@ -363,8 +353,8 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
 
   $scope.save = function() { 
     addData.newProject($scope.projectData).then(function(result) {
-      console.log("Request Received!")
       console.log(result.data)
+      $scope.saveSuccess = true
   })
 }
 
