@@ -405,7 +405,7 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
             } else {
                 notesHistory = result.rows
             }
-            return noteshistory
+            return notesHistory
         })
 
                         res.json({
