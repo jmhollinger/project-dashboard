@@ -367,7 +367,7 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', function(req, res) {
 
 //Phase by Project ID and Phase ID
 app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
-    var projectPhases, phaseData, notesHistory
+    var phaseData, phases, notesHistory
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT * FROM all_project_phases WHERE project_id = $1 AND phase_id = $2 ORDER BY start_date DESC;',
