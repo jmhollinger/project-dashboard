@@ -375,11 +375,12 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
         }, function(err, result) {
             done();
             if (err) {
-                phaseData = err
+                return phaseData = err
             } else {
-                phaseData = result.rows
+                return phaseData = result.rows
             }
-        })
+        }
+        )
 
         client.query({
                     text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
@@ -387,9 +388,9 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
                 }, function(err, result) {
             done();
             if (err) {
-                phases = err
+                return phases = err
             } else {
-                phases = result.rows
+                return phases = result.rows
             }
         })
 
@@ -399,10 +400,10 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
                 }, function(err, result) {
             done();
             if (err) {
-                notesHistory = err
+               return notesHistory = err
             } else {
-                notesHistory = result.rows
-            }
+               return notesHistory = result.rows
+            }    
         })
 
                         res.json({
