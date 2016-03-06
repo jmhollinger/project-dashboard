@@ -367,42 +367,41 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', function(req, res) {
 
 //Phase by Project ID and Phase ID
 app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
-    var phaseData, phases, notesHistory
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query({
+        var phaseData = client.query({
             text: 'SELECT * FROM all_project_phases WHERE project_id = $1 AND phase_id = $2 ORDER BY start_date DESC;',
             values: [req.params.project_id, req.params.phase_id]
         }, function(err, result) {
             done();
             if (err) {
-                return phaseData = err
+                return err
             } else {
-                return phaseData = result.rows
+                return result.rows
             }
         }
         )
 
-        client.query({
+        var phases = client.query({
                     text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
                     values: [req.params.project_id]
                 }, function(err, result) {
             done();
             if (err) {
-                return phases = err
+                return err
             } else {
-                return phases = result.rows
+                return result.rows
             }
         })
 
-        client.query({
+        var notesHistory = client.query({
             text: 'SELECT DISTINCT phase_id, notes FROM phases_history WHERE notes IS NOT NULL AND project_id = $1 AND phase_id = $2 ORDER BY log_timestamp DESC;',
             values: [req.params.project_id, req.params.phase_id]
                 }, function(err, result) {
             done();
             if (err) {
-               return notesHistory = err
+               return err
             } else {
-               return notesHistory = result.rows
+               return result.rows
             }    
         })
 
