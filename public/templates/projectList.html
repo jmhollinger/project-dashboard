@@ -8,16 +8,16 @@
   </div>
   <div class="form-group">
     <label>Department</label>
-    <input type="text" ng-model="department" uib-typeahead="department.department for department in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department...">
+    <input type="text" ng-model="department" uib-typeahead="item.department for item in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department...">
   </div>
   <div class="form-group">
     <label>Division</label>
-    <input type="text" ng-model="division" uib-typeahead="division.division for division in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
+    <input type="text" ng-model="division" uib-typeahead="item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
   </div>
   <div class="row">
   <div class="form-group col-sm-9">
     <label>Council District</label>
-    <select class="form-control" ng-options="item.district_name as item.district_name for item in council" ng-model="councilDistrict"></select>
+    <select class="form-control" ng-options="item.district_id for item in council" ng-model="councilDistrict"></select>
   </div>
   <div class="form-group col-sm-3">
   <label>&nbsp</label>
@@ -27,7 +27,7 @@
 <div class="row">
   <div class="form-group col-sm-9">
     <label>Phase Type</label>
-    <select class="form-control" ng-options="item.phase_name as item.phase_name for item in phaseTypes" ng-model="phaseType"></select>
+    <select class="form-control" ng-options="item.phase_name for item in phaseTypes" ng-model="phaseType"></select>
   </div>
   <div class="form-group col-sm-3">
   <label>&nbsp</label>
@@ -37,7 +37,7 @@
 <div class="row">
   <div class="form-group col-sm-9">
     <label>Phase Status</label>
-    <select class="form-control" ng-options="item.status_name as item.status_name for item in statusTypes" ng-model="phaseStatus"></select>
+    <select class="form-control" ng-options="item.status_name for item in statusTypes" ng-model="phaseStatus"></select>
   </div>
   <div class="form-group col-sm-3">
   <label>&nbsp</label>
@@ -45,34 +45,44 @@
   </div>
 </div>
 <button class="btn btn-danger btn-responsive" ng-click="clearFilter()">Clear All Filters</button>
+<pre>
+  {{search}}
+</pre>
 </div>
 <div class="col-sm-9">
-<h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}} | {{projectStats.phases}} {{phaseLabel}}</h1>
+<h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}}</h1>
+<h3 class = "blue-title">{{projectStats.phases}} {{phaseLabel}}</h3>
 <div class="row">
 </div>
 <div class="row">
   <div class="col-sm-4">
   <h4 class="text-info bold">Budget</h4>
-  <p><span class="bold">Under Budget: </span>{{projectStats.budget | currency}}</p>
-  <p><span class="bold">On Budget: </span>{{projectStats.budget | currency}}</p>
-  <p><span class="bold">Over Budget: </span>{{projectStats.actual | currency}}</p>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['5','1','2']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
+  <ul class="no-bullets">
+  <li><span class="bold">Under Budget: </span>{{projectStats.budget | currency}}</li>
+  <li><span class="bold">On Budget: </span>{{projectStats.budget | currency}}</li>
+  <li><span class="bold">Over Budget: </span>{{projectStats.actual | currency}}</li>
+  </ul>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
   </canvas>
   </div>
   <div class="col-sm-4">
   <h4 class="text-info bold">Schedule</h4>
-  <p><span class="bold">Ahead of Schedule: </span>{{3}}</p>
-  <p><span class="bold">On Schedule: </span>{{2}}</p>
-  <p><span class="bold">Behind Schedule: </span>{{4}}</p>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['2','3','4']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
+  <ul class="no-bullets">
+  <li><span class="bold">Ahead of Schedule: </span>{{3}}</li>
+  <li><span class="bold">On Schedule: </span>{{2}}</li>
+  <li><span class="bold">Behind Schedule: </span>{{4}}</li>
+  </ul>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
   </canvas>
   </div>
   <div class="col-sm-4">
   <h4 class="text-info bold">Status</h4>
-    <p><span class="bold">Not Started: </span>{{3 | currency}}</p>
-    <p><span class="bold">In Progress: </span>{{3 | currency}}</p>
-    <p><span class="bold">Completed: </span>{{6 | currency}}</p>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['6','2','1']" chart-labels="['Not Started', 'In Progress', 'Completed']">
+  <ul class="no-bullets">
+    <li><span class="bold">Not Started: </span>{{3 | currency}}</li>
+    <li><span class="bold">In Progress: </span>{{3 | currency}}</li>
+    <li><span class="bold">Completed: </span>{{6 | currency}}</li>
+  </ul>
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Not Started', 'In Progress', 'Completed']">
   </canvas>
   </div>
 </div>
@@ -104,7 +114,7 @@
     </tr>
   </tbody>
 </table>
-<p class="text-center" ng-show="noResults">No projects were found for your search.</p>
+<p class="text-center" ng-show="noResults">No projects were found for your </p>
 </div>
 </div>
 </div>

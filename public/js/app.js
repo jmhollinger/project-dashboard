@@ -238,7 +238,7 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
 
   getData.phasesByid($stateParams.projectId).then(function(result) {
     console.log(result.data)
-    $scope.phases = result.data.results[0]
+    $scope.phases = result.data.results
   })
 
   getData.notesByid($stateParams.phaseId).then(function(result) {
@@ -479,7 +479,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
     projects: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projects")
     },
-    projectSearch: function(q, dept, div, cd){
+    projectSearch: function(q, dept, div, cd, type, status){
       var paramArray = []
       if (q){
         var cleanQ = inputTools.clean(q)
@@ -498,10 +498,18 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
         paramArray.push("cd=" + cd)
       } else {
       }
+      if (type){
+        paramArray.push("type=" + type)
+      } else {
+      }
+      if (status){
+        paramArray.push("status=" + status)
+      } else {
+      }
 
       var query_string = paramArray.toString().replace(/,/g,"&")
 
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectQuery?" + query_string)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/search?" + query_string)
     },
     projectStats: function(q, dept, div, cd){
       var paramArray = []
@@ -531,48 +539,11 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)
     },
     phasesByid: function(project_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/phases/" + project_id + "/phase/" + phase_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/phases/" + project_id)
     },
-    phaseByid: function(phase_id){
+    notesByid: function(phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase/notes/" + phase_id)
-    },
-    projectMap: function(){
-    var projects = 
-    [
-        {
-          "id": 0,
-          "coords": {
-            "latitude": 38.015350,
-            "longitude": -84.523202
-          },
-          "properties": {
-            "project": "Southland Drive Sidewalks",
-            "phase": "Design",
-            "status": "In Progress",
-            "budget": "40%",
-            "schedule": "25%",
-            "workComplete": "30%",
-            "stateLink": 'projectPage'
-          }
-        },
-        {
-          "id": 1,
-          "coords": {
-            "latitude": 38.043722,
-            "longitude": -84.496031
-          },
-          "properties" : {
-            "project": "Town Branch Commons",
-            "phase": "Design",
-            "status": "In Progress",
-            "budget": "40%",
-            "schedule": "25%",
-            "workComplete": "30%",
-            "stateLink": "projectPage"
-          }
-        }
-      ]
-    return projects
     }
+
 }}])
 

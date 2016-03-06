@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-4">
-            <h1 class="title">{{phaseData.project_name}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i></button></h1>
+            <h1 class="title">{{phaseData.project_name}}</h1>
             <h3 class="blue-title">{{phaseData.project_description}}</h3>
             <p>Last updated by {{phaseData.proj_mod_user}} on {{ phaseData.proj_mod_time | date: 'short'}}</p>
             <ul class="no-bullets">
@@ -19,7 +19,6 @@
         <div class="btn-group" role="group" aria-label="...">
               <a ng-repeat="x in phases" class="btn btn-default" ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}} Phase</a>
         </div>
-        <a class="btn btn-default"><i class="fa fa-plus"></i></a>
         </div>
 
         <div class="col-sm-8">
@@ -32,7 +31,7 @@
 
         <div class="row">
         <div class="col-md-12"><h2 class="text-info bold">{{phaseData.phase_name}} Phase 
-        <button ui-sref="projectEdit({projectId:projectId})" class="btn btn-default"><i class="fa fa-pencil"></i></button></h2>
+        </h2>
         </div>
        <div class="col-md-4">
             <h4>Phase Information</h4>
@@ -51,6 +50,8 @@
                 <li><span class="bold">Actual Work Complete: </span>{{phaseData.work_complete | percent}}</li>
             </ul>
         </div>
+        </div>
+        <div class="row">
         <div class="col-md-4">
             <h4>Funding</h4>
             <table class="table table-striped">
@@ -80,8 +81,8 @@
         </div>
     </div>
     <div class="row">
-    <div class="col-md-6">
-        <h4>Notes History</h4>
+    <div class="col-md-4">
+        <h4>Phase History</h4>
         <ul class="list-group">
             <li class="list-group-item">{{ phaseData.phase_mod_time | date: 'short'}} - {{phaseData.notes}}</li>
         </ul>

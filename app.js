@@ -57,9 +57,9 @@ app.post('/api/v1/project', function(req, res) {
                 },function(err, result) {
                     done();
                     if (err) {
-                        res.json({"success": false,"error": err});
+                        res.json({"success": false,"results": err});
                     } else {
-                        res.json({"success" : true, "response" : result.rows});
+                        res.json({"success" : true, "results" : result.rows});
                     }
                 });
     });
@@ -246,7 +246,7 @@ app.get('/api/v1/projects', function(req, res) {
 })
 
 //Search Projects
-app.get('/api/v1/projectQuery', function(req, res) {
+app.get('/api/v1/project/search', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var queryArray = []
         var whereClause = ''
@@ -267,25 +267,35 @@ app.get('/api/v1/projectQuery', function(req, res) {
             queryArray.push("council_districts ? '" + req.query.cd + "'")
             whereClause = ' WHERE '
         } else {}
+        if (req.query.type) {
+            queryArray.push("phase_type = " + req.query.type)
+            whereClause = ' WHERE '
+        } else {}
+        if (req.query.status) {
+            queryArray.push("phase_status = " + req.query.status)
+            whereClause = ' WHERE '
+        } else {}
 
         var query_string = queryArray.toString().replace(/,/g, " AND ")
 
-        client.query('SELECT * from project_list' + whereClause + query_string, function(err, result) {
+        client.query({
+            text:'SELECT * from project_list' + whereClause + '$1;',
+            values: [query_string]}, function(err, result) {
             done();
             if (err) {
-                console.error(err);
                 res.json({
-                    'query': 'SELECT * from project_list' + whereClause + query_string,
-                    'error': err
+                    'success': false,
+                    'results': err
                 });
             } else {
-                res.json(result.rows)
+                    'success': true,
+                    'results': result.rows
             }
         });
     });
 })
 
-//Search Projects
+//Project Stats
 app.get('/api/v1/projectStats', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var queryArray = []
@@ -398,6 +408,8 @@ app.get('/api/v1/phase/notes/:phase_id', function(req, res) {
         });
     });
 });
+
+
 
 //Server
 var server = app.listen(process.env.PORT || 3000, function() {
