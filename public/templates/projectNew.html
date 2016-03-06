@@ -32,7 +32,7 @@
             <label>
               Current Funded Amount
             </label>
-            <input type="number" name="funded" class="form-control" ng-model="ProjectData.funded" required>
+            <input type="number" name="funded" class="form-control" ng-model="projectData.funded" required>
           <p ng-show="projectForm.funded.$invalid && !projectForm.funded.$pristine" class="help-block">Please enter the amo/unt currently funded.</p>
           </div>
         </div>
@@ -349,7 +349,7 @@
           <label>
             Notes
           </label>
-          <textarea rows="5" ng-model="projectData.phaseNotes" class="form-control">
+          <textarea rows="5" ng-model="projectData.notes" class="form-control">
           </textarea>
         </div>
       </div>
@@ -360,7 +360,7 @@
         </button>
       </div>
       <div ng-if="saveSuccess" class="col-md-12 text-center">
-            <h3>Project Saved! <a ui-sref="projectList">Visit the project page.</a></h3>
+            <h3>Project Saved! <a href=#/project/{{newProjectinfo.project_id}}/phase/{{newProjectinfo.phase_id}}">View the Project</a></h3>
       </div>
 </div>
 </form>

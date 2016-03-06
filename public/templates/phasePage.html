@@ -1,44 +1,45 @@
 <style>
     .angular-google-map-container {
-        height: 200px;
+        height: 250px;
         margin-top: 15px;
     }
 </style>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-6">
-            <h1 class="title">{{phaseData.project_name}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Project</button></h1>
+        <div class="col-sm-4">
+            <h1 class="title">{{phaseData.project_name}} <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i></button></h1>
             <h3 class="blue-title">{{phaseData.project_description}}</h3>
+            <p>Last updated by {{phaseData.proj_mod_user}} on {{ phaseData.proj_mod_time | date: 'short'}}</p>
             <ul class="no-bullets">
                 <li><span class="bold">Project ID:</span> {{phaseData.project_id}}</li>
-                <li><span class="bold">Council Districts:</span> {{cdtext}}</li>
+                <li><span class="bold">Council Districts:</span> {{cdText}}</li>
                 <li><span class="bold">Total Budget:</span> {{phaseData.estimated_total_budget | currency}}</li>
                 <li><span class="bold">Amount Funded:</span> {{phaseData.funded | currency}}</li>
             </ul>
         <div class="btn-group" role="group" aria-label="...">
               <a ng-repeat="x in phases" class="btn btn-default" ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}} Phase</a>
         </div>
-        <a class="btn btn-default"><i class="fa fa-plus"></i> Add Phase</a>
+        <a class="btn btn-default"><i class="fa fa-plus"></i></a>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <ui-gmap-google-map center="center" zoom='16'>
                 <ui-gmap-marker coords="markerCoords" idkey="0"> </ui-gmap-marker>
             </ui-gmap-google-map>
         </div>
     </div>
-    <div>
         <hr>
 
-
-          
+        <div class="row">
+        <div class="col-md-12"><h2 class="text-info bold">{{phaseData.phase_name}} Phase 
+        <button ui-sref="projectEdit({projectId:projectId})" class="btn btn-default"><i class="fa fa-pencil"></i></button></h2>
         </div>
-        <div>
-            <h2 class="text-info bold">{{phaseData.phase_name}} Phase <button ui-sref="projectEdit({projectId:projectId})"class="btn btn-default"><i class="fa fa-pencil"></i> Edit Phase</button></h2>
-            <h4>{{phaseData.phase_description}}</h4>
+       <div class="col-md-4">
+            <h4>Phase Information</h4>
             <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
             <ul class="no-bullets">
                 <li><span class="bold">Phase ID: </span>{{phaseData.phase_id}}</li>
+                <li><span class="bold">Project Description: </span>{{phaseData.phase_description}}</li>
                 <li><span class="bold">Status: </span>{{phaseData.status_name}}</li>
                 <li><span class="bold">Department: </span>{{phaseData.department}}</li>
                 <li><span class="bold">Division: </span>{{phaseData.division}}</li>
@@ -48,9 +49,42 @@
                 <li><span class="bold">Budget: </span>{{phaseData.budget | currency}}</li>
                 <li><span class="bold">Actual: </span>{{phaseData.actual | currency}}</li>
                 <li><span class="bold">Actual Work Complete: </span>{{phaseData.work_complete | percent}}</li>
-                <li><span class="bold">Notes: </span> {{phaseData.notes}}</li>
             </ul>
         </div>
+        <div class="col-md-4">
+            <h4>Funding</h4>
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>FY</th>
+                    <th>Project ID</th>
+                    <th>Fund</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    <th>Account</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in phaseData.accounting">
+                    <td>{{x.amount | currency}}</td>
+                    <td>{{x.fiscalYear}}</td>
+                    <td>{{x.projectId}}</td>
+                    <td>{{x.fund}}</td>
+                    <td>{{x.department}}</td>
+                    <td>{{x.section}}</td>
+                    <td>{{x.account}}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    <div class="row">
+    <div class="col-md-6">
+        <h4>Notes History</h4>
+        <ul class="list-group">
+            <li class="list-group-item">{{ phaseData.phase_mod_time | date: 'short'}} - {{phaseData.notes}}</li>
+        </ul>
+    </div>
+    </div>
 </div>

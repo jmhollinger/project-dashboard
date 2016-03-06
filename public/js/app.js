@@ -236,7 +236,7 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
     $scope.phaseCount = result.data.phases.length
     $scope.phases = result.data.phases
     $scope.phaseData = result.data.phaseData[0]
-    $scope.cdText = result.data.phaseData[0].council_districts.toString()
+    $scope.cdText = result.data.phaseData[0].council_districts
     $scope.markerCoords = {"latitude": result.data.phaseData[0].lat, "longitude": result.data.phaseData[0].lng}
     $scope.center = {"latitude": result.data.phaseData[0].lat, "longitude": result.data.phaseData[0].lng}
   })
@@ -353,8 +353,8 @@ $scope.open2 = function() {
 
   $scope.save = function() { 
     addData.newProject($scope.projectData).then(function(result) {
-      console.log(result.data)
       $scope.saveSuccess = true
+      $location.path('/project/' + result.data.response[0].project_id + '/phase/' + result.data.response[0].phase_id)
   })
 }
 
@@ -427,7 +427,7 @@ pdServices.factory('addData', ['$http', 'inputTools', function($http, inputTools
     newProject: function(formData){
       return $http({
                     method: "post",
-                    url: "https://lexington-project-dashboard.herokuapp.com/api/v1/create/project",
+                    url: "https://lexington-project-dashboard.herokuapp.com/api/v1/project",
                     data: formData
                 })
     }

@@ -63,55 +63,16 @@ app.post('/api/v1/project', function(req, res) {
                     }
                 });
     });
-/*res.json(
-    [
-                        req.body.projectName,
-                        req.body.projectDesc,
-                        req.body.estBudget,
-                        req.body.funded,
-                        JSON.stringify(req.body.councilDistricts),
-                        req.body.lat,
-                        req.body.lng,
-                        req.body.modifiedBy,
-                        req.body.phaseStatus.status_type_id,
-                        req.body.phaseType.phase_type_id,
-                        req.body.phaseDesc,
-                        req.body.phaseManager,
-                        req.body.division.division_id,
-                        req.body.resoNumber,
-                        JSON.stringify(req.body.accounting),
-                        req.body.rfpNumber,
-                        req.body.contractor,
-                        req.body.startDate,
-                        req.body.completionDate,
-                        req.body.phaseBudget,
-                        req.body.workComplete,
-                        req.body.phaseActual,
-                        req.body.notes,
-                        req.body.modifiedBy
-                    ])*/
 })
 
-//Update Project and Phase Update
-app.put('/api/v1/update/project', function(req, res) {
-
+//Update Project
+app.put('/api/v1/project', function(req, res) {
     res.json(req.body)
 })
 
-
-//Query
-app.get('/api/v1/query', function(req, res) {
-    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT ' + req.body.fields + ' FROM ' + req.body.table + ' WHERE ' + req.body.where, function(err, result) {
-            done();
-            if (err) {
-                console.error(err);
-                res.send("Error " + err);
-            } else {
-                res.json(result.rows);
-            }
-        });
-    });
+//Update Project
+app.put('/api/v1/phase', function(req, res) {
+    res.json(req.body)
 })
 
 //List Departments
@@ -132,7 +93,9 @@ app.get('/api/v1/departments', function(req, res) {
 //Department by ID 
 app.get('/api/v1/department/id/:dept_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query('SELECT DISTINCT department_id, department from divisions WHERE department_id = ' + req.params.dept_id, function(err, result) {
+        client.query({
+            text: 'SELECT DISTINCT department_id, department from divisions WHERE department_id = $1'
+            values: [req.params.dept_id]}, function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -251,7 +214,6 @@ app.get('/api/v1/phase-types', function(req, res) {
         });
     });
 })
-
 
 //Phase Statuses
 app.get('/api/v1/status-types', function(req, res) {
@@ -402,6 +364,58 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', function(req, res) {
         });
     });
 });
+
+//Phase by Project ID and Phase ID
+app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
+    var projectPhases, phaseData, notesHistory
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({
+            text: 'SELECT * FROM all_project_phases WHERE project_id = $1 AND phase_id = $2 ORDER BY start_date DESC;',
+            values: [req.params.project_id, req.params.phase_id]
+        }, function(err, result) {
+            done();
+            if (err) {
+                phaseData = err
+            } else {
+                phaseData = result.rows
+            }
+            return phaseData
+        })
+
+        client.query({
+                    text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
+                    values: [req.params.project_id]
+                }, function(err, result) {
+            done();
+            if (err) {
+                phases = err
+            } else {
+                phases = result.rows
+            }
+            return phaseData
+        })
+
+        client.query({
+            text: 'SELECT DISTINCT phase_id, notes FROM phases_history WHERE notes IS NOT NULL AND project_id = $1 AND phase_id = $2 ORDER BY log_timestamp DESC;',
+            values: [req.params.project_id, req.params.phase_id]
+                }, function(err, result) {
+            done();
+            if (err) {
+                notesHistory = err
+            } else {
+                notesHistory = result.rows
+            }
+            return phaseHistory
+        })
+
+                        res.json({
+                            "phases": projectPhases,
+                            "phaseData": phaseData,
+                            "noteshistory" : notesHistory
+                        });
+
+    })
+})
 
 //Server
 var server = app.listen(process.env.PORT || 3000, function() {
