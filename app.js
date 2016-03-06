@@ -376,11 +376,11 @@ app.get('/api/v1/project/phases/:project_id', function(req, res) {
 });
 
 //Phase Notes by Project ID and Phase ID
-app.get('/api/v1/project/notes/:project_id/phase/:phase_id', function(req, res) {
+app.get('/api/v1/phase/notes/:phase_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
-            text: 'SELECT DISTINCT date_modified, phase_id, notes FROM phases_history WHERE project_id = $1 AND phase_id = $2 AND notes IS NOT NULL ORDER BY date_modified DESC;',
-            values: [req.params.project_id, req.params.phase_id]
+            text: 'SELECT DISTINCT date_modified, phase_id, notes FROM phases_history WHERE phase_id = $2 AND notes IS NOT NULL ORDER BY date_modified DESC;',
+            values: [req.params.phase_id]
         }, function(err, result) {
             done();
             if (err) {

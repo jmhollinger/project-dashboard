@@ -102,7 +102,6 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
 
-//Update Dept and Div ID
 $scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
 if (newValues[0]){
     getData.departmentByname(newValues[0]).then(function(result) {
@@ -118,7 +117,6 @@ if (newValues[0]){
     else {$scope.divisionId = null}
 })
 
-//Update Query
  $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatus', 'phaseType'], function(newValues, oldValues) { 
   $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3], status: newValues[4], type: newValues[5]})
 
@@ -138,7 +136,6 @@ if (newValues[0]){
 
   });
 
-//Data
   getData.divisions().then(function(result) {
     $scope.divisions = result.data
   })
@@ -197,7 +194,6 @@ if (newValues[0]){
     else {$scope.divisionId = null}
 })
 
-//Update Query
  $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) { 
   $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3]})
 
@@ -233,12 +229,22 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
   function ($scope, $location, getData, $stateParams) {
 
   getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
-    $scope.phaseCount = result.data.phases.length
-    $scope.phases = result.data.phases
-    $scope.phaseData = result.data.phaseData[0]
-    $scope.cdText = result.data.phaseData[0].council_districts
-    $scope.markerCoords = {"latitude": result.data.phaseData[0].lat, "longitude": result.data.phaseData[0].lng}
-    $scope.center = {"latitude": result.data.phaseData[0].lat, "longitude": result.data.phaseData[0].lng}
+    console.log(result.data)
+    $scope.phaseData = result.data.results[0]
+    $scope.cdText = result.data.results[0].council_districts
+    $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
+    $scope.center = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
+  })
+
+  getData.phasesByid($stateParams.projectId).then(function(result) {
+    console.log(result.data)
+    $scope.phases = result.data.results[0]
+  })
+
+  getData.notesByid($stateParams.phaseId).then(function(result) {
+    console.log(result.data)
+    $scope.notes = result.data.results[0]
+    $scope.phaseCount = result.data.results.length
   })
 
   }]);
@@ -269,14 +275,6 @@ pdControllers.controller('projectEdit', ['$scope', '$location', 'getData', '$sta
         }
       }
  
-
-  }]);
-
-/* Account */
-pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
-  
-  $scope.title = 'Account'
 
   }]);
 
@@ -365,6 +363,22 @@ pdControllers.controller('projectUpdate', ['$scope', '$location', 'CKAN', 'searc
   function ($scope, $location, CKAN, search, pagination) {
   
   $scope.title = 'Project Update'
+
+  }]);
+
+/* Update phase */
+pdControllers.controller('phaseUpdate', ['$scope', '$location', 'CKAN', 'search', 'pagination',
+  function ($scope, $location, CKAN, search, pagination) {
+  
+  $scope.title = 'Project Update'
+
+  }]);
+
+/* Account */
+pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'pagination',
+  function ($scope, $location, CKAN, search, pagination) {
+  
+  $scope.title = 'Account'
 
   }]);
 
@@ -515,6 +529,12 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
     },
     phaseByid: function(project_id, phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)
+    },
+    phasesByid: function(project_id){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/phases/" + project_id + "/phase/" + phase_id)
+    },
+    phaseByid: function(phase_id){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase/notes/" + phase_id)
     },
     projectMap: function(){
     var projects = 
