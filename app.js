@@ -288,8 +288,10 @@ app.get('/api/v1/project/search', function(req, res) {
                     'results': err
                 });
             } else {
+                res.json({
                     'success': true,
                     'results': result.rows
+                })
             }
         });
     });
