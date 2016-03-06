@@ -94,13 +94,13 @@
   <tbody>
     <tr ng-repeat = "x in projects">
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.project_name}}</status-flag></a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.phase_name}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.department}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.division}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.contractor}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.budget | currency}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.days_in / x.total_days | percent : 2}}</a></td>
-      <td><a ui-sref="projectPage({projectId: x.project_id})">{{x.work_complete | percent: 2}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.department}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.division}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.contractor}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.budget | currency}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.days_in / x.total_days | percent : 2}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.work_complete | percent: 2}}</a></td>
     </tr>
   </tbody>
 </table>
