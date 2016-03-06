@@ -278,9 +278,8 @@ app.get('/api/v1/project/search', function(req, res) {
 
         var query_string = queryArray.toString().replace(/,/g, " AND ")
 
-        client.query({
-            text:'SELECT * from project_list' + whereClause + '$1;',
-            values: [query_string]}, function(err, result) {
+        client.query(
+            text:'SELECT * from project_list' + whereClause + query_string, function(err, result) {
             done();
             if (err) {
                 res.json({
