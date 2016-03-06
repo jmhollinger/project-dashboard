@@ -379,7 +379,6 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
             } else {
                 phaseData = result.rows
             }
-            return phaseData
         })
 
         client.query({
@@ -392,7 +391,6 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
             } else {
                 phases = result.rows
             }
-            return phases
         })
 
         client.query({
@@ -405,7 +403,6 @@ app.get('/api/v2/project/:project_id/phase/:phase_id', function(req, res) {
             } else {
                 notesHistory = result.rows
             }
-            return notesHistory
         })
 
                         res.json({
