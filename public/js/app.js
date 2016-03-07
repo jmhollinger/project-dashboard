@@ -96,13 +96,12 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $scope.departmentId = null
   $scope.divisionId = null
   $scope.councilDistrict = null
-  $scope.showC = true
-  $scope.showNs = true
-  $scope.showIp = true
+  $scope.phaseType = null
+  $scope.phaseStatus = null
   $location.search({})
   }
 
-$scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
+$scope.$watchGroup(['department','division','phaseStatus','phaseType'], function(newValues, oldValues) { 
 if (newValues[0]){
     getData.departmentByname(newValues[0]).then(function(result) {
       $scope.departmentId = result.data.response[0].department_id
@@ -115,21 +114,34 @@ if (newValues[0]){
     })
     } 
     else {$scope.divisionId = null}
+  if (newValues[2]){
+    getData.statusByname(newValues[1]).then(function(result) {
+      $scope.divisionId = result.data.results[0].status_type_id
+    })
+    } 
+    else {$scope.divisionId = null}
+  if (newValues[3]){
+    getData.typeByname(newValues[1]).then(function(result) {
+      $scope.divisionId = result.data.results[0].phase_type_id
+    })
+    } 
+    else {$scope.divisionId = null}    
 })
 
- $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatus', 'phaseType'], function(newValues, oldValues) { 
-  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3], status: newValues[4], type: newValues[5]})
+ $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatusid', 'phaseTypeid'], function(newValues, oldValues) { 
+  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : $scope.councilDistrict, status: $scope.phaseStatus, type: $scope.phaseType})
 
   getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
-      $scope.projects = result.data
+      $scope.projects = result.data.results
       if (result.data.length===0) {$scope.noResults = true}
       else{$scope.noResults = false}
     })
 
-  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseStatus, $scope.phaseType).then(function(result) {
+  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseStatusid, $scope.phaseTypeid).then(function(result) {
       $scope.projectStats = result.data[0]
       if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
       if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
+      
       $scope.finData = [result.data[0].budget - result.data[0].actual, result.data[0].actual]
       $scope.finLabels = ["Remaining", "Spent"]
     })
@@ -473,8 +485,14 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
     phase_types: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase-types")
     },
+    typeByname: function(type_name){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase-types/name/" + type_name)
+    },
     status_types: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/status-types")
+    },
+    statusByname: function(status_name){
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/status-types/name/" + status_name)
     },
     projects: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projects")

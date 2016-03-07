@@ -81,10 +81,9 @@ app.get('/api/v1/departments', function(req, res) {
         client.query('SELECT DISTINCT department_id, department FROM divisions', function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows);
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -98,10 +97,9 @@ app.get('/api/v1/department/id/:dept_id', function(req, res) {
             values: [req.params.dept_id]}, function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows);
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -113,16 +111,9 @@ app.get('/api/v1/department/name/:dept_name', function(req, res) {
         client.query("SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g, "''") + "'", function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.json({
-                    "query": "SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g, "''") + "'",
-                    "error": err
-                });
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json({
-                    "query": "SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g, "''") + "'",
-                    "response": result.rows
-                });
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -134,10 +125,9 @@ app.get('/api/v1/divisions', function(req, res) {
         client.query('SELECT division_id, division, department_id, department from divisions;', function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows);
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -152,10 +142,9 @@ app.get('/api/v1/division/id/:div_id', function(req, res) {
         }, function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows);
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -170,16 +159,9 @@ app.get('/api/v1/division/name/:div_name', function(req, res) {
         }, function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.json({
-                    "query": "SELECT division from divisions WHERE division = '" + req.params.div_name.replace(/'/g, "''") + "'",
-                    "error": err
-                });
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json({
-                    "query": "SELECT division from divisions WHERE division = '" + req.params.div_name.replace(/'/g, "''") + "'",
-                    "response": result.rows
-                });
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -191,10 +173,9 @@ app.get('/api/v1/council-districts', function(req, res) {
         client.query('SELECT * from council_districts ORDER BY district_id ASC;', function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows)
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -206,25 +187,49 @@ app.get('/api/v1/phase-types', function(req, res) {
         client.query('SELECT * from phase_type ORDER BY phase_name ASC;', function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows);
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
 })
 
-//Phase Statuses
+app.get('/api/v1/phase-types/:name', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({text : 'SELECT * from phase_type WHERE status_name = $1;', values : [req.params.name]}, function(err, result) {
+            done();
+            if (err) {
+                res.json({"success" : false, "results" : err});
+            } else {
+                res.json({"success" : true, "results" : result.rows});
+            }
+        });
+    });
+})
+
+
 app.get('/api/v1/status-types', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT * from status_type ORDER BY status_name ASC;', function(err, result) {
             done();
             if (err) {
-                console.error(err);
-                res.send("Error " + err);
+                res.json({"success" : false, "results" : err});
             } else {
-                res.json(result.rows);
+                res.json({"success" : true, "results" : result.rows});
+            }
+        });
+    });
+})
+
+app.get('/api/v1/status-types/:name', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({text : 'SELECT * from status_type WHERE status_name = $1;', values : [req.params.name]}, function(err, result) {
+            done();
+            if (err) {
+                res.json({"success" : false, "results" : err});
+            } else {
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -240,6 +245,19 @@ app.get('/api/v1/projects', function(req, res) {
                 res.send("Error " + err);
             } else {
                 res.json(result.rows)
+            }
+        });
+    });
+})
+
+app.get('/api/v1/:table/:field/:id', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({text : 'SELECT * from ' + req.params.table + ' WHERE ' + req.params.field + ' = $1;', values : [req.params.name]}, function(err, result) {
+            done();
+            if (err) {
+                res.json({"success" : false, "results" : err});
+            } else {
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
