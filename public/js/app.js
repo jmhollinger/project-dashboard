@@ -115,14 +115,16 @@ if (newValues[0]){
     } 
     else {$scope.divisionId = null}
   if (newValues[2]){
-    getData.statusByname(newValues[1]).then(function(result) {
-      $scope.divisionId = result.data.results[0].status_type_id
+    getData.statusByname(newValues[2]).then(function(result) {
+      console.log(result.data.results[0].status_type_id)
+      $scope.phaseStatusId = result.data.results[0].status_type_id
     })
     } 
-    else {$scope.divisionId = null}
+    else {$scope.phaseStatusid = null}
   if (newValues[3]){
-    getData.typeByname(newValues[1]).then(function(result) {
-      $scope.divisionId = result.data.results[0].phase_type_id
+    getData.typeByname(newValues[3]).then(function(result) {
+      console.log(result.data.results[0].phase_type_id)
+      $scope.phaseTypeid = result.data.results[0].phase_type_id
     })
     } 
     else {$scope.divisionId = null}    
@@ -149,23 +151,23 @@ if (newValues[0]){
   });
 
   getData.divisions().then(function(result) {
-    $scope.divisions = result.data
+    $scope.divisions = result.data.results
   })
 
   getData.departments().then(function(result) {
-    $scope.departments = result.data
+    $scope.departments = result.data.results
   })
 
   getData.councilDistricts().then(function(result) {
-    $scope.council = result.data
+    $scope.council = result.data.results
   })
 
   getData.phase_types().then(function(result) {
-    $scope.phaseTypes = result.data
+    $scope.phaseTypes = result.data.results
   })
 
   getData.status_types().then(function(result) {
-    $scope.statusTypes = result.data
+    $scope.statusTypes = result.data.results
   })
   }]);
 
