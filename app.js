@@ -195,7 +195,7 @@ app.get('/api/v1/phase-types', function(req, res) {
     });
 })
 
-app.get('/api/v1/phase-types/:name', function(req, res) {
+app.get('/api/v1/phase-types/name/:name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({text : 'SELECT * from phase_type WHERE status_name = $1;', values : [req.params.name]}, function(err, result) {
             done();
@@ -222,7 +222,7 @@ app.get('/api/v1/status-types', function(req, res) {
     });
 })
 
-app.get('/api/v1/status-types/:name', function(req, res) {
+app.get('/api/v1/status-types/name/:name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({text : 'SELECT * from status_type WHERE status_name = $1;', values : [req.params.name]}, function(err, result) {
             done();
