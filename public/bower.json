@@ -1,0 +1,23 @@
+{
+  "name": "project-dashboard",
+  "description": "Dashboard for City of Lexington projects.",
+  "main": "app.js",
+  "authors": [
+    "Jonathan Hollinger"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jmhollinger/project-dashboard",
+  "moduleType": [
+    "es6"
+  ],
+  "dependencies": {
+    "angular-input-masks": "^2.1.1",
+    "angular-ui-router": "^0.2.18",
+    "angular-google-maps": "^2.3.2",
+    "angular-bootstrap": "^1.2.4",
+    "angular-chart.js": "^0.8.8"
+  },
+  "resolutions": {
+    "angular": ">=1.4.0"
+  }
+}

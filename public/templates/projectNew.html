@@ -25,15 +25,15 @@
             <label>
               Estimated Total Budget ($)
             </label>
-            <input type="number" name="estBudget" class="form-control" ng-model="projectData.estBudget" required>
+            <input type="text" name="estBudget" class="form-control" ng-model="projectData.estBudget" ui-money-mask="0"  required>
             <p ng-show="projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine" class="help-block">Please enter a total project budget.</p>
           </div>
           <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.funded.$invalid && !projectForm.funded.$pristine }">
             <label>
-              Current Funded Amount
+              Current Funded Amount ($)
             </label>
-            <input type="number" name="funded" class="form-control" ng-model="projectData.funded" required>
-          <p ng-show="projectForm.funded.$invalid && !projectForm.funded.$pristine" class="help-block">Please enter the amo/unt currently funded.</p>
+            <input type="text" name="funded" class="form-control" ng-model="projectData.funded" ui-money-mask="0"  required>
+          <p ng-show="projectForm.funded.$invalid && !projectForm.funded.$pristine" class="help-block">Please enter the amount currently funded.</p>
           </div>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : projectForm.councilDistricts.$invalid && !projectForm.councilDistricts.$pristine }" >
@@ -327,21 +327,21 @@
             <label>
               Budget ($)
             </label>
-            <input class="form-control" type="number" name="phaseBudget" ng-model="projectData.phaseBudget" required/>
+            <input class="form-control" type="text" name="phaseBudget" ng-model="projectData.phaseBudget" ui-money-mask="2" required/>
             <p ng-show="projectForm.phaseBudget.$invalid && !projectForm.phaseBudget.$pristine" class="help-block">Please enter the budget for this phase.</p>
           </div>
           <div class="form-group col-md-4" ng-class="{ 'has-error' : projectForm.phaseActual.$invalid && !projectForm.phaseActual.$pristine }">
             <label>
               Actual Spent ($)
             </label>
-            <input class="form-control" type="number" name="phaseActual" ng-model="projectData.phaseActual" required/>
+            <input class="form-control" type="text" name="phaseActual" ng-model="projectData.phaseActual" ui-money-mask required/>
             <p ng-show="projectForm.phaseActual.$invalid && !projectForm.phaseActual.$pristine" class="help-block">Please enter the actual spent.</p>
           </div>
           <div class="form-group col-md-4" ng-class="{ 'has-error' : projectForm.workComplete.$invalid && !projectForm.workComplete.$pristine }">
             <label>
               Actual Work Complete (%)
             </label>
-            <input class="form-control" type="number" name="workComplete" ng-model="projectData.workComplete" ng-min="0" ng-max="1" required/>
+            <input class="form-control" type="text" name="workComplete" ng-model="projectData.workComplete" ui-percentage-mask="0" min="0" max="1"required/>
             <p ng-show="projectForm.workComplete.$invalid && !projectForm.workComplete.$pristine" class="help-block">Please enter the percent complete. Must be between 0 and 1.</p>
           </div>
         </div>

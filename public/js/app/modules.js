@@ -1,7 +1,7 @@
 /*--------------Modules--------------*/
 
 /* Main Project Dashboard App Module */
-var projectDashboard = angular.module('projectDashboard', [ 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'chart.js']);
+var projectDashboard = angular.module('projectDashboard', [ 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'chart.js', 'ui.utils.masks']);
 
 /* Directives Module */
 var pdDirectives = angular.module('pdDirectives', []);
