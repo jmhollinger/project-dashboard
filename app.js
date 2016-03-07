@@ -389,12 +389,9 @@ app.get('/api/v1/project/phases/:project_id', function(req, res) {
         }, function(err, result) {
             done();
             if (err) {
-                res.json({
-                    "success": false,
-                    "results": err
-                });
+                console.error(err);
+                res.send("Error " + err);
             } else {
-
                 res.json({
                     "success": true,
                     "results": result.rows

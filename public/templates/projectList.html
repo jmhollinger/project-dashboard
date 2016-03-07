@@ -48,26 +48,26 @@
 </div>
 <div class="col-sm-9">
 <h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}}</h1>
-<h3 class = "blue-title">{{projectStats.phases}} {{phaseLabel}}</h3>
+<h3 class ="subtitle">{{projectStats.phases}} {{phaseLabel}}</h3>
 <div class="row">
 </div>
 <div class="row">
   <div class="col-sm-4">
   <h4 class="text-info bold">Budget</h4>
   <ul class="no-bullets">
-  <li><span class="bold">Under Budget: </span>{{projectStats.budget | currency}}</li>
+  <li><span class="bold">Under Budget: </span></li>
   <li><span class="bold">On Budget: </span>{{projectStats.budget | currency}}</li>
-  <li><span class="bold">Over Budget: </span>{{projectStats.actual | currency}}</li>
+  <li><span class="bold">Over Budget: </span></li>
   </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Under Budget', 'On Budget', 'Over Budget']">
   </canvas>
   </div>
   <div class="col-sm-4">
   <h4 class="text-info bold">Schedule</h4>
   <ul class="no-bullets">
-  <li><span class="bold">Ahead of Schedule: </span>{{3}}</li>
-  <li><span class="bold">On Schedule: </span>{{2}}</li>
-  <li><span class="bold">Behind Schedule: </span>{{4}}</li>
+  <li><span class="bold">Ahead of Schedule: </span>{{1}}</li>
+  <li><span class="bold">On Schedule: </span>{{1}}</li>
+  <li><span class="bold">Behind Schedule: </span>{{1}}</li>
   </ul>
   <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
   </canvas>
@@ -75,9 +75,9 @@
   <div class="col-sm-4">
   <h4 class="text-info bold">Status</h4>
   <ul class="no-bullets">
-    <li><span class="bold">Not Started: </span>{{3 | currency}}</li>
-    <li><span class="bold">In Progress: </span>{{3 | currency}}</li>
-    <li><span class="bold">Completed: </span>{{6 | currency}}</li>
+    <li><span class="bold">Not Started: </span>{{1}}</li>
+    <li><span class="bold">In Progress: </span>{{1}}</li>
+    <li><span class="bold">Completed: </span>{{1}}</li>
   </ul>
   <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Not Started', 'In Progress', 'Completed']">
   </canvas>
