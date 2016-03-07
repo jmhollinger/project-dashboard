@@ -381,7 +381,7 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', function(req, res) {
 });
 
 //Phases by Project ID
-app.get('/api/v1/project/phases/:project_id', function(req, res) {
+app.get('/api/v1/project-phases/:project_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
@@ -405,7 +405,7 @@ app.get('/api/v1/project/phases/:project_id', function(req, res) {
 });
 
 //Phase Notes by Project ID and Phase ID
-app.get('/api/v1/phase/notes/:phase_id', function(req, res) {
+app.get('/api/v1/phase-notes/:phase_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT DISTINCT date_modified, phase_id, notes FROM phases_history WHERE phase_id = $1 AND notes IS NOT NULL ORDER BY date_modified DESC;',
