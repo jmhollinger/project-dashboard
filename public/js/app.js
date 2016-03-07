@@ -104,13 +104,13 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
 $scope.$watchGroup(['department','division','phaseStatus','phaseType'], function(newValues, oldValues) { 
 if (newValues[0]){
     getData.departmentByname(newValues[0]).then(function(result) {
-      $scope.departmentId = result.data.response[0].department_id
+      $scope.departmentId = result.data.results[0].department_id
     })
   }
     else {$scope.departmentId = null}
   if (newValues[1]){
     getData.divisionByname(newValues[1]).then(function(result) {
-      $scope.divisionId = result.data.response[0].division_id
+      $scope.divisionId = result.data.results[0].division_id
     })
     } 
     else {$scope.divisionId = null}
@@ -194,13 +194,13 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
 $scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
 if (newValues[0]){
     getData.departmentByname(newValues[0]).then(function(result) {
-      $scope.departmentId = result.data.response[0].department_id
+      $scope.departmentId = result.data.results[0].department_id
     })
   }
     else {$scope.departmentId = null}
   if (newValues[1]){
     getData.divisionByname(newValues[1]).then(function(result) {
-      $scope.divisionId = result.data.response[0].division_id
+      $scope.divisionId = result.data.results[0].division_id
     })
     } 
     else {$scope.divisionId = null}

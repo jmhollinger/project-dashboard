@@ -252,7 +252,7 @@ app.get('/api/v1/projects', function(req, res) {
 
 app.get('/api/v1/:table/:field/:id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query({text : 'SELECT * from ' + req.params.table + ' WHERE ' + req.params.field + ' = $1;', values : [req.params.name]}, function(err, result) {
+        client.query({text : 'SELECT * from ' + req.params.table + ' WHERE ' + req.params.field + ' = $1;', values : [req.params.id]}, function(err, result) {
             done();
             if (err) {
                 res.json({"success" : false, "results" : err});
