@@ -257,7 +257,7 @@ app.get('/api/v1/:table/:field/:id', function(req, res) {
             if (err) {
                 res.json({"success" : false, "results" : err});
             } else {
-                res.json({"success" : true, "results" : result.rows});
+                res.json({"success" : true, "results" : result.rows.length , "records" : result.rows});
             }
         });
     });

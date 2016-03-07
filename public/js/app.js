@@ -127,15 +127,15 @@ if (newValues[0]){
       $scope.phaseTypeid = result.data.results[0].phase_type_id
     })
     } 
-    else {$scope.divisionId = null}    
+    else {$scope.phaseTypeid = null}    
 })
 
  $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatusid', 'phaseTypeid'], function(newValues, oldValues) { 
   $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : $scope.councilDistrict, status: $scope.phaseStatus, type: $scope.phaseType})
 
-  getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
+  getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseTypeid, $scope.phaseStatusid).then(function(result) {
       $scope.projects = result.data.results
-      if (result.data.length===0) {$scope.noResults = true}
+      if (result.data.results.length===0) {$scope.noResults = true}
       else{$scope.noResults = false}
     })
 
@@ -143,9 +143,6 @@ if (newValues[0]){
       $scope.projectStats = result.data[0]
       if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
       if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
-      
-      $scope.finData = [result.data[0].budget - result.data[0].actual, result.data[0].actual]
-      $scope.finLabels = ["Remaining", "Spent"]
     })
 
   });
@@ -352,15 +349,15 @@ $scope.open2 = function() {
   };
 
   getData.divisions().then(function(result) {
-    $scope.divisions = result.data
+    $scope.divisions = result.data.results
   })
 
   getData.phase_types().then(function(result) {
-    $scope.phaseTypes = result.data
+    $scope.phaseTypes = result.data.results
   })
 
   getData.status_types().then(function(result) {
-    $scope.statusTypes = result.data
+    $scope.statusTypes = result.data.results
   })
 
   $scope.save = function() { 
