@@ -380,6 +380,30 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', function(req, res) {
     });
 });
 
+//Phases by Project ID
+app.get('/api/v1/project/phases/:project_id', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({
+            text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
+            values: [req.params.project_id]
+        }, function(err, result) {
+            done();
+            if (err) {
+                res.json({
+                    "success": false,
+                    "results": err
+                });
+            } else {
+
+                res.json({
+                    "success": true,
+                    "results": result.rows
+                });
+            }
+        });
+    });
+});
+
 //Phase Notes by Project ID and Phase ID
 app.get('/api/v1/phase/notes/:phase_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
