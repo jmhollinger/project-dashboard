@@ -393,21 +393,6 @@ pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'p
 
   }]);
 
-/*--------------Directives--------------*/
-
-
-pdDirectives.directive('statusFlag', function () {
-    return {
-        restrict: 'AE',
-        scope: {
-          label: '@'
-        },
-        template:
-          '<span class="btn btn-success">{{label}}</span>'
-    };
-});
-
-
 /*--------------Filters--------------*/
 
 /* titlecase filter */
@@ -425,6 +410,7 @@ projectDashboard.filter('titlecase', function () {
   }
 });
 
+/* percent filter */
 projectDashboard.filter('percent', function () {
   return function (input, decimals) {
   var per = input * 100
@@ -556,11 +542,10 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)
     },
     phasesByid: function(project_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/phases/" + project_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project-phases/" + project_id)
     },
     notesByid: function(phase_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase/notes/" + phase_id)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase-notes/" + phase_id)
     }
 
 }}])
-

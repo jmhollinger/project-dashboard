@@ -84,7 +84,7 @@
     <div class="col-md-4">
         <h4>Phase History</h4>
         <ul class="list-group">
-            <li class="list-group-item">{{ phaseData.phase_mod_time | date: 'short'}} - {{phaseData.notes}}</li>
+            <li ng-repeat="x in notes" class="list-group-item">{{ x.date_modified | date: 'short'}} - {{x.notes}}</li>
         </ul>
     </div>
     </div>
