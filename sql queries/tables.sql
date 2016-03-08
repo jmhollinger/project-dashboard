@@ -165,3 +165,17 @@ SELECT project_insert.project_id,'Not Started','Scoping and Design', 'Scoping an
 RETURNING projectidphase_id
  )
 SELECT project_id, phase_id FROM phase_insert;
+
+
+SELECT
+ph.work_complete,
+ph.actual,
+ph.budget,
+ph.estimated_completion - ph.start_date as Days,
+(current_date - ph.start_date) as DaysIn,
+(current_date - ph.start_date)::numeric / (ph.estimated_completion - ph.start_date)::numeric as schedule_complete,
+(ph.work_complete * ph.budget) as EV,
+((current_date - ph.start_date) / (ph.estimated_completion - ph.start_date)::numeric * ph.budget) as PV,
+((ph.work_complete * ph.budget) - ph.actual) / (ph.work_complete * ph.budget) as Cost_Variance,
+((ph.work_complete * ph.budget) - ((current_date - ph.start_date) / (ph.estimated_completion - ph.start_date)::numeric * ph.budget)) / (((current_date - ph.start_date) / (ph.estimated_completion - ph.start_date)::numeric * ph.budget)) as Schedule_Variance
+FROM phases ph

@@ -15,11 +15,11 @@
     <input type="text" ng-model="division" uib-typeahead="item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
   </div>
   <div class="row">
-  <div class="form-group col-sm-9">
+  <div class="form-group col-sm-6">
     <label>Council District</label>
     <select class="form-control" ng-options="item.district_name as item.district_name for item in council" ng-model="councilDistrict"></select>
   </div>
-  <div class="form-group col-sm-3">
+  <div class="form-group col-sm-6">
   <label>&nbsp</label>
   <button class="btn btn-info btn-responsive" ng-click="councilDistrict = null">Clear</button>
   </div>
@@ -47,17 +47,17 @@
 <button class="btn btn-danger btn-responsive" ng-click="clearFilter()">Clear All Filters</button>
 </div>
 <div class="col-sm-9">
-<h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}}</h1>
-<h3 class ="subtitle">{{projectStats.phases}} {{phaseLabel}}</h3>
+<h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}} | {{projectStats.phases}} {{phaseLabel}}</h1>
+<h3 class ="subtitle">{{projectStats.budget | currency}}</h3>
 <div class="row">
 </div>
 <div class="row">
   <div class="col-sm-4">
   <h4 class="text-info bold">Budget</h4>
   <ul class="no-bullets">
-  <li><span class="bold">Under Budget: </span></li>
-  <li><span class="bold">On Budget: </span>{{projectStats.budget | currency}}</li>
-  <li><span class="bold">Over Budget: </span></li>
+  <li><span class="bold">Under Budget: </span>{{1}}</li>
+  <li><span class="bold">On Budget: </span>{{1}}</li>
+  <li><span class="bold">Over Budget: </span>{{1}}</li>
   </ul>
   <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Under Budget', 'On Budget', 'Over Budget']">
   </canvas>
