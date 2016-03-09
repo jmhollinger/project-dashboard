@@ -393,6 +393,20 @@ pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'p
 
   }]);
 
+/*--------------Directives--------------*/
+
+
+pdDirectives.directive('statusFlag', function () {
+    return {
+        restrict: 'AE',
+        scope: {
+          value: '@metricValue'
+        },
+        template:
+          '<span class="btn"  ng-class="{\'btn-success\' : value > .1 , \'btn-info\' : value <= .1 && value >= -.1, \'btn-danger\' : value < -.1 }">{{value | percent : 2}}</span>' 
+    };
+});
+
 /*--------------Filters--------------*/
 
 /* titlecase filter */
@@ -536,7 +550,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
 
       var query_string = paramArray.toString().replace(/,/g,"&")
 
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/projectStats?" + query_string)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/search/summary?" + query_string)
     },
     phaseByid: function(project_id, phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)

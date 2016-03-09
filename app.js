@@ -315,7 +315,7 @@ app.get('/api/v1/project/search', function(req, res) {
 })
 
 //Project Stats
-app.get('/api/v1/projectStats', function(req, res) {
+app.get('/api/v1/project/search/summary', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var queryArray = []
         var whereClause = ''
@@ -338,7 +338,22 @@ app.get('/api/v1/projectStats', function(req, res) {
 
         var query_string = queryArray.toString().replace(/,/g, " AND ")
 
-        client.query('SELECT SUM(actual) as actual, SUM(budget) as budget, COUNT(project_id) as projects, COUNT(phase_id) as phases FROM project_list' + whereClause + query_string, function(err, result) {
+        client.query(
+        'SELECT
+        SUM(budget) as budget, 
+        SUM(actual) as actual,
+        COUNT(DISTINCT project_id) as projects, 
+        COUNT(DISTINCT phase_id) as phases,
+        COUNT(CASE WHEN phase_status = 1 THEN 1 ELSE null END) AS not_started,
+        COUNT(CASE WHEN phase_status = 2 THEN 1 ELSE null END) AS in_progress,
+        COUNT(CASE WHEN phase_status = 3 THEN 1 ELSE null END) AS completed,
+        COUNT(CASE WHEN cost_variance > .1 THEN 1 ELSE null END) AS under_budget,
+        COUNT(CASE WHEN cost_variance <= .1 AND cost_variance >= -.1 THEN 1 ELSE null END) AS on_budget,
+        COUNT(CASE WHEN cost_variance < -.1 THEN 1 ELSE null END) AS over_budget,
+        COUNT(CASE WHEN schedule_variance > .1 THEN 1 ELSE null END) AS ahead_schedule,
+        COUNT(CASE WHEN schedule_variance <= .1 AND cost_variance >= -.1 THEN 1 ELSE null END) AS on_schedule,
+        COUNT(CASE WHEN schedule_variance < -.1 THEN 1 ELSE null END) AS behind_schedule
+        FROM project_list' +  whereClause + query_string, function(err, result) {
             done();
             if (err) {
                 console.error(err);
@@ -437,3 +452,9 @@ var server = app.listen(process.env.PORT || 3000, function() {
 
     console.log('App listening at http://%s:%s', host, port);
 });
+
+function nullCheck (input){
+    if (input) {
+    return input}
+    else {return ''}
+}
