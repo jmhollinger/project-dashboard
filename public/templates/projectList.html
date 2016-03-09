@@ -1,30 +1,27 @@
 <div class="container-fluid">
-<div class="row">
-<div class="col-sm-3">
-<h1 class="title">Find a Project</h1>
-  <div class="form-group">
-    <label>Search</label>
-    <input type="text" ng-model="searchTerm" ng-model-options="{debounce: 500}" class="form-control"/ Placeholder="Search for a project...">
-  </div>
-  <div class="form-group">
-    <label>Department</label>
-    <input type="text" ng-model="department" uib-typeahead="item.department for item in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department...">
-  </div>
-  <div class="form-group">
-    <label>Division</label>
-    <input type="text" ng-model="division" uib-typeahead="item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division...">
-  </div>
-  <div class="row">
-  <div class="form-group col-sm-6">
-    <label>Council District</label>
-    <select class="form-control" ng-options="item.district_id as item.district_name for item in council" ng-model="councilDistrict"></select>
-  </div>
-  <div class="form-group col-sm-6">
-  <label>&nbsp</label>
-  <button class="btn btn-info btn-responsive" ng-click="councilDistrict = null">Clear</button>
-  </div>
-</div>
-<!--<div class="row">
+    <div class="row">
+        <div class="col-sm-3 filter">
+            <h1 class="title">Find a Project</h1>
+            <div class="form-group">
+                <label>Search</label>
+                <input type="text" ng-model="searchTerm" ng-model-options="{debounce: 500}" class="form-control" / Placeholder="Search for a project..."> </div>
+            <div class="form-group">
+                <label>Department</label>
+                <input type="text" ng-model="department" uib-typeahead="item.department for item in departments | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a department..."> </div>
+            <div class="form-group">
+                <label>Division</label>
+                <input type="text" ng-model="division" uib-typeahead="item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" placeholder="Select a division..."> </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+                    <label>Council District</label>
+                    <select class="form-control" ng-options="item.district_id as item.district_name for item in council" ng-model="councilDistrict"></select>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label>&nbsp</label>
+                    <button class="btn btn-info btn-responsive" ng-click="councilDistrict = null">Clear</button>
+                </div>
+            </div>
+            <!--<div class="row">
   <div class="form-group col-sm-9">
     <label>Phase Type</label>
     <select class="form-control" ng-options="item.phase_name as item.phase_name for item in phaseTypes" ng-model="phaseType"></select>
@@ -44,79 +41,82 @@
   <button class="btn btn-info btn-responsive" ng-click="phaseStatus = null">Clear</button>
   </div>
 </div>-->
-<button class="btn btn-danger btn-responsive" ng-click="clearFilter()">Clear All Filters</button>
-</div>
-<div class="col-sm-9">
-<h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}} | {{projectStats.phases}} {{phaseLabel}}</h1>
-<h3 class ="subtitle">{{projectStats.budget | currency}} Budget | {{projectStats.actual | currency}} Spent</h3>
-<div class="row">
-</div>
-<div class="row">
-  <div class="col-sm-4">
-  <h4 class="text-info bold">Budget</h4>
-  <ul class="no-bullets">
-  <li><span class="bold">Under Budget: </span>{{projectStats.under_budget}}</li>
-  <li><span class="bold">On Budget: </span>{{projectStats.on_budget}}</li>
-  <li><span class="bold">Over Budget: </span>{{projectStats.over_budget}}</li>
-  </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="budgetData" chart-labels="['Under Budget', 'On Budget', 'Over Budget']">
-  </canvas>
-  </div>
-  <div class="col-sm-4">
-  <h4 class="text-info bold">Schedule</h4>
-  <ul class="no-bullets">
-  <li><span class="bold">Ahead of Schedule: </span>{{projectStats.ahead_schedule}}</li>
-  <li><span class="bold">On Schedule: </span>{{projectStats.on_schedule}}</li>
-  <li><span class="bold">Behind Schedule: </span>{{projectStats.behind_schedule}}</li>
-  </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="scheduleData" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
-  </canvas>
-  </div>
-  <div class="col-sm-4">
-  <h4 class="text-info bold">Status</h4>
-  <ul class="no-bullets">
-    <li><span class="bold">Not Started: </span>{{projectStats.not_started}}</li>
-    <li><span class="bold">In Progress: </span>{{projectStats.in_progress}}</li>
-    <li><span class="bold">Completed: </span>{{projectStats.completed}}</li>
-  </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="statusData" chart-labels="['Not Started', 'In Progress', 'Completed']">
-  </canvas>
-  </div>
-</div>
-<h1 class="title">Projects</h1>
-<div class="table-responsive">
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Project</th>
-      <th>Phase</th>
-      <th>Department</th>
-      <th>Division</th>
-      <th>Contractor</th>
-      <th>Budget</th>
-      <th>Actual</th>
-      <th>Work Complete</th>
-      <th>Cost Variance</th>
-      <th>Schedule Variance</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat = "x in projects">
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.project_name}}</status-flag></a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.department}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.division}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.contractor}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.budget | currency}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.actual | currency}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.work_complete | percent: 2}}</a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})"><status-flag metric-value="{{x.cost_variance}}"></status-flag></a></td>
-      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})"><status-flag metric-value="{{x.schedule_variance}}"></status-flag></a></td>
-    </tr>
-  </tbody>
-</table>
-<p class="text-center" ng-show="noResults">No projects were found for your </p>
-</div>
-</div>
-</div>
+            <button class="btn btn-danger btn-responsive" ng-click="clearFilter()">Clear All Filters</button>
+        </div>
+        <div class="col-sm-9">
+            <h1 class="title">{{projectStats.projects}} {{projectLabel}} | {{projectStats.phases}} {{phaseLabel}}</h1>
+            <h3 class="text-primary">{{projectStats.budget | currency}} Budget | {{projectStats.actual | currency}} Spent</h3>
+            <div class="row"> </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4 class="text-info bold">Budget</h4>
+                    <ul class="no-bullets">
+                        <li><span class="bold">Under Budget: </span>{{projectStats.under_budget}}</li>
+                        <li><span class="bold">On Budget: </span>{{projectStats.on_budget}}</li>
+                        <li><span class="bold">Over Budget: </span>{{projectStats.over_budget}}</li>
+                    </ul>
+                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="budgetData" chart-labels="['Under Budget', 'On Budget', 'Over Budget']"> </canvas>
+                </div>
+                <div class="col-sm-4">
+                    <h4 class="text-info bold">Schedule</h4>
+                    <ul class="no-bullets">
+                        <li><span class="bold">Ahead of Schedule: </span>{{projectStats.ahead_schedule}}</li>
+                        <li><span class="bold">On Schedule: </span>{{projectStats.on_schedule}}</li>
+                        <li><span class="bold">Behind Schedule: </span>{{projectStats.behind_schedule}}</li>
+                    </ul>
+                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="scheduleData" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']"> </canvas>
+                </div>
+                <div class="col-sm-4">
+                    <h4 class="text-info bold">Status</h4>
+                    <ul class="no-bullets">
+                        <li><span class="bold">Not Started: </span>{{projectStats.not_started}}</li>
+                        <li><span class="bold">In Progress: </span>{{projectStats.in_progress}}</li>
+                        <li><span class="bold">Completed: </span>{{projectStats.completed}}</li>
+                    </ul>
+                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="statusData" chart-labels="['Not Started', 'In Progress', 'Completed']"> </canvas>
+                </div>
+            </div>
+            <div class="hidden-xs">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Phase</th>
+                            <th>Department</th>
+                            <th>Division</th>
+                            <th>Contractor</th>
+                            <th>Budget</th>
+                            <th>Actual</th>
+                            <th>Work Complete</th>
+                            <th>Cost Variance</th>
+                            <th>Schedule Variance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in projects">
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.project_name}}</status-flag></a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}}</a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.department}}</a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.division}}</a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.contractor}}</a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.budget | currency}}</a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.actual | currency}}</a></td>
+                            <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.work_complete | percent: 2}}</a></td>
+                            <td>
+                                <a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">
+                                    <status-flag metric-value="{{x.cost_variance}}"></status-flag>
+                                </a>
+                            </td>
+                            <td>
+                                <a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">
+                                    <status-flag metric-value="{{x.schedule_variance}}"></status-flag>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="text-center" ng-show="noResults">No projects were found for your </p>
+            </div>
+        </div>
+    </div>
 </div>

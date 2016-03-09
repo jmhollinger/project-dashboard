@@ -1,9 +1,10 @@
 <style>.angular-google-map-container { height: 400px;}</style>
 <form name="projectForm" novalidate>
 <div class="container-fluid">
-<h1></h1>
+
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
+    <h1 class="title">Add a New Project</h1>
       <h3 class="text-info bold">
         Project Information
       </h3>
@@ -127,12 +128,12 @@
           </h3>
           <div class="row">
             <div class=" col-md-12 has-error"> 
-                <p ng-show="(projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine)" class="help-block">Please enter a funding source.</p>
+                <p ng-show="(projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$invalid || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine)" class="help-block">Please enter a funding source.</p>
             </div>
           </div> 
             
           <div class="row">
-          <div class="col-md-12 form-group">
+          <div class="col-md-12 form-group"  ng-class="{ 'has-error' : (projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$invalid || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine) }" >
           <p class="bold hidden-md hidden-lg">Line 1</p>
               <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['1'].amount" placeholder="Amount" ui-money-mask="2" required/>
               <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['1'].projectid" placeholder="Project"/>
@@ -147,53 +148,53 @@
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 2</p>
-              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['2'].amount" placeholder="Amount" ui-money-mask="2" required/>
-              <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['2'].projectid" placeholder="Project"/>
-              <input name="activity" class="form-financial" type="text" ng-model="projectData.accounting['2'].activity" placeholder="Activity" />
-              <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['2'].fiscalyear" placeholder="FY" required/>
-              <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['2'].fund" placeholder="Fund" required/>
-              <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['2'].department" placeholder="Dept ID" required/>
-              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['2'].section" placeholder="Section" required/>  
-              <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['2'].account"  placeholder="Account" required/>
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].projectid" placeholder="Project"/>
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].activity" placeholder="Activity" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].fiscalyear" placeholder="FY" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].fund" placeholder="Fund" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].department" placeholder="Dept ID" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].section" placeholder="Section" />  
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].account"  placeholder="Account" />
           </div>
           </div>
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 3</p>
-              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['3'].amount" placeholder="Amount" ui-money-mask="2" required/>
-              <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['3'].projectid" placeholder="Project"/>
-              <input name="activity" class="form-financial" type="text" ng-model="projectData.accounting['3'].activity" placeholder="Activity" />
-              <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['3'].fiscalyear" placeholder="FY" required/>
-              <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['3'].fund" placeholder="Fund" required/>
-              <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['3'].department" placeholder="Dept ID" required/>
-              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['3'].section" placeholder="Section" required/>  
-              <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['3'].account"  placeholder="Account" required/>
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].projectid" placeholder="Project"/>
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].activity" placeholder="Activity" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].fiscalyear" placeholder="FY" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].fund" placeholder="Fund" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].department" placeholder="Dept ID" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].section" placeholder="Section" />  
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].account"  placeholder="Account" />
           </div>
           </div>
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 4</p>
-              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['4'].amount" placeholder="Amount" ui-money-mask="2" required/>
-              <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['4'].projectid" placeholder="Project"/>
-              <input name="activity" class="form-financial" type="text" ng-model="projectData.accounting['4'].activity" placeholder="Activity" />
-              <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['4'].fiscalyear" placeholder="FY" required/>
-              <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['4'].fund" placeholder="Fund" required/>
-              <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['4'].department" placeholder="Dept ID" required/>
-              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['4'].section" placeholder="Section" required/>  
-              <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['4'].account"  placeholder="Account" required/>
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].projectid" placeholder="Project"/>
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].activity" placeholder="Activity" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].fiscalyear" placeholder="FY" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].fund" placeholder="Fund" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].department" placeholder="Dept ID" />
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].section" placeholder="Section" />  
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].account"  placeholder="Account" />
           </div>
           </div>
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 5</p>
-              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['5'].amount" placeholder="Amount" ui-money-mask="2" required/>
+              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['5'].amount" placeholder="Amount" ui-money-mask="2" />
               <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['5'].projectid" placeholder="Project"/>
               <input name="activity" class="form-financial" type="text" ng-model="projectData.accounting['5'].activity" placeholder="Activity" />
-              <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['5'].fiscalyear" placeholder="FY" required/>
-              <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['5'].fund" placeholder="Fund" required/>
-              <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['5'].department" placeholder="Dept ID" required/>
-              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['5'].section" placeholder="Section" required/>  
-              <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['5'].account"  placeholder="Account" required/>
+              <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['5'].fiscalyear" placeholder="FY" />
+              <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['5'].fund" placeholder="Fund" />
+              <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['5'].department" placeholder="Dept ID" />
+              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['5'].section" placeholder="Section" />  
+              <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['5'].account"  placeholder="Account" />
           </div>
           </div>
       </div>
@@ -205,7 +206,7 @@
           <label>
             Consultant/Contractor
           </label>
-          <input class="form-control" type="text" name="contractor" ng-model="projectData.contractor" required/>
+          <input class="form-control" type="text" name="contractor" ng-model="projectData.contractor" placeholder="ex. XYZ Contracting, Inc." required/>
           <p ng-show="projectForm.contractor.$invalid && !projectForm.contractor.$pristine" class="help-block">Please enter the consultant or contractor.</p>
         </div>
         <div class="row">

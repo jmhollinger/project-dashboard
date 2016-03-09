@@ -261,7 +261,7 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
   getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
     console.log(result.data)
     $scope.phaseData = result.data.results[0]
-    $scope.cdText = result.data.results[0].council_districts
+    $scope.cdText = result.data.results[0].council_districts.toString()
     $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
     $scope.center = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
   })

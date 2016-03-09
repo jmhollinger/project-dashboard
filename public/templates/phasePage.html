@@ -2,38 +2,38 @@
     .angular-google-map-container {
         height: 250px;
         margin-top: 15px;
+        margin-bottom: 15px;
     }
 </style>
 <div class="container-fluid">
-    <div class="row">
+    <div class="row filter">
         <div class="col-sm-4">
             <h1 class="title">{{phaseData.project_name}}</h1>
-            <h3 class="blue-title">{{phaseData.project_description}}</h3>
+            <h3 class="text-primary">{{phaseData.project_description}}</h3>
             <p>Last updated by {{phaseData.proj_mod_user}} on {{ phaseData.proj_mod_time | date: 'short'}}</p>
+            <h4>Project Information</h4>
             <ul class="no-bullets">
                 <li><span class="bold">Project ID:</span> {{phaseData.project_id}}</li>
                 <li><span class="bold">Council Districts:</span> {{cdText}}</li>
                 <li><span class="bold">Total Budget:</span> {{phaseData.estimated_total_budget | currency}}</li>
                 <li><span class="bold">Amount Funded:</span> {{phaseData.funded | currency}}</li>
             </ul>
-        <div class="btn-group" role="group" aria-label="...">
-              <a ng-repeat="x in phases" class="btn btn-default" ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}} Phase</a>
-        </div>
+            <h4>Phases </h4>
+        <div role="group" aria-label="...">
+              <a ng-repeat="x in phases" class="btn btn-default btn-responsive" ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}} Phase</a>
+       </div>
+
         </div>
 
-        <div class="col-sm-8">
+    <div class="col-sm-8">
             <ui-gmap-google-map center="center" zoom='16'>
                 <ui-gmap-marker coords="markerCoords" idkey="0"> </ui-gmap-marker>
             </ui-gmap-google-map>
-        </div>
     </div>
-        <hr>
-
+    </div>
         <div class="row">
-        <div class="col-md-12"><h2 class="text-info bold">{{phaseData.phase_name}} Phase 
-        </h2>
-        </div>
-       <div class="col-md-4">
+        <div class="col-md-12"><h2 class="text-info bold">{{phaseData.phase_name}} Phase</h2></div>
+       <div class="col-md-6">
             <h4>Phase Information</h4>
             <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
             <ul class="no-bullets">
@@ -52,14 +52,15 @@
         </div>
         </div>
         <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h4>Funding</h4>
             <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Amount</th>
                     <th>FY</th>
-                    <th>Project ID</th>
+                    <th>Project</th>
+                    <th>Activity</th>
                     <th>Fund</th>
                     <th>Department</th>
                     <th>Section</th>
@@ -71,6 +72,7 @@
                     <td>{{x.amount | currency}}</td>
                     <td>{{x.fiscalYear}}</td>
                     <td>{{x.projectId}}</td>
+                    <td>{{x.activity}}</td>
                     <td>{{x.fund}}</td>
                     <td>{{x.department}}</td>
                     <td>{{x.section}}</td>
@@ -81,8 +83,8 @@
         </div>
     </div>
     <div class="row">
-    <div class="col-md-4">
-        <h4>Phase History</h4>
+    <div class="col-md-6">
+        <h4>Phase Notes</h4>
         <ul class="list-group">
             <li ng-repeat="x in notes" class="list-group-item">{{ x.date_modified | date: 'short'}} - {{x.notes}}</li>
         </ul>
