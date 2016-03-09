@@ -140,9 +140,28 @@ if (newValues[0]){
     })
 
   getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseStatusid, $scope.phaseTypeid).then(function(result) {
+      var budgetData = []
+      var scheduleData = []
+      var statusData = []
       $scope.projectStats = result.data[0]
       if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
       if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
+      
+      budgetData.push(result.data[0].under_budget)
+      budgetData.push(result.data[0].on_budget)
+      budgetData.push(result.data[0].over_budget)
+      $scope.budgetData = budgetData
+
+      scheduleData.push(result.data[0].ahead_schedule)
+      scheduleData.push(result.data[0].on_schedule)
+      scheduleData.push(result.data[0].behind_schedule)
+      $scope.scheduleData = scheduleData
+
+      statusData.push(result.data[0].not_started)
+      statusData.push(result.data[0].in_progress)
+      statusData.push(result.data[0].completed)
+      $scope.statusData = statusData
+
     })
 
   });
@@ -360,6 +379,10 @@ $scope.open2 = function() {
     $scope.statusTypes = result.data.results
   })
 
+  getData.councilDistricts().then(function(result) {
+    $scope.council = result.data.results
+  })
+
   $scope.save = function() { 
     addData.newProject($scope.projectData).then(function(result) {
       $scope.saveSuccess = true
@@ -403,7 +426,7 @@ pdDirectives.directive('statusFlag', function () {
           value: '@metricValue'
         },
         template:
-          '<span class="btn"  ng-class="{\'btn-success\' : value > .1 , \'btn-info\' : value <= .1 && value >= -.1, \'btn-danger\' : value < -.1 }">{{value | percent : 2}}</span>' 
+          '<span class="btn btn-responsive"  ng-class="{\'btn-success\' : value > .1 , \'btn-info\' : value <= .1 && value >= -.1, \'btn-danger\' : value < -.1 }">{{value | percent : 2}}</span>' 
     };
 });
 
@@ -550,7 +573,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
 
       var query_string = paramArray.toString().replace(/,/g,"&")
 
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/search/summary?" + query_string)
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/search-summary?" + query_string)
     },
     phaseByid: function(project_id, phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)

@@ -17,7 +17,7 @@
   <div class="row">
   <div class="form-group col-sm-6">
     <label>Council District</label>
-    <select class="form-control" ng-options="item.district_name as item.district_name for item in council" ng-model="councilDistrict"></select>
+    <select class="form-control" ng-options="item.district_id as item.district_name for item in council" ng-model="councilDistrict"></select>
   </div>
   <div class="form-group col-sm-6">
   <label>&nbsp</label>
@@ -48,7 +48,7 @@
 </div>
 <div class="col-sm-9">
 <h1 class ="text-primary bold">{{projectStats.projects}} {{projectLabel}} | {{projectStats.phases}} {{phaseLabel}}</h1>
-<h3 class ="subtitle">{{projectStats.budget | currency}}</h3>
+<h3 class ="subtitle">{{projectStats.budget | currency}} Budget | {{projectStats.actual | currency}} Spent</h3>
 <div class="row">
 </div>
 <div class="row">
@@ -59,7 +59,7 @@
   <li><span class="bold">On Budget: </span>{{projectStats.on_budget}}</li>
   <li><span class="bold">Over Budget: </span>{{projectStats.over_budget}}</li>
   </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Under Budget', 'On Budget', 'Over Budget']">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="budgetData" chart-labels="['Under Budget', 'On Budget', 'Over Budget']">
   </canvas>
   </div>
   <div class="col-sm-4">
@@ -69,7 +69,7 @@
   <li><span class="bold">On Schedule: </span>{{projectStats.on_schedule}}</li>
   <li><span class="bold">Behind Schedule: </span>{{projectStats.behind_schedule}}</li>
   </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="scheduleData" chart-labels="['Ahead of Schedule', 'On Schedule', 'Behind Schedule']">
   </canvas>
   </div>
   <div class="col-sm-4">
@@ -79,7 +79,7 @@
     <li><span class="bold">In Progress: </span>{{projectStats.in_progress}}</li>
     <li><span class="bold">Completed: </span>{{projectStats.completed}}</li>
   </ul>
-  <canvas id="doughnut" class="chart chart-doughnut" chart-data="['1','1','1']" chart-labels="['Not Started', 'In Progress', 'Completed']">
+  <canvas id="doughnut" class="chart chart-doughnut" chart-data="statusData" chart-labels="['Not Started', 'In Progress', 'Completed']">
   </canvas>
   </div>
 </div>
@@ -94,6 +94,7 @@
       <th>Division</th>
       <th>Contractor</th>
       <th>Budget</th>
+      <th>Actual</th>
       <th>Work Complete</th>
       <th>Cost Variance</th>
       <th>Schedule Variance</th>
@@ -107,6 +108,7 @@
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.division}}</a></td>
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.contractor}}</a></td>
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.budget | currency}}</a></td>
+      <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.actual | currency}}</a></td>
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.work_complete | percent: 2}}</a></td>
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})"><status-flag metric-value="{{x.cost_variance}}"></status-flag></a></td>
       <td><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})"><status-flag metric-value="{{x.schedule_variance}}"></status-flag></a></td>
