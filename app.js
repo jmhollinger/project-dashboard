@@ -338,22 +338,21 @@ app.get('/api/v1/project/search/summary', function(req, res) {
 
         var query_string = queryArray.toString().replace(/,/g, " AND ")
 
-        client.query(
-        'SELECT
-        SUM(budget) as budget, 
-        SUM(actual) as actual,
-        COUNT(DISTINCT project_id) as projects, 
-        COUNT(DISTINCT phase_id) as phases,
-        COUNT(CASE WHEN phase_status = 1 THEN 1 ELSE null END) AS not_started,
-        COUNT(CASE WHEN phase_status = 2 THEN 1 ELSE null END) AS in_progress,
-        COUNT(CASE WHEN phase_status = 3 THEN 1 ELSE null END) AS completed,
-        COUNT(CASE WHEN cost_variance > .1 THEN 1 ELSE null END) AS under_budget,
-        COUNT(CASE WHEN cost_variance <= .1 AND cost_variance >= -.1 THEN 1 ELSE null END) AS on_budget,
-        COUNT(CASE WHEN cost_variance < -.1 THEN 1 ELSE null END) AS over_budget,
-        COUNT(CASE WHEN schedule_variance > .1 THEN 1 ELSE null END) AS ahead_schedule,
-        COUNT(CASE WHEN schedule_variance <= .1 AND cost_variance >= -.1 THEN 1 ELSE null END) AS on_schedule,
-        COUNT(CASE WHEN schedule_variance < -.1 THEN 1 ELSE null END) AS behind_schedule
-        FROM project_list' +  whereClause + query_string, function(err, result) {
+        client.query('SELECT ' + 
+       'SUM(budget) as budget, ' +
+       'SUM(actual) as actual,' +
+        'COUNT(DISTINCT project_id) as projects,' +
+        'COUNT(DISTINCT phase_id) as phases,' +
+        'COUNT(CASE WHEN phase_status = 1 THEN 1 ELSE null END) AS not_started,' +
+        'COUNT(CASE WHEN phase_status = 2 THEN 1 ELSE null END) AS in_progress,' +
+        'COUNT(CASE WHEN phase_status = 3 THEN 1 ELSE null END) AS completed,' +
+        'COUNT(CASE WHEN cost_variance > .1 THEN 1 ELSE null END) AS under_budget,' +
+        'COUNT(CASE WHEN cost_variance <= .1 AND cost_variance >= -.1 THEN 1 ELSE null END) AS on_budget,' +
+        'COUNT(CASE WHEN cost_variance < -.1 THEN 1 ELSE null END) AS over_budget,' +
+        'COUNT(CASE WHEN schedule_variance > .1 THEN 1 ELSE null END) AS ahead_schedule,' +
+        'COUNT(CASE WHEN schedule_variance <= .1 AND cost_variance >= -.1 THEN 1 ELSE null END) AS on_schedule,' +
+        'COUNT(CASE WHEN schedule_variance < -.1 THEN 1 ELSE null END) AS behind_schedule' +
+        'FROM project_list' +  whereClause + query_string, function(err, result) {
             done();
             if (err) {
                 console.error(err);
