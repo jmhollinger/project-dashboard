@@ -315,7 +315,7 @@ app.get('/api/v1/project/search', function(req, res) {
 })
 
 //Project Stats
-app.get('/api/v1/project/search/summary', function(req, res) {
+app.get('/api/v1/project/search-summary', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var queryArray = []
         var whereClause = ''
