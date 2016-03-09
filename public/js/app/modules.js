@@ -385,8 +385,7 @@ $scope.open2 = function() {
 
   $scope.save = function() { 
     addData.newProject($scope.projectData).then(function(result) {
-      $scope.saveSuccess = true
-      $location.path('/project/' + result.data.response[0].project_id + '/phase/' + result.data.response[0].phase_id)
+      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
   })
 }
 

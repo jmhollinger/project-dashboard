@@ -135,7 +135,7 @@
           <div class="row">
           <div class="col-md-12 form-group"  ng-class="{ 'has-error' : (projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$invalid || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine) }" >
           <p class="bold hidden-md hidden-lg">Line 1</p>
-              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['1'].amount" placeholder="Amount" ui-money-mask="2" required/>
+              <input name="amount" class="form-financial wide" type="text" ng-model="projectData.accounting['1'].amount" placeholder="Amount" ui-money-mask="2" required/>
               <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['1'].projectid" placeholder="Project"/>
               <input name="activity" class="form-financial" type="text" ng-model="projectData.accounting['1'].activity" placeholder="Activity" />
               <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['1'].fiscalyear" placeholder="FY" required/>
@@ -148,7 +148,7 @@
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 2</p>
-              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input class="form-financial wide" type="text" ng-model="projectData.accounting['2'].amount" placeholder="Amount" ui-money-mask="2" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].projectid" placeholder="Project"/>
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].activity" placeholder="Activity" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].fiscalyear" placeholder="FY" />
@@ -161,7 +161,7 @@
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 3</p>
-              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input class="form-financial wide" type="text" ng-model="projectData.accounting['3'].amount" placeholder="Amount" ui-money-mask="2" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].projectid" placeholder="Project"/>
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].activity" placeholder="Activity" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].fiscalyear" placeholder="FY" />
@@ -174,7 +174,7 @@
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 4</p>
-              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input class="form-financial wide" type="text" ng-model="projectData.accounting['4'].amount" placeholder="Amount" ui-money-mask="2" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].projectid" placeholder="Project"/>
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].activity" placeholder="Activity" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].fiscalyear" placeholder="FY" />
@@ -187,7 +187,7 @@
                     <div class="row">
           <div class="col-md-12 form-group">
           <p class="bold hidden-md hidden-lg">Line 5</p>
-              <input name="amount" class="form-financial" type="text" ng-model="projectData.accounting['5'].amount" placeholder="Amount" ui-money-mask="2" />
+              <input name="amount" class="form-financial wide" type="text" ng-model="projectData.accounting['5'].amount" placeholder="Amount" ui-money-mask="2" />
               <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['5'].projectid" placeholder="Project"/>
               <input name="activity" class="form-financial" type="text" ng-model="projectData.accounting['5'].activity" placeholder="Activity" />
               <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['5'].fiscalyear" placeholder="FY" />
@@ -281,9 +281,6 @@
         <button class="btn btn-lg btn-success center-block btn-responsive" ng-disabled="projectForm.$invalid || !projectData.lat " ng-click="save()">
           Save Project
         </button>
-      </div>
-      <div ng-if="saveSuccess" class="col-md-12 text-center">
-            <h3>Project Saved! <a href=#/project/{{newProjectinfo.project_id}}/phase/{{newProjectinfo.phase_id}}">View the Project</a></h3>
       </div>
 </div>
 </form>

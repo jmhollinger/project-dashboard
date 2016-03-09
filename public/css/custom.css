@@ -134,8 +134,13 @@
 .form-financial{
   margin-top: 0px;
   margin-right: 1%;
-  width: 11%;
+  width: 10%;
 }
+
+.wide {
+  width: 18%;
+}
+
     }
 
 .filter {
