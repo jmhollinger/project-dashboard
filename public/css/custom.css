@@ -1,5 +1,13 @@
+.push-bottom {
+  margin-bottom: 15px;
+}
+
 .btn-space{
   margin-right: 5px;
+}
+
+.chart-label {
+  margin-bottom: 3px;
 }
 
 .navbar-static-top {
@@ -8,11 +16,17 @@
 
 .subtitle {
   margin-top: 0px;
-  color: #3498db;
+  color: #555;
+}
+
+.tile {
+  text-align: center;
+  padding: 15px 0px;
 }
 
 .title {
-  color: #16a085;
+color:  #1abc9c;
+font-weight: 700;
 }
 
 .white {
@@ -21,10 +35,6 @@
 
 .bold {
   font-weight: 700;
-}
-
-.search-area {
-  background-color: #3498DB;
 }
 
 #map-canvas { 
@@ -81,37 +91,6 @@
   padding: 0px;
   } 
 
-.in-progress{
-  background-color: #2ecc71;
-  padding: .3em;
-  border-radius: 5px 5px 0px 0px;
-  color: #FFF;
-  margin: 10px 0px 0px 0px
-}
-.not-started{
-  background-color: #e67e22;
-  padding: .3em;
-  border-radius: 5px 5px 0px 0px;
-  color: #FFF;
-  margin: 10px 0px 0px 0px
-}
-.complete{
-  background-color: #3498db;
-  padding: .3em;
-  border-radius: 5px 5px 0px 0px;
-  color: #FFF;
-  margin: 10px 0px 0px 0px
-}
-
-.phase-details {
-  margin: 0px;
-  padding: .3em;
-  border-color: #999;
-  border-width: 0px 1px 1px 1px;
-  border-style: solid;
-  border-radius: 0px 0px 5px 5px;
-}
-
 .editor {
   border: none;
   background-color: #EEEEEE;
@@ -143,20 +122,30 @@
 }
 
 .filter {
-  background-color: #eee;
+  background-color: #f5f5f5;
+  padding-top: 15px;
 }
 
 .list {
   border: 1px solid #DDD;
 }
 
+/*Nav*/
+
 .navbar-default {
   background-color: #34495e;
   border-color: #34495e;
 }
 .navbar-default .navbar-brand {
+  font-size: 14px;
   color: #ffffff;
 }
+@media only screen and (min-width : 768px) {
+.navbar-default .navbar-brand {
+  font-size: 18px;
+}
+}
+
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus {
   color: #cccccc;

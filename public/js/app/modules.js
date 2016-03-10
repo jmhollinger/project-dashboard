@@ -147,6 +147,10 @@ if (newValues[0]){
       if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
       if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
       
+      $scope.spent = (result.data[0].actual /  result.data[0].budget) * 100 + '%'
+      $scope.remaining = ((result.data[0].budget - result.data[0].actual) / result.data[0].budget) * 100 + '%'
+      console.log($scope.spent)
+      console.log($scope.remaining)
       budgetData.push(result.data[0].under_budget)
       budgetData.push(result.data[0].on_budget)
       budgetData.push(result.data[0].over_budget)
@@ -428,6 +432,24 @@ pdDirectives.directive('statusFlag', function () {
           '<span class="btn btn-responsive"  ng-class="{\'btn-success\' : value > .1 , \'btn-info\' : value <= .1 && value >= -.1, \'btn-danger\' : value < -.1 }">{{value | percent : 2}}</span>' 
     };
 });
+
+pdDirectives.directive('budgetBar', function () {
+    return {
+        restrict: 'AE',
+        scope: {
+          spent: '@spent',
+          remaining: '@remaining',
+          total: '@total'
+        },
+        template:
+          '<div class="progress">' +
+          '<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" ng-style="{\'width\' : spent}">' +
+          '</div>' +
+          '<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" ng-style="{\'width\' : remaining}">' +
+          '</div></div>' 
+    };
+});
+
 
 /*--------------Filters--------------*/
 
