@@ -17,6 +17,7 @@ padding: 0px;
 }
 
 .phase-active a {
+    border-radius: 4px;
     color: #34495e;
     margin: 0px;
     text-decoration: none;
@@ -30,6 +31,7 @@ padding: 0px;
 }
 
 .phases a:hover, a:active {
+    border-radius: 4px;
     color: #34495e;
     margin: 0px;
     text-decoration: none;

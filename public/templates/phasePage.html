@@ -37,13 +37,19 @@
        </div>
     </div>
         <div class="row gray">
-       <div class="col-md-6">
-            <h4 class="text-info bold">Phase Information</h4>
+       <div class="col-md-8">
             <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
+            <div class = "btn-group">
+                <button class="btn btn-success">{{phaseData.status_name}}</button>
+                <button class="btn btn-success">On Schedule</button>
+                <button class="btn btn-success">On Budget</button>
+            </div>
+            <h4 class="text-info bold">Phase Description</h4>
+            <p>{{phaseData.phase_description}}</p>
+            <h4 class="text-info bold">Phase Information</h4>
+            
             <ul class="no-bullets">
                 <li><span class="bold">Phase ID: </span>{{phaseData.phase_id}}</li>
-                <li><span class="bold">Project Description: </span>{{phaseData.phase_description}}</li>
-                <li><span class="bold">Status: </span>{{phaseData.status_name}}</li>
                 <li><span class="bold">Department: </span>{{phaseData.department}}</li>
                 <li><span class="bold">Division: </span>{{phaseData.division}}</li>
                 <li><span class="bold">Manager: </span>{{phaseData.phase_manager}}</li>
@@ -56,7 +62,7 @@
         </div>
         </div>
         <div class="row gray">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <h4 class="text-info bold">Funding</h4>
             <div class="table-responsive">
             <table class="table table-striped">
@@ -89,7 +95,7 @@
         </div>
     </div>
     <div class="row gray">
-    <div class="col-md-6">
+    <div class="col-md-8">
         <h4 class="text-info bold">Phase Notes</h4>
         <ul class="list-group">
             <li ng-repeat="x in notes" class="list-group-item">{{ x.date_modified | date: 'short'}} - {{x.notes}}</li>
