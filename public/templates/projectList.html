@@ -1,12 +1,13 @@
   <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 filter">
+    
+    <div class="row accent1 pad-top">
+        <div class="col-md-12">
           <div class="form-group col-md-3">
           <label>Search</label> <input class="form-control" ng-model=
           "searchTerm" ng-model-options="{debounce: 500}" placeholder=
           "Search for a project..." type="text">
         </div>
-        <div class="form-group  col-md-3">
+        <div class="form-group col-md-3">
           <label>Department</label> <input class="form-control" ng-model=
           "department" placeholder="Select a department..." type="text"
           typeahead-editable="false" typeahead-on-select=
@@ -29,60 +30,76 @@
               </select>
           </div>
         <div class="form-group col-md-1">
-        <label>Clear</label>
+        <label>&nbsp</label>
           <button class="btn btn-danger btn-responsive" ng-click="clearFilter()">Clear</button>
         </div>
       </div>
     </div>
 
-        <div class="col-md-4 tile">
-          <h1 class="text-primary bold"><i class="fa fa-folder"></i> {{projectStats.projects}} {{projectLabel}}</h1>
-          
+    <div class="hidden-xs row gray">
+        <div class="col-md-3 col-sm-6 tile">
+          <h1 class="text-primary bold">{{projectStats.projects}}</h1>
+          <h3 class="text-info bold">{{projectLabel}}</h3>
         </div>
-        <div class="col-md-4 tile">
-          <h1 class="text-primary bold"><i class="fa fa-th-list"></i> {{projectStats.projects}} {{phaseLabel}}</h1>
+        <div class="col-md-3 col-sm-6 tile">
+          <h1 class="text-primary bold">{{projectStats.projects}}</h1>
+          <h3 class="text-info bold">{{phaseLabel}}</h3>
         </div>
-        <div class="col-md-4 tile">
-        <h1 class="text-primary bold"><i class="fa fa-money"></i> {{projectStats.budget | currency : '$' : 0}} Budget</h1>
-   </div>
+        <div class="col-md-3 col-sm-6 tile">
+          <h1 class="text-primary bold">{{projectStats.budget | currency : '$' : 0}}</h1>
+          <h3 class="text-info bold">Budget</h3>
+        </div>
+        
+         <div class="col-md-3 col-sm-6 tile">
+         <h1 class="text-primary bold">{{projectStats.actual | currency : '$' : 0}}</h1>
+          <h3 class="text-info bold">Spent</h3>
+        </div>
+    </div>
 
-          <div class="col-md-4">
-          <canvas chart-data="budgetData" chart-labels="['Under', 'On', 'Over']" class="chart chart-doughnut" id="doughnut"chart-colours="['#2ecc71','#3498db','#e74c3c']" chart-options="{percentageInnerCutout : 80}"></canvas>
-            <div class="text-center">
-              <button class="btn btn-success chart-label" type="button">Under Budget<br/><span class="badge">{{projectStats.under_budget}}</span></button>
-              <button class="btn btn-info chart-label" type="button">On Budget<br/><span class="badge">{{projectStats.on_budget}}</span></button>              
-              <button class="btn btn-danger chart-label" type="button">Over Budget<br/><span class="badge">{{projectStats.over_budget}}</span></button>
+    <div class="hidden-xs row pad-top">
+          <div class="col-md-4 col-sm-6">
+          <canvas height="100" chart-data="budgetData" chart-labels="['Under Budget', 'On Budget', 'Over Budget']" class="chart chart-doughnut" id="doughnut" chart-colours="['#2ecc71','#3498db','#e74c3c']" chart-options="{percentageInnerCutout : 70}"></canvas>
+            
+            <div class="row text-center pad-top">
+            <div class="col-md-12">
+              <button class="btn btn-success btn-responsive chart-label" type="button">Under Budget <span class="badge">{{projectStats.under_budget}}</span></button>
+              <button class="btn btn-info btn-responsive chart-label" type="button">On Budget <span class="badge">{{projectStats.on_budget}}</span></button>           
+              <button class="btn btn-danger btn-responsive chart-label" type="button">Over Budget <span class="badge">{{projectStats.over_budget}}</span></button></div>
             </div>
             
           </div>
 
-          <div class="col-md-4">
-          <canvas chart-data="scheduleData" chart-labels=
-            "['Ahead', 'On', 'Behind']" class=
-            "chart chart-doughnut" id="doughnut" chart-colours="['#2ecc71','#3498db','#e74c3c']"  chart-options="{percentageInnerCutout : 80}"></canvas>
-            <div class="text-center push-bottom">
-              <button class="btn btn-success chart-label" type="button">Ahead of Schedule<br/><span class="badge">{{projectStats.ahead_schedule}}</span></button>
-              <button class="btn btn-info chart-label" type="button">On Schedule<br/><span class="badge">{{projectStats.on_schedule}}</span></button>              
-              <button class="btn btn-danger chart-label" type="button">Behind Schedule<br/><span class="badge">{{projectStats.behind_schedule}}</span></button>
+          <div class="col-md-4 col-sm-6">
+          <canvas height="100" chart-data="scheduleData" chart-labels=
+            "['Ahead of Schedule', 'On Schedule', 'Behind Schedule']" class=
+            "chart chart-doughnut" id="doughnut" chart-colours="['#2ecc71','#3498db','#e74c3c']"  chart-options="{percentageInnerCutout : 70}"></canvas>
+            
+            <div class="row text-center pad-top">
+              <div class="col-md-12">
+              <button class="btn btn-success btn-responsive chart-label" type="button">Ahead of Schedule <span class="badge">{{projectStats.ahead_schedule}}</span></button>
+              <button class="btn btn-info btn-responsive chart-label" type="button">On Schedule <span class="badge">{{projectStats.on_schedule}}</span></button>          
+              <button class="btn btn-danger btn-responsive chart-label" type="button">Behind Schedule <span class="badge">{{projectStats.behind_schedule}}</span></button>
+              </div>
             </div>
               
           </div>
 
-          <div class="col-sm-4">
-          <canvas chart-data="statusData" chart-labels=
+          <div class="col-md-4 col-sm-6">
+          <canvas height="100" chart-data="statusData" chart-labels=
             "['Not Started', 'In Progress', 'Completed']" class=
-            "chart chart-doughnut" id="doughnut" chart-colours="['#e74c3c','#2ecc71','#3498db']"  chart-options="{percentageInnerCutout : 80}">
+            "chart chart-doughnut" id="doughnut" chart-colours="['#e74c3c','#2ecc71','#3498db']"  chart-options="{percentageInnerCutout : 70}">
             </canvas>
-            <div class="text-center push-bottom">
-              <button class="btn btn-danger chart-label" type="button">Not Started<br/><span class="badge">{{projectStats.not_started}}</span></button>
-              <button class="btn btn-success chart-label" type="button">In Progress<br/><span class="badge">{{projectStats.in_progress}}</span></button>
-              <button class="btn btn-info chart-label" type="button">Completed<br/><span class="badge">{{projectStats.completed}}</span></button>
+            
+            <div class="row text-center pad-top">
+            <div class="col-md-12">
+              <button class="btn btn-danger btn-responsive chart-label" type="button">Not Started <span class="badge">{{projectStats.not_started}}</span></button>
+              <button class="btn btn-success btn-responsive chart-label" type="button">In Progress <span class="badge">{{projectStats.in_progress}}</span></button>
+              <button class="btn btn-info btn-responsive chart-label" type="button">Completed <span class="badge">{{projectStats.completed}}</span></button></div>
             </div>
           </div>
-
-        </div>
       </div>
-   
+
+   <div class="row">
     <div class="col-md-12">
       <h1 class="text-primary bold">Projects</h1>
       
@@ -102,7 +119,7 @@
       <a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})"><status-flag metric-value="{{x.schedule_variance}}"></status-flag></a>   
       </div>
       </div>
-
+<div class="table-responsive">
       <table class="table table-striped hidden-xs">
         <thead>
           <tr>
@@ -166,9 +183,10 @@
           </tr>
         </tbody>
       </table>
-
+</div>
       <p class="text-center" ng-show="noResults">No projects were found for your search.</p>
     
+    </div>
     </div>
  
   </div>
