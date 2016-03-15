@@ -37,31 +37,36 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       state('home', {
         url: '',
         templateUrl: 'templates/projectList.html',
-        controller: 'projectList'
+        controller: 'projectList',
+        sp: {authenticate: true}
       }).
     /*List View */
       state('projectList', {
         url: '/projects/list',
         templateUrl: 'templates/projectList.html',
-        controller: 'projectList'
+        controller: 'projectList',
+        sp: {authenticate: true}
       }).
      /*Map View */
       state('projectMap', {
         url: '/projects/map',
         templateUrl: 'templates/projectMap.html',
-        controller: 'projectMap'
+        controller: 'projectMap',
+        sp: {authenticate: true}
       }).
       /*View Phase Page */
       state('phasePage', {
         url: '/project/{projectId:int}/phase/{phaseId:int}',
         templateUrl: 'templates/phasePage.html',
-        controller: 'phasePage'
+        controller: 'phasePage',
+        sp: {authenticate: true}
       }).
        /*View Project Page */
       state('projectEdit', {
         url: '/project/edit/{projectId:int}',
         templateUrl: 'templates/projectEdit.html',
-        controller: 'projectEdit'
+        controller: 'projectEdit',
+        sp: {authenticate: true}
       }).
       /*New Project*/
       state('newProject', {
@@ -74,18 +79,21 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       state('updateProject', {        
         url: '/projects/update',
         templateUrl: 'templates/projectUpdate.html',
-        controller: 'projectUpdate'
+        controller: 'projectUpdate',
+        sp: {authenticate: true}
       }).
       /*My Account*/
       state('account', {        
         url: '/account',
         templateUrl: 'templates/account.html',
-        controller: 'account'
+        controller: 'account',
+        sp: {authenticate: true}
       }).
       /*Error page*/
       state('error', {
         url: '/error',
-        templateUrl: 'templates/error.html'
+        templateUrl: 'templates/error.html',
+        sp: {authenticate: true}
       });
 
   }]);

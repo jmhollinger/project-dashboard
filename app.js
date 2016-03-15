@@ -9,7 +9,6 @@ var app = express();
 app.use(express.static('public'));
 
 app.use(ExpressStormpath.init(app,{
-  website: true,
   web: {
     spaRoot: 'public/index.html'
   },
