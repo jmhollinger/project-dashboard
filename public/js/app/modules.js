@@ -1,7 +1,7 @@
 /*--------------Modules--------------*/
 
 /* Main Project Dashboard App Module */
-var projectDashboard = angular.module('projectDashboard', [ 'ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'chart.js', 'ui.utils.masks']);
+var projectDashboard = angular.module('projectDashboard', ['ngSanitize', 'pdDirectives', 'pdControllers', 'pdServices', 'uiGmapgoogle-maps', 'ui.router', 'ui.bootstrap' ,'chart.js', 'ui.utils.masks', 'stormpath', 'stormpath.templates']);
 
 /* Directives Module */
 var pdDirectives = angular.module('pdDirectives', []);
@@ -13,6 +13,15 @@ var pdControllers = angular.module('pdControllers', []);
 var pdServices = angular.module('pdServices', []);
 
 /*--------------Routing--------------*/
+projectDashboard.run(function($stormpath, $rootScope, $state){
+  $stormpath.uiRouter({
+    loginState: 'login',
+    defaultPostLoginState: 'projectList'
+  });
+  $rootScope.$on('$sessionEnd',function () {
+  $state.transitionTo('login');
+    });
+});
 
 projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -21,6 +30,14 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       
       $stateProvider.
       /*List View */
+      state('login', {
+        url: '',
+        templateUrl: 'templates/login.html',
+      }).
+      state('logout', {
+        url: '',
+        templateUrl: 'templates/logout.html'
+      }).
       state('home', {
         url: '',
         templateUrl: 'templates/projectList.html',
@@ -30,7 +47,8 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       state('projectList', {
         url: '/projects/list',
         templateUrl: 'templates/projectList.html',
-        controller: 'projectList'
+        controller: 'projectList',
+        sp: {authenticate: true}
       }).
      /*Map View */
       state('projectMap', {

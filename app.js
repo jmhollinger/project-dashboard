@@ -2,23 +2,26 @@
 var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
-var uuid = require('uuid');
+var ExpressStormpath = require('express-stormpath');
 
 var app = express();
 
 app.use(express.static('public'));
+
+app.use(ExpressStormpath.init(app,{
+  website: true,
+  web: {
+    spaRoot: 'public/index.html'
+  }
+}));
+
+
 
 app.use(bodyParser.json({
     extended: false
 }));
 
 app.set('view engine', 'jade');
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
 
 //API Endpoints
 
@@ -76,7 +79,7 @@ app.put('/api/v1/phase', function(req, res) {
 })
 
 //List Departments
-app.get('/api/v1/departments', function(req, res) {
+app.get('/api/v1/departments', stormpath.apiAuthenticationRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT DISTINCT department_id, department FROM divisions', function(err, result) {
             done();
@@ -457,8 +460,6 @@ app.get('/api/v1/phase-notes/:phase_id', function(req, res) {
         });
     });
 });
-
-
 
 //Server
 var server = app.listen(process.env.PORT || 3000, function() {

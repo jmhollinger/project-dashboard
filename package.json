@@ -12,6 +12,7 @@
   "dependencies": {
     "body-parser": "^1.14.2",
     "express": "^4.13.3",
+    "express-stormpath": "^3.0.1",
     "pg": "^4.4.3",
     "uuid": "^2.0.1"
   }
