@@ -1,5 +1,5 @@
 <style>.angular-google-map-container { height: 400px;}</style>
-<div ng-include="'templates/shared/navbar.html'"></div> 
+<div ng-include="templates/shared/navbar.html"></div> 
 <form name="projectForm" novalidate>
 <div class="container-fluid">
 <div class="row accent1">
@@ -130,12 +130,12 @@
           </h3>
           <div class="row">
             <div class=" col-md-12 has-error"> 
-                <p ng-show="(projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$invalid || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine)" class="help-block">Please enter a funding source.</p>
+                <p ng-show="(projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$pristine || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine)" class="help-block">Please enter a funding source.</p>
             </div>
           </div> 
             
           <div class="row">
-          <div class="col-md-12 form-group"  ng-class="{ 'has-error' : (projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$invalid || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine) }" >
+          <div class="col-md-12 form-group"  ng-class="{ 'has-error' : (projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$pristine || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine) }" >
           <p class="bold hidden-md hidden-lg">Line 1</p>
               <input name="amount" class="form-financial wide" type="text" ng-model="projectData.accounting['1'].amount" placeholder="Amount" ui-money-mask="2" required/>
               <input name="projectid" class="form-financial" type="text" ng-model="projectData.accounting['1'].projectid" placeholder="Project"/>
@@ -286,4 +286,4 @@
       </div>
 </div>
 </form>
-<div ng-include="'templates/shared/footer.html'"></div> 
+<div ng-include="templates/shared/footer.html"></div> 

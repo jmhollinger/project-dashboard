@@ -13,6 +13,7 @@ var pdControllers = angular.module('pdControllers', []);
 var pdServices = angular.module('pdServices', []);
 
 /*--------------Routing--------------*/
+
 projectDashboard.run(function($stormpath, $rootScope, $state){
   $stormpath.uiRouter({
     loginState: 'login',
@@ -138,14 +139,12 @@ if (newValues[0]){
     else {$scope.divisionId = null}
   if (newValues[2]){
     getData.statusByname(newValues[2]).then(function(result) {
-      console.log(result.data.results[0].status_type_id)
       $scope.phaseStatusId = result.data.results[0].status_type_id
     })
     } 
     else {$scope.phaseStatusid = null}
   if (newValues[3]){
     getData.typeByname(newValues[3]).then(function(result) {
-      console.log(result.data.results[0].phase_type_id)
       $scope.phaseTypeid = result.data.results[0].phase_type_id
     })
     } 
