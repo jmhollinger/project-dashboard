@@ -82,7 +82,7 @@ app.put('/api/v1/phase', function(req, res) {
 })
 
 //List Departments
-app.get('/api/v1/departments', stormpath.apiAuthenticationRequired, function(req, res) {
+app.get('/api/v1/departments', ExpressStormpath.apiAuthenticationRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT DISTINCT department_id, department FROM divisions', function(err, result) {
             done();
