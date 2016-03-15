@@ -31,12 +31,8 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       $stateProvider.
       /*List View */
       state('login', {
-        url: '',
+        url: '/login',
         templateUrl: 'templates/login.html',
-      }).
-      state('logout', {
-        url: '',
-        templateUrl: 'templates/logout.html'
       }).
       state('home', {
         url: '',
@@ -47,8 +43,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       state('projectList', {
         url: '/projects/list',
         templateUrl: 'templates/projectList.html',
-        controller: 'projectList',
-        sp: {authenticate: true}
+        controller: 'projectList'
       }).
      /*Map View */
       state('projectMap', {
@@ -72,7 +67,8 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       state('newProject', {
         url: '/projects/new',
         templateUrl: 'templates/projectNew.html',
-        controller: 'projectNew'
+        controller: 'projectNew',
+        sp: {authenticate: true}
       }).
       /*Update Project*/
       state('updateProject', {        
