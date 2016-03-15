@@ -2,13 +2,13 @@
 var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
-var ExpressStormpath = require('express-stormpath');
+var stormpath = require('express-stormpath');
 
 var app = express();
 
 app.use(express.static('public'));
 
-app.use(ExpressStormpath.init(app,{
+app.use(stormpath.init(app,{
   web: {
     spaRoot: 'public/index.html'
   },
@@ -81,7 +81,7 @@ app.put('/api/v1/phase', function(req, res) {
 })
 
 //List Departments
-app.get('/api/v1/departments', ExpressStormpath.apiAuthenticationRequired, function(req, res) {
+app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT DISTINCT department_id, department FROM divisions', function(err, result) {
             done();
@@ -464,12 +464,15 @@ app.get('/api/v1/phase-notes/:phase_id', function(req, res) {
 });
 
 //Server
+
+app.on('stormpath.ready', function () {
 var server = app.listen(process.env.PORT || 3000, function() {
     var host = server.address().address;
     var port = server.address().port;
-
     console.log('App listening at http://%s:%s', host, port);
 });
+}
+
 
 function nullCheck (input){
     if (input) {
