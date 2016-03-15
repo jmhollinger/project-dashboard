@@ -433,8 +433,8 @@ pdControllers.controller('phaseUpdate', ['$scope', '$location', 'CKAN', 'search'
   }]);
 
 /* Account */
-pdControllers.controller('Account', ['$scope', '$location', 'CKAN', 'search', 'pagination',
-  function ($scope, $location, CKAN, search, pagination) {
+pdControllers.controller('account', ['$scope', '$location',
+  function ($scope, $location) {
   
   $scope.title = 'Account'
 
