@@ -12,6 +12,9 @@ app.use(ExpressStormpath.init(app,{
   website: true,
   web: {
     spaRoot: 'public/index.html'
+  },
+  expand: {
+    customData: true
   }
 }));
 
