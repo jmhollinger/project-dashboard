@@ -7,8 +7,6 @@ var helmet = require('helmet');
 
 var app = express();
 
-app.set('view engine', 'jade');
-
 app.use(express.static('public'));
 
 app.use(bodyParser.json({
@@ -16,6 +14,8 @@ app.use(bodyParser.json({
 }));
 
 app.use(helmet());
+
+app.set('view engine', 'jade');
 
 app.use(stormpath.init(app,{
   web: {
