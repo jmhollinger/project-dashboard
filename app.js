@@ -13,8 +13,6 @@ app.use(bodyParser.json({
     extended: false
 }));
 
-app.use(helmet());
-
 app.set('view engine', 'jade');
 
 app.use(stormpath.init(app,{
