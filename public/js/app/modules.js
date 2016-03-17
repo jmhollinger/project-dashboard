@@ -356,7 +356,7 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
       }
  
   $scope.projectData = {
-    "modifiedBy" : 'Jonathan Hollinger'
+    "modifiedBy" : $rootScope.user.fullName
   }
 
   $scope.today1 = function() {

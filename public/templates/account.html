@@ -6,7 +6,11 @@
   </div>
 </div>  
   <div class="col-md-8 col-md-offset-2">
-     <pre>{{user}}</pre>
+     <ul class="no-bullets">
+                <li><span class="bold">First Name: </span>{{user.givenName}}</li>
+                <li><span class="bold">Last Name: </span>{{user.surname}}</li>
+                <li><span class="bold">Email: </span>{{user.email}}</li>
+      </ul>
   </div>
 </div>
 <div ng-include="'templates/shared/footer.html'"></div> 
