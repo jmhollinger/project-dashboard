@@ -40,11 +40,6 @@
         <div class="row gray">
        <div class="col-md-8">
             <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
-            <div class = "btn-group">
-                <button class="btn btn-success">{{phaseData.status_name}}</button>
-                <button class="btn btn-success">On Schedule</button>
-                <button class="btn btn-success">On Budget</button>
-            </div>
             <h4 class="text-info bold">Phase Description</h4>
             <p>{{phaseData.phase_description}}</p>
             <h4 class="text-info bold">Phase Information</h4>
@@ -54,6 +49,9 @@
                 <li><span class="bold">Department: </span>{{phaseData.department}}</li>
                 <li><span class="bold">Division: </span>{{phaseData.division}}</li>
                 <li><span class="bold">Manager: </span>{{phaseData.phase_manager}}</li>
+                <li><span class="bold">Contractor: </span>{{phaseData.contractor}}</li>
+                <li><span class="bold">RFP Number: </span>{{phaseData.rfp_number}}</li>
+                <li><span class="bold">Resolution Number: </span>{{phaseData.resolution_number}}</li>
                 <li><span class="bold">Start Date: </span>{{phaseData.start_date | date: 'shortDate'}}</li>
                 <li><span class="bold">Estimated Completion Date: </span>{{phaseData.estimated_completion | date: 'shortDate'}}</li>
                 <li><span class="bold">Budget: </span>{{phaseData.budget | currency}}</li>
@@ -99,7 +97,7 @@
     <div class="col-md-8">
         <h4 class="text-info bold">Phase Notes</h4>
         <ul class="list-group">
-            <li ng-repeat="x in notes" class="list-group-item">{{ x.date_modified | date: 'short'}} - {{x.notes}}</li>
+            <li ng-repeat="x in notes" class="list-group-item">{{ x.date_modified | date: 'shortDate'}} - {{x.notes}}</li>
         </ul>
     </div>
     </div>
