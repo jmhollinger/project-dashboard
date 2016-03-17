@@ -28,7 +28,7 @@ build/Release
 node_modules
 
 # Database Files
-*.sql
+sql_queries
 
 # =========================
 # Operating System Files
