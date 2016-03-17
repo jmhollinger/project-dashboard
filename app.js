@@ -3,8 +3,11 @@ var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
+var helmet = require('helmet')
 
 var app = express();
+
+app.use(helmet())
 
 app.use(express.static('public'));
 
