@@ -3,17 +3,10 @@ var express = require('express');
 var pg = require('pg');
 var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
-var helmet = require('helmet');
 
 var app = express();
 
 app.use(express.static('public'));
-
-app.use(bodyParser.json({
-    extended: false
-}));
-
-app.set('view engine', 'jade');
 
 app.use(stormpath.init(app,{
   web: {
@@ -23,6 +16,12 @@ app.use(stormpath.init(app,{
     customData: true
   }
 }));
+
+app.use(bodyParser.json({
+    extended: false
+}));
+
+app.set('view engine', 'jade');
 
 //API Endpoints
 
