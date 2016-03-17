@@ -7,6 +7,8 @@ var helmet = require('helmet');
 
 var app = express();
 
+app.use(express.static('public'));
+
 app.use(bodyParser.json({
     extended: false
 }));
@@ -15,23 +17,12 @@ app.set('view engine', 'jade');
 
 app.use(stormpath.init(app,{
   web: {
-    login: {
-      enabled: true
-    },
-    logout: {
-      enabled: true
-    },
-    register: {
-      enabled: false
-    },
-    me: {
-      enabled: true
-    },
     spaRoot: 'public/index.html'
+  },
+  expand: {
+    customData: true
   }
 }));
-
-app.use(express.static('public'));
 
 //API Endpoints
 
