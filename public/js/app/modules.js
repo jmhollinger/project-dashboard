@@ -27,7 +27,7 @@ projectDashboard.run(function($stormpath, $rootScope, $state){
 projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider) {
 
-      $urlRouterProvider.otherwise('/error');
+      $urlRouterProvider.otherwise('/');
       
       $stateProvider.
       /*List View */
@@ -36,7 +36,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         templateUrl: 'templates/login.html',
       }).
       state('home', {
-        url: '',
+        url: '/',
         templateUrl: 'templates/projectList.html',
         controller: 'projectList',
         sp: {authenticate: true}
