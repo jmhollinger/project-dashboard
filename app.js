@@ -72,13 +72,31 @@ app.post('/api/v1/project', function(req, res) {
 })
 
 //Update Project
-app.put('/api/v1/project', function(req, res) {
-    res.json(req.body)
+app.put('/api/v1/project/:projectId', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+            client.query({
+                    text: 'UPDATE projects SET project_name=$1, project_description=$2, estimated_total_budget=$3, 
+       funded=$4, council_districts=$5, lat=$6, lng=$7, modified_by=? WHERE phase_id= $8;',
+                    values: [
+                        req.body.projectName,
+                        req.body.projectDesc,
+                        req.body.estBudget,
+                        req.body.funded,
+                        JSON.stringify(req.body.councilDistricts),
+                        req.body.lat,
+                        req.body.lng,
+                        req.body.modifiedBy
+                    ]
+                },function(err, result) {
+                    done();
+                    if (err) {
+                        res.json({"success": false,"results": err});
+                    } else {
+                        res.json({"success" : true, "results" : result.rows});
+                    }
+                });
+    });
 })
-
-//Update Project
-app.put('/api/v1/phase', function(req, res) {
-    res.json(req.body)
 })
 
 //List Departments
