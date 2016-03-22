@@ -75,8 +75,7 @@ app.post('/api/v1/project', function(req, res) {
 app.put('/api/v1/project/:projectId', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
-                    text: 'UPDATE projects SET project_name=$1, project_description=$2, estimated_total_budget=$3, 
-       funded=$4, council_districts=$5, lat=$6, lng=$7, modified_by=? WHERE phase_id= $8;',
+                    text: 'UPDATE projects SET project_name=$1, project_description=$2, estimated_total_budget=$3, funded=$4, council_districts=$5, lat=$6, lng=$7, modified_by=? WHERE phase_id= $8;',
                     values: [
                         req.body.projectName,
                         req.body.projectDesc,
@@ -96,7 +95,6 @@ app.put('/api/v1/project/:projectId', function(req, res) {
                     }
                 });
     });
-})
 })
 
 //List Departments
