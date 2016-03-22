@@ -460,7 +460,7 @@ app.get('/api/v1/project-phases/:project_id', stormpath.loginRequired,  function
 app.get('/api/v1/phase-notes/:phase_id', stormpath.loginRequired,  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
-            text: 'SELECT DISTINCT phase_id, date_modified::date, notes FROM phases_history WHERE phase_id = $1 AND notes IS NOT NULL ORDER BY date_modified DESC;',
+            text: 'SELECT min(date_modified) as date_modified, notes FROM phases_history WHERE phase_id = $1 AND notes IS NOT NULL GROUP BY notes ORDER BY date_modified DESC;',
             values: [req.params.phase_id]
         }, function(err, result) {
             done();
