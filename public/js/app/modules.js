@@ -69,11 +69,11 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         controller: 'projectEdit',
         sp: {authenticate: true}
       }).
-      /*Edit Project Page */
+      /*Edit Phase Page */
       state('phaseEdit', {
-        url: '/project/edit/{projectId:int}',
-        templateUrl: 'templates/projectEdit.html',
-        controller: 'projectEdit',
+        url: '/phase/edit/{phaseId:int}',
+        templateUrl: 'templates/phaseEdit.html',
+        controller: 'phaseEdit',
         sp: {authenticate: true}
       }).
       /*New Project*/
