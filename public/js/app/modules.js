@@ -62,8 +62,15 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         controller: 'phasePage',
         sp: {authenticate: true}
       }).
-       /*View Project Page */
+       /*Edit Project Page */
       state('projectEdit', {
+        url: '/project/edit/{projectId:int}',
+        templateUrl: 'templates/projectEdit.html',
+        controller: 'projectEdit',
+        sp: {authenticate: true}
+      }).
+      /*Edit Project Page */
+      state('phaseEdit', {
         url: '/project/edit/{projectId:int}',
         templateUrl: 'templates/projectEdit.html',
         controller: 'projectEdit',
@@ -74,13 +81,6 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         url: '/projects/new',
         templateUrl: 'templates/projectNew.html',
         controller: 'projectNew',
-        sp: {authenticate: true}
-      }).
-      /*Update Project*/
-      state('updateProject', {        
-        url: '/projects/update',
-        templateUrl: 'templates/projectUpdate.html',
-        controller: 'projectUpdate',
         sp: {authenticate: true}
       }).
       /*My Account*/
