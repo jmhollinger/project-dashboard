@@ -12,6 +12,7 @@
 </div>
     <div class="row pad-top pad-bottom">
         <div class="col-sm-4">
+        	<a href="" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Project</a>
             <h4 class="text-info bold">Project Description</h4>
             <p>{{phaseData.project_description}}</p>
             <h4 class="text-info bold">Project Information</h4>
@@ -34,11 +35,13 @@
         <div class="col-md-12 phases">
         <ul class="">
               <li ng-repeat="x in phases" ui-sref-active="phase-active"><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{phaseData.phase_name}} Phase</a></li>
+              <li><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})"><i class="fa fa-plus"></i> Add Phase</a></li>
         </ul>
        </div>
     </div>
-        <div class="row gray">
+       <div class="row gray">
        <div class="col-md-8">
+       		<a href="" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Phase</a>
             <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
             <h4 class="text-info bold">Phase Description</h4>
             <p>{{phaseData.phase_description}}</p>
