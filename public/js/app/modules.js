@@ -78,7 +78,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       }).
       /*New Project*/
       state('newProject', {
-        url: '/projects/new',
+        url: '/project/new',
         templateUrl: 'templates/projectNew.html',
         controller: 'projectNew',
         sp: {authenticate: true}
