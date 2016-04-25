@@ -12,7 +12,7 @@
 </div>
     <div class="row pad-top pad-bottom">
         <div class="col-sm-4">
-        	<a href="" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Project</a>
+        	<a ui-sref="projectEdit({projectId: phaseData.project_id})" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Project</a>
             <h4 class="text-info bold">Project Description</h4>
             <p>{{phaseData.project_description}}</p>
             <h4 class="text-info bold">Project Information</h4>
@@ -41,9 +41,9 @@
     </div>
        <div class="row gray">
        <div class="col-md-8">
-       		<a href="" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Phase</a>
-            <h4 class="text-info bold">Phase Description</h4>
             <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
+       		<a ui-sref="phaseEdit({phaseId: phaseData.phase_id})" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Phase</a>
+            <h4 class="text-info bold">Phase Description</h4>
             <p>{{phaseData.phase_description}}</p>
             <h4 class="text-info bold">Phase Information</h4>
             
