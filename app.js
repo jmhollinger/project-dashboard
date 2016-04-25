@@ -28,6 +28,13 @@ app.set('view engine', 'jade');
 
 //API Endpoints
 
+app.all('*',function(req,res,next){
+  if(req.headers['x-forwarded-proto']!='https')
+    res.redirect('https://'+req.url)
+  else
+    next() /* Continue to other routes if we're not redirecting */
+})
+
 //New Project and Phase
 app.post('/api/v1/project', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
