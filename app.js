@@ -26,14 +26,21 @@ app.use(bodyParser.json({
 
 app.set('view engine', 'jade');
 
-//API Endpoints
+var https_redirect = function(req, res, next) {
+    if (process.env.NODE_ENV === 'production') {
+        if (req.headers['x-forwarded-proto'] != 'https') {
+            return res.redirect('https://' + req.headers.host + req.url);
+        } else {
+            return next();
+        }
+    } else {
+        return next();
+    }
+};
 
-app.all('*',function(req,res,next){
-  if(req.headers['x-forwarded-proto']!='https')
-    res.redirect('https://'+req.url)
-  else
-    next() /* Continue to other routes if we're not redirecting */
-})
+app.use(https_redirect);
+
+//API Endpoints
 
 //New Project and Phase
 app.post('/api/v1/project', function(req, res) {
