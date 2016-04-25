@@ -3,68 +3,8 @@
 <form name="projectForm" novalidate>
 <div class="container-fluid">
 <div class="row accent1">
-  <div class="col-md-8 col-md-offset-2"><h1 class="bold">Add a New Project</h1></div>
+  <div class="col-md-8 col-md-offset-2"><h1 class="bold">Add a Phase</h1></div>
 </div>
-  <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-      <h3 class="text-info bold">
-        Project Information
-      </h3>
-        <div class="form-group" ng-class="{ 'has-error' : projectForm.projectName.$invalid && !projectForm.projectName.$pristine }">
-          <label>
-            Project Name
-          </label>
-          <input type="text" name="projectName" class="form-control" ng-model="projectData.projectName" required/>
-          <p ng-show="projectForm.projectName.$invalid && !projectForm.projectName.$pristine" class="help-block">Please enter a project name.</p>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error' : projectForm.projectDesc.$invalid && !projectForm.projectDesc.$pristine }">
-          <label>
-            Project Description
-          </label>
-          <textarea name="projectDesc" class="form-control" ng-model="projectData.projectDesc" required>
-          </textarea>
-          <p ng-show="projectForm.projectDesc.$invalid && !projectForm.projectDesc.$pristine" class="help-block">Please enter a project description.</p></div>
-        <div class="row">
-          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine }">
-            <label>
-              Estimated Total Budget ($)
-            </label>
-            <input type="text" name="estBudget" class="form-control" ng-model="projectData.estBudget" ui-money-mask="0"  required>
-            <p ng-show="projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine" class="help-block">Please enter a total project budget.</p>
-          </div>
-          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.funded.$invalid && !projectForm.funded.$pristine }">
-            <label>
-              Current Funded Amount ($)
-            </label>
-            <input type="text" name="funded" class="form-control" ng-model="projectData.funded" ui-money-mask="0"  required>
-          <p ng-show="projectForm.funded.$invalid && !projectForm.funded.$pristine" class="help-block">Please enter the amount currently funded.</p>
-          </div>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error' : projectForm.councilDistricts.$invalid && !projectForm.councilDistricts.$pristine }" >
-          <label>
-            Council Districts (hold CTRL to select multiple)
-          </label>
-          <select multiple name="councilDistricts" class="form-control" class="form-control" ng-options="item.district_name as item.district_name for item in council" ng-model="projectData.councilDistricts" size=12 required></select>
-          <p ng-show="projectForm.councilDistricts.$invalid && !projectForm.councilDistricts.$pristine" class="help-block">Please select at least one Council District.</p>
-        </div>
-      </div>
-      <div class="col-md-8 col-md-offset-2">
-        <h3 class="text-info bold">
-          Project Location
-        </h3>
-        <div class="form-group" ng-class="{ 'has-error' : !projectData.lat }">
-          <label>
-            Location (drag the marker to the location of your project)
-          </label>
-          <p ng-show="!projectData.lat" class="help-block">Please use the marker to select a location for the project.</p>
-          <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-            <ui-gmap-marker coords="marker.coords" options="marker.options" events="marker.events" idkey="marker.id">
-            </ui-gmap-marker>
-          </ui-gmap-google-map>
-        
-        </div>
-      </div>
-    </div>
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           <h3 class="text-info bold">
@@ -280,7 +220,7 @@
       </div>
       </div>
       <div class="col-md-4 col-md-offset-4">
-        <button class="btn btn-lg btn-success center-block btn-responsive" ng-disabled="projectForm.$invalid || !projectData.lat " ng-click="save()">
+        <button class="btn btn-lg btn-success center-block btn-responsive" ng-disabled="projectForm.$invalid || !projectData.lat " ng-click="savePhase()">
           Save Project
         </button>
       </div>
