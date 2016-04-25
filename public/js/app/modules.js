@@ -453,7 +453,7 @@ pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'ge
       }
  
   $scope.projectData = {
-    "projectId" : $location.path().split("/")[2]
+    "projectId" : $location.path().split("/")[2],
     "modifiedBy" : $scope.user.fullName
   }
 
