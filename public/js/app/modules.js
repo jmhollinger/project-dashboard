@@ -596,7 +596,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', 'g
       }
  
   $scope.projectData = {
-    "phaseId" : $stateParams.phaseId
+    "phaseId" : $stateParams.phaseId,
     "modifiedBy" : $scope.user.fullName
   }
 
