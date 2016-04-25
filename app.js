@@ -115,7 +115,7 @@ app.post('/api/v1/project', stormpath.loginRequired, function(req, res) {
 app.post('/api/v1/phase', stormpath.loginRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
-                    text: 'INSERT INTO phases (project_id, phase_status, phase_type, phase_description,phase_manager, division_id, resolution_number, accounting, rfp_number,contractor, start_date, estimated_completion, budget, work_complete,actual, notes, modified_by) VALUES $1 , $2 , $3 , $4, $5, $6, $7, $8 , $9, $10, $11, $12, $13, $14, $15, $16, $17 FROM project_insert RETURNING project_id, phase_id;',
+                    text: 'INSERT INTO phases (project_id, phase_status, phase_type, phase_description,phase_manager, division_id, resolution_number, accounting, rfp_number,contractor, start_date, estimated_completion, budget, work_complete,actual, notes, modified_by) VALUES ($1 , $2 , $3 , $4, $5, $6, $7, $8 , $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING project_id, phase_id;',
                     values: [
                         req.body.projectId,
                         req.body.phaseStatus.status_type_id,
