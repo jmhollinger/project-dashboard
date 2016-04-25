@@ -86,7 +86,7 @@ app.post('/api/v1/projectAndPhase', function(req, res) {
 })
 
 //New Project
-app.post('/api/v1/project', function(req, res) {
+app.post('/api/v1/project', stormpath.loginRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'INSERT INTO projects (project_name, project_description, estimated_total_budget,funded, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING project_ID',
@@ -112,7 +112,7 @@ app.post('/api/v1/project', function(req, res) {
 })
 
 //New Phase
-app.post('/api/v1/phase', function(req, res) {
+app.post('/api/v1/phase', stormpath.loginRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'INSERT INTO phases (project_id, phase_status, phase_type, phase_description,phase_manager, division_id, resolution_number, accounting, rfp_number,contractor, start_date, estimated_completion, budget, work_complete,actual, notes, modified_by) VALUES $1 , $2 , $3 , $4, $5, $6, $7, $8 , $9, $10, $11, $12, $13, $14, $15, $16, $17 FROM project_insert RETURNING project_id, phase_id;',
@@ -204,7 +204,7 @@ app.get('/api/v1/department/id/:dept_id', stormpath.loginRequired, function(req,
 })
 
 //Department by Name
-app.get('/api/v1/department/name/:dept_name', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/department/name/:dept_name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query("SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g, "''") + "'", function(err, result) {
             done();
@@ -218,7 +218,7 @@ app.get('/api/v1/department/name/:dept_name', stormpath.loginRequired,  function
 })
 
 //List Divisions
-app.get('/api/v1/divisions', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/divisions', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT division_id, division, department_id, department from divisions;', function(err, result) {
             done();
@@ -232,7 +232,7 @@ app.get('/api/v1/divisions', stormpath.loginRequired,  function(req, res) {
 })
 
 //Division by ID
-app.get('/api/v1/division/id/:div_id', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/division/id/:div_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             "text" : 'SELECT division_id, division from divisions WHERE division_id = $1;',
@@ -249,7 +249,7 @@ app.get('/api/v1/division/id/:div_id', stormpath.loginRequired,  function(req, r
 })
 
 //Division by Name
-app.get('/api/v1/division/name/:div_name', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/division/name/:div_name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             "text" : 'SELECT division_id, division from divisions WHERE division = $1;',
@@ -266,7 +266,7 @@ app.get('/api/v1/division/name/:div_name', stormpath.loginRequired,  function(re
 })
 
 //Council Districts
-app.get('/api/v1/council-districts', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/council-districts', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT * from council_districts ORDER BY district_id ASC;', function(err, result) {
             done();
@@ -280,7 +280,7 @@ app.get('/api/v1/council-districts', stormpath.loginRequired,  function(req, res
 })
 
 //Phase Types
-app.get('/api/v1/phase-types', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/phase-types', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT * from phase_type ORDER BY phase_name ASC;', function(err, result) {
             done();
@@ -293,7 +293,7 @@ app.get('/api/v1/phase-types', stormpath.loginRequired,  function(req, res) {
     });
 })
 
-app.get('/api/v1/phase-types/name/:name', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/phase-types/name/:name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({text : 'SELECT * from phase_type WHERE phase_name = $1;', values : [req.params.name]}, function(err, result) {
             done();
@@ -307,7 +307,7 @@ app.get('/api/v1/phase-types/name/:name', stormpath.loginRequired,  function(req
 })
 
 
-app.get('/api/v1/status-types', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/status-types', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT * from status_type ORDER BY status_name ASC;', function(err, result) {
             done();
@@ -320,7 +320,7 @@ app.get('/api/v1/status-types', stormpath.loginRequired,  function(req, res) {
     });
 })
 
-app.get('/api/v1/status-types/name/:name', stormpath.loginRequired, function(req, res) {
+app.get('/api/v1/status-types/name/:name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({text : 'SELECT * from status_type WHERE status_name = $1;', values : [req.params.name]}, function(err, result) {
             done();

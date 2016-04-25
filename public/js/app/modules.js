@@ -133,6 +133,7 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
 
 $scope.$watchGroup(['department','division','phaseStatus','phaseType'], function(newValues, oldValues) { 
 if (newValues[0]){
+    console.log(newValues[0])
     getData.departmentByname(newValues[0]).then(function(result) {
       $scope.departmentId = result.data.results[0].department_id
     })
@@ -177,8 +178,6 @@ if (newValues[0]){
       
       $scope.spent = (result.data[0].actual /  result.data[0].budget) * 100 + '%'
       $scope.remaining = ((result.data[0].budget - result.data[0].actual) / result.data[0].budget) * 100 + '%'
-      console.log($scope.spent)
-      console.log($scope.remaining)
       budgetData.push(result.data[0].under_budget)
       budgetData.push(result.data[0].on_budget)
       budgetData.push(result.data[0].over_budget)
