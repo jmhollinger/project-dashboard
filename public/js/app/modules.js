@@ -340,89 +340,6 @@ pdControllers.controller('projectEdit', ['$scope', '$location', 'getData', '$sta
 
   }]);
 
-/* New Phase Page */
-pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
-  function ($http, $scope, $location, $log, getData, addData) {
-
-  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
-    $scope.coordsUpdates = 0;
-    $scope.dynamicMoveCtr = 0;
-    $scope.marker = {
-      id: 0,
-      coords: {
-        latitude: 38.04890,
-        longitude: -84.499969
-      },
-      options: { draggable: true },
-      events: {
-        dragend: function (marker, eventName, args) {
-          $scope.projectData.lat = marker.getPosition().lat();
-          $scope.projectData.lng = marker.getPosition().lng();
-          }
-        }
-      }
- 
-  $scope.projectData = {
-    "modifiedBy" : $scope.user.fullName
-  }
-
-  $scope.today1 = function() {
-    $scope.phaseData.startDate = new Date();
-  };
-
-  $scope.today2 = function() {
-    $scope.phaseData.completionDate = new Date();
-  };
-
-  $scope.clear1 = function() {
-    $scope.phaseData.startDate = null;
-  };
-
-  $scope.clear2 = function() {
-    $scope.phaseData.completionDate = null;
-  };
-
-
- $scope.open1 = function() {
-    $scope.popup1.opened = true;
-  };
-
-$scope.open2 = function() {
-    $scope.popup2.opened = true;
-  };
-
- $scope.popup1 = {
-    opened: false
-  };
-
- $scope.popup2 = {
-    opened: false
-  };
-
-  getData.divisions().then(function(result) {
-    $scope.divisions = result.data.results
-  })
-
-  getData.phase_types().then(function(result) {
-    $scope.phaseTypes = result.data.results
-  })
-
-  getData.status_types().then(function(result) {
-    $scope.statusTypes = result.data.results
-  })
-
-  getData.councilDistricts().then(function(result) {
-    $scope.council = result.data.results
-  })
-
-  $scope.save = function() { 
-    addData.newProject($scope.projectData).then(function(result) {
-      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
-  })
-}
-
-  }]);
-
 
 /* New Project Page */
 pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
@@ -499,8 +416,98 @@ $scope.open2 = function() {
     $scope.council = result.data.results
   })
 
-  $scope.save = function() { 
+  $scope.saveProject = function() { 
     addData.newProject($scope.projectData).then(function(result) {
+      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
+  })
+}
+
+  $scope.addPhase = function() { 
+      addData.newProject($scope.projectData).then(function(result) {
+        $location.path('/project/' + result.data.results[0].project_id + '/phase/new')
+    })
+  }
+
+  }]);
+
+/* New Phase Page */
+pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
+  function ($http, $scope, $location, $log, getData, addData) {
+
+  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
+    $scope.coordsUpdates = 0;
+    $scope.dynamicMoveCtr = 0;
+    $scope.marker = {
+      id: 0,
+      coords: {
+        latitude: 38.04890,
+        longitude: -84.499969
+      },
+      options: { draggable: true },
+      events: {
+        dragend: function (marker, eventName, args) {
+          $scope.projectData.lat = marker.getPosition().lat();
+          $scope.projectData.lng = marker.getPosition().lng();
+          }
+        }
+      }
+ 
+  $scope.projectData = {
+    "projectId" : $location.path().split("/")[2]
+    "modifiedBy" : $scope.user.fullName
+  }
+
+  $scope.today1 = function() {
+    $scope.phaseData.startDate = new Date();
+  };
+
+  $scope.today2 = function() {
+    $scope.phaseData.completionDate = new Date();
+  };
+
+  $scope.clear1 = function() {
+    $scope.phaseData.startDate = null;
+  };
+
+  $scope.clear2 = function() {
+    $scope.phaseData.completionDate = null;
+  };
+
+
+ $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+$scope.open2 = function() {
+    $scope.popup2.opened = true;
+  };
+
+ $scope.popup1 = {
+    opened: false
+  };
+
+ $scope.popup2 = {
+    opened: false
+  };
+
+  getData.divisions().then(function(result) {
+    $scope.divisions = result.data.results
+  })
+
+  getData.phase_types().then(function(result) {
+    $scope.phaseTypes = result.data.results
+  })
+
+  getData.status_types().then(function(result) {
+    $scope.statusTypes = result.data.results
+  })
+
+  getData.councilDistricts().then(function(result) {
+    $scope.council = result.data.results
+  })
+
+  $scope.savePhase = function() { 
+    addData.newPhase($scope.projectData).then(function(result) {
       $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
   })
 }
@@ -611,6 +618,13 @@ pdServices.factory('addData', ['$http', 'inputTools', function($http, inputTools
                     url: "https://lexington-project-dashboard.herokuapp.com/api/v1/project",
                     data: formData
                 })
+    },
+    newPhase: function(formData){
+          return $http({
+                    method: "post",
+                    url: "https://lexington-project-dashboard.herokuapp.com/api/v1/phase",
+                    data: formData
+                }) 
     }
 }}]);
 
