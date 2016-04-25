@@ -290,7 +290,6 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
   function ($scope, $location, getData, $stateParams) {
 
   getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
-    console.log(result.data)
     $scope.phaseData = result.data.results[0]
     $scope.cdText = result.data.results[0].council_districts.toString()
     $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
@@ -298,12 +297,10 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
   })
 
   getData.phasesByid($stateParams.projectId).then(function(result) {
-    console.log(result.data)
     $scope.phases = result.data.results
   })
 
   getData.notesByid($stateParams.phaseId).then(function(result) {
-    console.log(result.data)
     $scope.notes = result.data.results
     $scope.phaseCount = result.data.results.length
   })
@@ -484,8 +481,8 @@ $scope.open2 = function() {
   }]);
 
 /* Edit Project Page */
-pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 'getData', 'addData', 'stateParams',
-  function ($http, $scope, $location, $log, getData, addData, $stateParams) {
+pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
+  function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
     $scope.coordsUpdates = 0;
@@ -574,8 +571,8 @@ $scope.open2 = function() {
   }]);
 
 /* Edit Phase Page */
-pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', 'getData', 'addData', 'stateParams',
-  function ($http, $scope, $location, $log, getData, addData, $stateParams) {
+pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
+  function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
     $scope.coordsUpdates = 0;
