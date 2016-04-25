@@ -639,13 +639,15 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/id/" + dept_id)
     },
     departmentByname: function(dept_name){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/name/" + dept_name)
+      var name = dept_name.replace("'","''")
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/department/name/" + name)
     },
     divisionByid: function (div_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/id/" + div_id)
     },
     divisionByname: function (div_name){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/name/" + div_name)
+      var name = div_name.replace("'","''")
+      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/division/name/" + name)
     },
     divisions: function(){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/divisions")

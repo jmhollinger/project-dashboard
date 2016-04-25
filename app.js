@@ -206,7 +206,10 @@ app.get('/api/v1/department/id/:dept_id', stormpath.loginRequired, function(req,
 //Department by Name
 app.get('/api/v1/department/name/:dept_name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-        client.query("SELECT DISTINCT department_id, department from divisions WHERE department = '" + req.params.dept_name.replace(/'/g, "''") + "';", function(err, result) {
+        client.query({
+            "text" : 'SELECT DISTINCT department_id, department from divisions WHERE department = $1;',
+            "values" : [req.params.dept_name]
+        }, function(err, result) {
             done();
             if (err) {
                 res.json({"success" : false, "results" : err});
@@ -253,7 +256,7 @@ app.get('/api/v1/division/name/:div_name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             "text" : 'SELECT division_id, division from divisions WHERE division = $1;',
-            "values" : "'" + [req.params.div_name.replace(/'/g, "''")] + "'"
+            "values" : [req.params.div_name]
         }, function(err, result) {
             done();
             if (err) {
