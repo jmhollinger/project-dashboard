@@ -505,7 +505,13 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
   $scope.projectData = {
     "projectId" : $stateParams.projectId,
     "modifiedBy" : $scope.user.fullName,
-    "projectName": "Test Name"
+    "projectName": "Name"
+    "projectDesc": "Desc",
+    "estBudget": "100",
+    "funded": "100",
+    "councilDistricts": "",
+    "lat": "",
+    "lng": ""
   }
 
   $scope.today1 = function() {
