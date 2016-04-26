@@ -501,6 +501,8 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
           }
         }
       }
+
+  $scope.projectData.projectName = "Testing Editor"
  
   $scope.projectData = {
     "projectId" : $stateParams.projectId,
@@ -647,8 +649,8 @@ $scope.open2 = function() {
   })
 
   $scope.savePhase = function() { 
-    addData.newPhase($scope.projectData).then(function(result) {
-      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
+    addData.updatePhase($scope.projectData).then(function(result) {
+      alert("Saved!")
   })
 }
 
@@ -750,7 +752,21 @@ pdServices.factory('addData', ['$http', 'inputTools', function($http, inputTools
                     url: "https://lexington-project-dashboard.herokuapp.com/api/v1/phase",
                     data: formData
                 }) 
-    }
+    },
+    updateProject: function(formData){
+      return $http({
+                    method: "put",
+                    url: "https://lexington-project-dashboard.herokuapp.com/api/v1/project",
+                    data: formData
+                })
+    },
+    updatePhase: function(formData){
+      return $http({
+                    method: "put",
+                    url: "https://lexington-project-dashboard.herokuapp.com/api/v1/phase",
+                    data: formData
+                })
+    },
 }}]);
 
 pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools){

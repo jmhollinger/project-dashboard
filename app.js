@@ -147,7 +147,7 @@ app.post('/api/v1/phase', stormpath.loginRequired, function(req, res) {
 })
 
 //Update Project
-app.put('/api/v1/project/:projectId', function(req, res) {
+app.put('/api/v1/project', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'UPDATE projects SET project_name=$1, project_description=$2, estimated_total_budget=$3, funded=$4, council_districts=$5, lat=$6, lng=$7, modified_by=$8 WHERE project_id = $9;',
@@ -160,7 +160,7 @@ app.put('/api/v1/project/:projectId', function(req, res) {
                         req.body.lat,
                         req.body.lng,
                         req.body.modifiedBy,
-                        req.params.projectId
+                        req.body.projectId
                     ]
                 },function(err, result) {
                     done();
@@ -172,6 +172,42 @@ app.put('/api/v1/project/:projectId', function(req, res) {
                 });
     });
 })
+
+//Update Phase
+app.put('/api/v1/phase', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+            client.query({
+                    text: 'UPDATE phases SET phase_status=$1, phase_type=$2, phase_description=$3,phase_manager=$4, division_id=$5, resolution_number=$6, accounting=$7, rfp_number=$8,contractor=$9, start_date=$10, estimated_completion=$11, budget=$12, work_complete=$13,actual=$14, notes=$15, modified_by=$16 WHERE phase_id=$17 ;',
+                    values: [
+                        req.body.phaseStatus.status_type_id,
+                        req.body.phaseType.phase_type_id,
+                        req.body.phaseDesc,
+                        req.body.phaseManager,
+                        req.body.division.division_id,
+                        req.body.resoNumber,
+                        JSON.stringify(req.body.accounting),
+                        req.body.rfpNumber,
+                        req.body.contractor,
+                        req.body.startDate,
+                        req.body.completionDate,
+                        req.body.phaseBudget,
+                        req.body.workComplete,
+                        req.body.phaseActual,
+                        req.body.notes,
+                        req.body.modifiedBy,
+                        req.body.phaseId
+                    ]
+                },function(err, result) {
+                    done();
+                    if (err) {
+                        res.json({"success": false,"results": err});
+                    } else {
+                        res.json({"success" : true, "results" : result.rows});
+                    }
+                });
+    });
+})
+
 
 //List Departments
 app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
