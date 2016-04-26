@@ -208,8 +208,8 @@ app.put('/api/v1/phase', function(req, res) {
     });
 })
 
-/*Project by ID 
-app.get('/api/v1/project/:project_id', function(req, res) {
+//Project by ID 
+app.get('/api/v1/project/id/:project_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT * FROM projects WHERE project_id = $1;',
@@ -225,7 +225,7 @@ app.get('/api/v1/project/:project_id', function(req, res) {
 })
 
 //Phase by ID 
-app.get('/api/v1/phase/:phase_id', function(req, res) {
+app.get('/api/v1/phase/id/:phase_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT * FROM phases WHERE phase_id = $1;',
@@ -238,7 +238,7 @@ app.get('/api/v1/phase/:phase_id', function(req, res) {
             }
         });
     });
-})*/
+})
 
 //List Departments
 app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
