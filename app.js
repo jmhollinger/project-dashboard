@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var helmet = require('helmet')
 
-
 var app = express();
 
 app.use(helmet())
@@ -43,7 +42,7 @@ app.set('view engine', 'jade');
 
 //API Endpoints
 
-//New Project
+//New Project and Phase
 app.post('/api/v1/projectAndPhase', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
@@ -209,6 +208,37 @@ app.put('/api/v1/phase', function(req, res) {
     });
 })
 
+//Project by ID 
+app.get('/api/v1/project/:project_id', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({
+            text: 'SELECT * FROM projects WHERE project_id = $1;',
+            values: [req.params.project_id]}, function(err, result) {
+            done();
+            if (err) {
+                res.json({"success" : false, "results" : err});
+            } else {
+                res.json({"success" : true, "results" : result.rows});
+            }
+        });
+    });
+})
+
+//Phase by ID 
+app.get('/api/v1/phase/:phase_id', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({
+            text: 'SELECT * FROM phases WHERE phase_id = $1;',
+            values: [req.params.phase_id]}, function(err, result) {
+            done();
+            if (err) {
+                res.json({"success" : false, "results" : err});
+            } else {
+                res.json({"success" : true, "results" : result.rows});
+            }
+        });
+    });
+})
 
 //List Departments
 app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
