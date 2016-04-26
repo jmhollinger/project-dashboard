@@ -501,12 +501,11 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
           }
         }
       }
-
-  $scope.projectData.projectName = "Testing Editor"
  
   $scope.projectData = {
     "projectId" : $stateParams.projectId,
-    "modifiedBy" : $scope.user.fullName
+    "modifiedBy" : $scope.user.fullName,
+    "projectName": "Test Name"
   }
 
   $scope.today1 = function() {
