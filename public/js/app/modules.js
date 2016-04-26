@@ -505,7 +505,7 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
   $scope.projectData = {
     "projectId" : $stateParams.projectId,
     "modifiedBy" : $scope.user.fullName,
-    "projectName": "Name"
+    "projectName": "Name",
     "projectDesc": "Desc",
     "estBudget": "100",
     "funded": "100",
