@@ -208,7 +208,7 @@ app.put('/api/v1/phase', function(req, res) {
     });
 })
 
-//Project by ID 
+/*Project by ID 
 app.get('/api/v1/project/:project_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
@@ -238,7 +238,7 @@ app.get('/api/v1/phase/:phase_id', function(req, res) {
             }
         });
     });
-})
+})*/
 
 //List Departments
 app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
