@@ -289,7 +289,7 @@ if (newValues[0]){
 pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
-  getData.projectphaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
+  getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
     $scope.phaseData = result.data.results[0]
     $scope.cdText = result.data.results[0].council_districts.toString()
     $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
@@ -397,8 +397,8 @@ $scope.open2 = function() {
   }]);
 
 /* New Phase Page */
-pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
-  function ($http, $scope, $location, $log, $stateParams, getData, addData) {
+pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
+  function ($http, $scope, $location, $log, getData, addData) {
 
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
     $scope.coordsUpdates = 0;
@@ -419,7 +419,7 @@ pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', '$s
       }
  
   $scope.projectData = {
-    "projectId" : $stateParams.projectId,
+    "projectId" : $location.path().split("/")[2],
     "modifiedBy" : $scope.user.fullName
   }
 
@@ -883,7 +883,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
 
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/search-summary?" + query_string)
     },
-    projectphaseByid: function(project_id, phase_id){
+    phaseByid: function(project_id, phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)
     },
     phasesByid: function(project_id){
@@ -891,13 +891,6 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
     },
     notesByid: function(phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase-notes/" + phase_id)
-    },
-    projectByid: function(project_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id)
-    },
-    phaseByid: function(phase_id){
-      return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/phase/" + phase_id)
     }
-
 
 }}])
