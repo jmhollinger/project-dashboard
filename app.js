@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var helmet = require('helmet')
 
-
 var app = express();
 
 app.use(helmet())
@@ -43,7 +42,7 @@ app.set('view engine', 'jade');
 
 //API Endpoints
 
-//New Project
+/*New Project
 app.post('/api/v1/projectAndPhase', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
