@@ -209,11 +209,30 @@ app.put('/api/v1/phase', function(req, res) {
     });
 })
 
+//Project By ID
 app.get('/api/v1/project/id/:project_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT * FROM projects WHERE project_id = $1;',
             values: [req.params.project_id]
+    }, function(err, result) {
+            done();
+            if (err) {
+                res.json({"success" : false, "results" : err});
+            } else {
+                res.json({"success" : true, "results" : result.rows});
+            }
+        });
+    });
+})
+
+
+//Phase by ID
+app.get('/api/v1/phase/id/:phase_id', function(req, res) {
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        client.query({
+            text: 'SELECT * FROM phase WHERE phase_id = $1;',
+            values: [req.params.phase_id]
     }, function(err, result) {
             done();
             if (err) {
