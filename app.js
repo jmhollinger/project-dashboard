@@ -400,6 +400,8 @@ app.get('/api/v1/:table/:field/:id', stormpath.loginRequired,  function(req, res
     });
 })
 
+*/
+
 //Search Projects
 app.get('/api/v1/project/search', stormpath.loginRequired,  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -594,7 +596,7 @@ app.get('/api/v1/phase-notes/:phase_id', stormpath.loginRequired,  function(req,
         });
     });
 });
-*/
+
 //Server
 
 app.on('stormpath.ready', function () {
