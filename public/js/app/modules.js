@@ -289,7 +289,7 @@ if (newValues[0]){
 pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
-  getData.phaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
+  getData.projectphaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
     $scope.phaseData = result.data.results[0]
     $scope.cdText = result.data.results[0].council_districts.toString()
     $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
@@ -883,7 +883,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
 
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/search-summary?" + query_string)
     },
-    phaseByid: function(project_id, phase_id){
+    projectphaseByid: function(project_id, phase_id){
       return $http.get("https://lexington-project-dashboard.herokuapp.com/api/v1/project/" + project_id + "/phase/" + phase_id)
     },
     phasesByid: function(project_id){
