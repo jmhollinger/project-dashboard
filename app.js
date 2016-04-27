@@ -231,7 +231,7 @@ app.get('/api/v1/project/id/:project_id', function(req, res) {
 app.get('/api/v1/phase/id/:phase_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
-            text: 'SELECT * FROM phase WHERE phase_id = $1;',
+            text: 'SELECT * FROM phases WHERE phase_id = $1;',
             values: [req.params.phase_id]
     }, function(err, result) {
             done();
