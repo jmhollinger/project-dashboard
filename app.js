@@ -594,7 +594,7 @@ app.get('/api/v1/phase-notes/:phase_id', stormpath.loginRequired,  function(req,
         });
     });
 });
-*/
+
 //Server
 
 app.on('stormpath.ready', function () {
