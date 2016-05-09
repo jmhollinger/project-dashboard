@@ -485,7 +485,6 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
   function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
   getData.projectByid($stateParams.projectId).then(function(result) {
-   console.log(result.data.results[0])
   $scope.projectData = {
     "projectId" : $stateParams.projectId,
     "modifiedBy" : $scope.user.fullName,
@@ -498,7 +497,7 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
     "lng": result.data.results[0].lng
   }
 
-    $scope.map = { center: { latitude: result.data.results[0].lat, longitude: result.data.results[0].lng }, zoom: 12 };
+    $scope.map = { center: { latitude: result.data.results[0].lat, longitude: result.data.results[0].lng }, zoom: 16 };
     $scope.coordsUpdates = 0;
     $scope.dynamicMoveCtr = 0;
     $scope.marker = {
@@ -580,43 +579,30 @@ $scope.open2 = function() {
 pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
   function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
-  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
-    $scope.coordsUpdates = 0;
-    $scope.dynamicMoveCtr = 0;
-    $scope.marker = {
-      id: 0,
-      coords: {
-        latitude: 38.04890,
-        longitude: -84.499969
-      },
-      options: { draggable: true },
-      events: {
-        dragend: function (marker, eventName, args) {
-          $scope.projectData.lat = marker.getPosition().lat();
-          $scope.projectData.lng = marker.getPosition().lng();
-          }
-        }
-      }
- 
-  $scope.projectData = {
-    "phaseId" : $stateParams.phaseId,
-    "modifiedBy" : $scope.user.fullName,
-    "phaseStatus.status_type_id" : "",
-    "phaseType.phase_type_id" : "",
-    "phaseDesc" : "Test Desc",
-    "phaseManager" : "",
-    "division.division_id" : "",
-    "resoNumber" : "",
-    "accounting" : "",
-    "rfpNumber" : "",
-    "contractor" : "",
-    "startDate" : "",
-    "completionDate" : "",
-    "phaseBudget" : "",
-    "workComplete" : "",
-    "phaseActual" : "",
-    "notes" : ""
-  }
+  getData.projectByid($stateParams.projectId).then(function(result) {
+
+	  $scope.projectData = {
+	    "phaseId" : $stateParams.phaseId,
+	    "modifiedBy" : $scope.user.fullName,
+	    "phaseStatus.status_type_id" : result.data.results[0].phase_status,
+	    "phaseType.phase_type_id" :result.data.results[0].phase_type,
+	    "phaseDesc" : result.data.results[0].phase_description,
+	    "phaseManager" : result.data.results[0].phase_manager,
+	    "division.division_id" : result.data.results[0].division_id,
+	    "resoNumber" : result.data.results[0].resolution_number,
+	    "accounting" : result.data.results[0].accounting,
+	    "rfpNumber" : result.data.results[0].rfp_number,
+	    "contractor" : result.data.results[0].contractor,
+	    "startDate" : result.data.results[0].start_date,
+	    "completionDate" : result.data.results[0].estimate_completion,
+	    "phaseBudget" : result.data.results[0].budget,
+	    "workComplete" : result.data.results[0].work_complete,
+	    "phaseActual" : result.data.results[0].actual,
+	    "notes" : result.data.results[0].notes
+	  }
+
+  })
+
 
   $scope.today1 = function() {
     $scope.phaseData.startDate = new Date();
