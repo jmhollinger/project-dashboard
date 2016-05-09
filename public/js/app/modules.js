@@ -484,27 +484,8 @@ $scope.open2 = function() {
 pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
   function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
-  $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
-    $scope.coordsUpdates = 0;
-    $scope.dynamicMoveCtr = 0;
-    $scope.marker = {
-      id: 0,
-      coords: {
-        latitude: 38.04890,
-        longitude: -84.499969
-      },
-      options: { draggable: true },
-      events: {
-        dragend: function (marker, eventName, args) {
-          $scope.projectData.lat = marker.getPosition().lat();
-          $scope.projectData.lng = marker.getPosition().lng();
-          }
-        }
-      }
- 
   getData.projectByid($stateParams.projectId).then(function(result) {
    console.log(result.data.results[0])
-
   $scope.projectData = {
     "projectId" : $stateParams.projectId,
     "modifiedBy" : $scope.user.fullName,
@@ -516,6 +497,25 @@ pdControllers.controller('projectEdit', ['$http','$scope', '$location', '$log', 
     "lat": result.data.results[0].lat,
     "lng": result.data.results[0].lng
   }
+
+    $scope.map = { center: { latitude: result.data.results[0].lat, longitude: result.data.results[0].lng }, zoom: 12 };
+    $scope.coordsUpdates = 0;
+    $scope.dynamicMoveCtr = 0;
+    $scope.marker = {
+      id: 0,
+      coords: {
+        latitude: result.data.results[0].lat,
+        longitude: result.data.results[0].lng
+      },
+      options: { draggable: true },
+      events: {
+        dragend: function (marker, eventName, args) {
+          $scope.projectData.lat = marker.getPosition().lat();
+          $scope.projectData.lng = marker.getPosition().lng();
+          }
+        }
+      }
+
   })
 
 
