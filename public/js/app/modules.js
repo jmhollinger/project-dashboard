@@ -570,7 +570,7 @@ $scope.open2 = function() {
 
   $scope.saveProject = function() { 
     addData.updateProject($scope.projectData).then(function(result) {
-      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
+      alert("Saved!")
   })
 }
 
