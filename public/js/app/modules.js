@@ -579,7 +579,7 @@ $scope.open2 = function() {
 pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
   function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
-  getData.phaseByid($stateParams.projectId).then(function(result) {
+  getData.phaseByid($stateParams.phaseId).then(function(result) {
   		console.log(result.data.results[0])
 	  $scope.projectData = {
 	    "phaseId" : $stateParams.phaseId,
