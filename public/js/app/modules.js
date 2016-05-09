@@ -579,8 +579,8 @@ $scope.open2 = function() {
 pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
   function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
-  getData.projectByid($stateParams.projectId).then(function(result) {
-
+  getData.phaseByid($stateParams.projectId).then(function(result) {
+  		console.log(result.data.results[0])
 	  $scope.projectData = {
 	    "phaseId" : $stateParams.phaseId,
 	    "modifiedBy" : $scope.user.fullName,
