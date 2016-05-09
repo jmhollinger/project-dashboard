@@ -28,7 +28,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
   function($stateProvider, $urlRouterProvider, $locationProvider) {
 
       $urlRouterProvider.otherwise('/');
-      
+
       $stateProvider.
       /*List View */
       state('login', {
@@ -91,7 +91,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         sp: {authenticate: true}
       }).
       /*My Account*/
-      state('account', {        
+      state('account', {
         url: '/account',
         templateUrl: 'templates/account.html',
         controller: 'account',
@@ -131,7 +131,7 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $location.search({})
   }
 
-$scope.$watchGroup(['department','division','phaseStatus','phaseType'], function(newValues, oldValues) { 
+$scope.$watchGroup(['department','division','phaseStatus','phaseType'], function(newValues, oldValues) {
 if (newValues[0]){
     console.log(newValues[0])
     getData.departmentByname(newValues[0]).then(function(result) {
@@ -143,23 +143,23 @@ if (newValues[0]){
     getData.divisionByname(newValues[1]).then(function(result) {
       $scope.divisionId = result.data.results[0].division_id
     })
-    } 
+    }
     else {$scope.divisionId = null}
   if (newValues[2]){
     getData.statusByname(newValues[2]).then(function(result) {
       $scope.phaseStatusId = result.data.results[0].status_type_id
     })
-    } 
+    }
     else {$scope.phaseStatusid = null}
   if (newValues[3]){
     getData.typeByname(newValues[3]).then(function(result) {
       $scope.phaseTypeid = result.data.results[0].phase_type_id
     })
-    } 
-    else {$scope.phaseTypeid = null}    
+    }
+    else {$scope.phaseTypeid = null}
 })
 
- $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatusid', 'phaseTypeid'], function(newValues, oldValues) { 
+ $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatusid', 'phaseTypeid'], function(newValues, oldValues) {
   $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : $scope.councilDistrict, status: $scope.phaseStatus, type: $scope.phaseType})
 
   getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseTypeid, $scope.phaseStatusid).then(function(result) {
@@ -175,7 +175,7 @@ if (newValues[0]){
       $scope.projectStats = result.data[0]
       if (result.data[0].projects === '1'){$scope.projectLabel = 'Project'} else {$scope.projectLabel = 'Projects'}
       if (result.data[0].phases === '1'){$scope.phaseLabel = 'Phase'} else {$scope.phaseLabel = 'Phases'}
-      
+
       $scope.spent = (result.data[0].actual /  result.data[0].budget) * 100 + '%'
       $scope.remaining = ((result.data[0].budget - result.data[0].actual) / result.data[0].budget) * 100 + '%'
       budgetData.push(result.data[0].under_budget)
@@ -240,7 +240,7 @@ pdControllers.controller('projectMap', ['$scope', '$location', 'getData',
   $location.search({})
   }
 
-$scope.$watchGroup(['department','division'], function(newValues, oldValues) { 
+$scope.$watchGroup(['department','division'], function(newValues, oldValues) {
 if (newValues[0]){
     getData.departmentByname(newValues[0]).then(function(result) {
       $scope.departmentId = result.data.results[0].department_id
@@ -251,11 +251,11 @@ if (newValues[0]){
     getData.divisionByname(newValues[1]).then(function(result) {
       $scope.divisionId = result.data.results[0].division_id
     })
-    } 
+    }
     else {$scope.divisionId = null}
 })
 
- $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) { 
+ $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) {
   $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3]})
 
   getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
@@ -282,7 +282,7 @@ if (newValues[0]){
   })
 
   $scope.map = { center: { latitude: 38.048902, longitude: -84.499969 }, zoom: 12 };
-  
+
   }]);
 
 /* Phase Page */
@@ -328,7 +328,7 @@ pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', '
           }
         }
       }
- 
+
   $scope.projectData = {
     "modifiedBy" : $scope.user.fullName
   }
@@ -382,13 +382,13 @@ $scope.open2 = function() {
     $scope.council = result.data.results
   })
 
-  $scope.saveProject = function() { 
+  $scope.saveProject = function() {
     addData.newProject($scope.projectData).then(function(result) {
       $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
   })
 }
 
-  $scope.addPhase = function() { 
+  $scope.addPhase = function() {
       addData.newProject($scope.projectData).then(function(result) {
         $location.path('/project/' + result.data.results[0].project_id + '/phase/new')
     })
@@ -417,7 +417,7 @@ pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'ge
           }
         }
       }
- 
+
   $scope.projectData = {
     "projectId" : $location.path().split("/")[2],
     "modifiedBy" : $scope.user.fullName
@@ -472,7 +472,7 @@ $scope.open2 = function() {
     $scope.council = result.data.results
   })
 
-  $scope.savePhase = function() { 
+  $scope.savePhase = function() {
     addData.newPhase($scope.projectData).then(function(result) {
       $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
   })
@@ -567,7 +567,7 @@ $scope.open2 = function() {
     $scope.council = result.data.results
   })
 
-  $scope.saveProject = function() { 
+  $scope.saveProject = function() {
     addData.updateProject($scope.projectData).then(function(result) {
       alert("Saved!")
   })
@@ -584,17 +584,20 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 	  $scope.projectData = {
 	    "phaseId" : $stateParams.phaseId,
 	    "modifiedBy" : $scope.user.fullName,
+      "phaseStatus.status_name" : result.data.results[0].status_name,
 	    "phaseStatus.status_type_id" : result.data.results[0].phase_status,
-	    "phaseType.phase_type_id" :result.data.results[0].phase_type,
-	    "phaseDesc" : result.data.results[0].phase_description,
+	    "phaseType.phase_type_id" : result.data.results[0].phase_type,
+      "phaseType.phase_name" : result.data.results[0].phase_name
+      "phaseDesc" : result.data.results[0].phase_description,
 	    "phaseManager" : result.data.results[0].phase_manager,
+      "division.division" : result.data.results[0].division,
 	    "division.division_id" : result.data.results[0].division_id,
 	    "resoNumber" : result.data.results[0].resolution_number,
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
 	    "contractor" : result.data.results[0].contractor,
-	    "startDate" : result.data.results[0].start_date,
-	    "completionDate" : result.data.results[0].estimate_completion,
+	    "startDate" : result.data.results[0].start,
+	    "completionDate" : result.data.results[0].complete,
 	    "phaseBudget" : result.data.results[0].budget,
 	    "workComplete" : result.data.results[0].work_complete,
 	    "phaseActual" : result.data.results[0].actual,
@@ -653,7 +656,7 @@ $scope.open2 = function() {
     $scope.council = result.data.results
   })
 
-  $scope.savePhase = function() { 
+  $scope.savePhase = function() {
     addData.updatePhase($scope.projectData).then(function(result) {
       alert("Saved!")
   })
@@ -665,7 +668,7 @@ $scope.open2 = function() {
 /* Account */
 pdControllers.controller('account', ['$scope', '$location',
   function ($scope, $location) {
-  
+
   $scope.title = 'Account'
 
   }]);
@@ -680,7 +683,7 @@ pdDirectives.directive('statusFlag', function () {
           value: '@metricValue'
         },
         template:
-          '<span class="btn btn-responsive"  ng-class="{\'btn-success\' : value > .1 , \'btn-info\' : value <= .1 && value >= -.1, \'btn-danger\' : value < -.1 }">{{value | percent : 2}}</span>' 
+          '<span class="btn btn-responsive"  ng-class="{\'btn-success\' : value > .1 , \'btn-info\' : value <= .1 && value >= -.1, \'btn-danger\' : value < -.1 }">{{value | percent : 2}}</span>'
     };
 });
 
@@ -697,7 +700,7 @@ pdDirectives.directive('budgetBar', function () {
           '<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" ng-style="{\'width\' : spent}">' +
           '</div>' +
           '<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" ng-style="{\'width\' : remaining}">' +
-          '</div></div>' 
+          '</div></div>'
     };
 });
 
@@ -734,11 +737,11 @@ projectDashboard.filter('percent', function () {
 pdServices.factory('inputTools', ['$http', function($http){
 return{
   clean: function(input){
-    var wordarray = input.trim().split(/\s+/gim)  
-    for (i = 0; i < wordarray.length; i++) { 
+    var wordarray = input.trim().split(/\s+/gim)
+    for (i = 0; i < wordarray.length; i++) {
     wordarray[i] = wordarray[i].replace(/[\W]|[_]|/gim,"").toUpperCase()
     }
-    return wordarray.toString().replace(/,+/gim,",").replace(/,$/gim,"").replace(/,/gim,"%26")} 
+    return wordarray.toString().replace(/,+/gim,",").replace(/,$/gim,"").replace(/,/gim,"%26")}
 }
 }])
 
@@ -756,7 +759,7 @@ pdServices.factory('addData', ['$http', 'inputTools', function($http, inputTools
                     method: "post",
                     url: "https://lexington-project-dashboard.herokuapp.com/api/v1/phase",
                     data: formData
-                }) 
+                })
     },
     updateProject: function(formData){
       return $http({
@@ -816,7 +819,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       var paramArray = []
       if (q){
         var cleanQ = inputTools.clean(q)
-        paramArray.push("q=" + cleanQ) 
+        paramArray.push("q=" + cleanQ)
       } else {
       }
       if (dept){
@@ -848,7 +851,7 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
       var paramArray = []
       if (q){
         var cleanQ = inputTools.clean(q)
-        paramArray.push("q=" + cleanQ) 
+        paramArray.push("q=" + cleanQ)
       } else {
       }
       if (dept){
@@ -885,4 +888,3 @@ pdServices.factory('getData', ['$http', 'inputTools', function($http, inputTools
     }
 
 }}])
-

@@ -231,7 +231,12 @@ app.get('/api/v1/project/id/:project_id', function(req, res) {
 app.get('/api/v1/phase/id/:phase_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
-            text: 'SELECT * FROM phases WHERE phase_id = $1;',
+            text: 'SELECT p.*, pt.phase_name, st.status_name, d.division, to_char(p.start_date, \'mm/dd/yyyy\') as start, to_char(p.estimated_completion, \'mm/dd/yyyy\') as complete ' +
+            'FROM phases p ' +
+            'JOIN phase_type pt ON p.phase_status = phase_type_id ' +
+            'JOIN status_type st ON p.phase_type = status_type_id ' +
+            'JOIN divisions d ON p.division_id = d.division_id ' +
+            'WHERE phase_id = $1;',
             values: [req.params.phase_id]
     }, function(err, result) {
             done();
@@ -258,7 +263,7 @@ app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
     });
 })
 
-//Department by ID 
+//Department by ID
 app.get('/api/v1/department/id/:dept_id', stormpath.loginRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
