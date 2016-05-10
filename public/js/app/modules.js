@@ -569,7 +569,7 @@ $scope.open2 = function() {
 
   $scope.saveProject = function() {
     addData.updateProject($scope.projectData).then(function(result) {
-      alert("Saved!")
+      $location.path('/projects/list')
   })
 }
 
@@ -582,7 +582,8 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
   getData.phaseByid($stateParams.phaseId).then(function(result) {
     console.log(result.data.results)
     $scope.projectData = {
-	    "phaseId" : $stateParams.phaseId,
+	    "projectId" : result.data.results[0].project_id
+      "phaseId" : $stateParams.phaseId,
 	    "modifiedBy" : $scope.user.fullName,
       "phaseStatus" : {
           "status_type_id": result.data.results[0].phase_status
@@ -600,8 +601,8 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
 	    "contractor" : result.data.results[0].contractor,
-	    "startDate" : "2016-05-09T04:00:00.000Z",
-	    "completionDate" : "2016-05-09",
+	    "startDate" : result.data.results[0].start_date,
+	    "completionDate" : result.data.results[0].estimated_completion,
 	    "phaseBudget" : result.data.results[0].budget,
 	    "workComplete" : result.data.results[0].work_complete,
 	    "phaseActual" : result.data.results[0].actual,
@@ -661,7 +662,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 
   $scope.savePhase = function() {
     addData.updatePhase($scope.projectData).then(function(result) {
-      alert("Saved!")
+      $location.path('/project/' + $scope.projectData.projectId + '/phase/' + $scope.projectData.phaseId)
   })
 }
 
