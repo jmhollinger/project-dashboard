@@ -15,7 +15,7 @@
               <label>
                 Phase Type
               </label>
-              <select name="phaseType" class="form-control" ng-options="item as item.phase_name for item in phaseTypes track by item.phase_type_id" ng-model="projectData.phaseType" required>
+              <select name="phaseType" class="form-control" ng-options="item as item.phase_name for item in phaseTypes" ng-model="projectData.phaseType" required>
               </select>
               <p ng-show="projectForm.phaseType.$invalid && !projectForm.phaseType.$pristine" class="help-block">Please select a phase type.</p>
             </div>
