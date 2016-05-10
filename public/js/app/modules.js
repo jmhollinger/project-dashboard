@@ -361,6 +361,10 @@ pdControllers.controller('projectPagePhase', ['$scope', '$location', 'getData', 
     $scope.phaseData = result.data.results[0]
   })
 
+  getData.notesByid($stateParams.phaseId).then(function(result) {
+    $scope.notes = result.data.results
+    $scope.phaseCount = result.data.results.length
+  })
 
   }]);
 
