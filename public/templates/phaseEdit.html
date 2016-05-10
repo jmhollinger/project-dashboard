@@ -23,7 +23,7 @@
               <label>
                 Phase Status
               </label>
-              <select name="phaseStatus" class="form-control" ng-options="item as item.status_name for item in statusTypes" ng-model="projectData.phaseStatus" required>
+              <select name="phaseStatus" class="form-control" ng-options="item as item.status_name for item in statusTypes track by item.status_type_id" ng-model="projectData.phaseStatus" required>
               </select>
             </div>
           </div>
