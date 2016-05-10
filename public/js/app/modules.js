@@ -318,20 +318,31 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
 pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
-  getData.projectphaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
-    $scope.phaseData = result.data.results[0]
+
+  getData.projectByid($stateParams.projectId).then(function(result) {
+  $scope.projectData = {
+    "projectId" : $stateParams.projectId,
+    "modifiedBy" : $scope.user.fullName,
+    "projectName": result.data.results[0].project_name,
+    "projectDesc": result.data.results[0].project_description,
+    "estBudget": result.data.results[0].estimated_total_budget,
+    "funded": result.data.results[0].funded,
+    "councilDistricts": result.data.results[0].council_districts,
+    "lat": result.data.results[0].lat,
+    "lng": result.data.results[0].lng,
+    "modUser" : result.data.results[0].modified_by,
+    "modTime" : result.data.results[0].date_modified,
+  }
+
+    $scope.map = { center: { latitude: result.data.results[0].lat, longitude: result.data.results[0].lng }, zoom: 16 };
     $scope.cdText = result.data.results[0].council_districts.toString()
     $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
     $scope.center = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
+
   })
 
   getData.phasesByid($stateParams.projectId).then(function(result) {
     $scope.phases = result.data.results
-  })
-
-  getData.notesByid($stateParams.phaseId).then(function(result) {
-    $scope.notes = result.data.results
-    $scope.phaseCount = result.data.results.length
   })
 
   }]);
