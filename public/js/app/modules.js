@@ -592,13 +592,16 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
           },
       "phaseDesc" : result.data.results[0].phase_description,
 	    "phaseManager" : result.data.results[0].phase_manager,
-      "division" : result.data.results[0].division,
+      "division" : {
+        "division_id" : result.data.results[0].division_id
+        "division" : result.data.results[0].division
+      },
 	    "resoNumber" : result.data.results[0].resolution_number,
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
 	    "contractor" : result.data.results[0].contractor,
-	    "startDate" : result.data.results[0].start_date,
-	    "completionDate" : result.data.results[0].estimated_completion,
+	    "startDate" : "2016-05-09T04:00:00.000Z",
+	    "completionDate" : "2016-05-09",
 	    "phaseBudget" : result.data.results[0].budget,
 	    "workComplete" : result.data.results[0].work_complete,
 	    "phaseActual" : result.data.results[0].actual,
