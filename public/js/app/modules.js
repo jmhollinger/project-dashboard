@@ -585,7 +585,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 	    "phaseId" : $stateParams.phaseId,
 	    "modifiedBy" : $scope.user.fullName,
       "phaseStatus.status_name": "status",
-	    "phaseType.phase_name" :  "type",
+	    "phaseType" : result.data.results[0].phase_type_id,
       "phaseDesc" : result.data.results[0].phase_description,
 	    "phaseManager" : result.data.results[0].phase_manager,
       "division.division" : result.data.results[0].division,
