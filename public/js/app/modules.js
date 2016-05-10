@@ -580,19 +580,19 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
   function ($http, $scope, $location, $log, $stateParams, getData, addData) {
 
   getData.phaseByid($stateParams.phaseId).then(function(result) {
-	  $scope.projectData = {
+    console.log(result.data.results)
+    $scope.projectData = {
 	    "phaseId" : $stateParams.phaseId,
 	    "modifiedBy" : $scope.user.fullName,
       "phaseStatus" : {
-          "status_type_id": result.data.results[0].status_type
+          "status_type_id": result.data.results[0].phase_status
           },
 	    "phaseType" : {
           "phase_type_id": result.data.results[0].phase_type
           },
       "phaseDesc" : result.data.results[0].phase_description,
 	    "phaseManager" : result.data.results[0].phase_manager,
-      "division.division_id" : result.data.results[0].division_id,
-      "division.division" : result.data.results[0].division,
+      "division" : result.data.results[0].division,
 	    "resoNumber" : result.data.results[0].resolution_number,
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
