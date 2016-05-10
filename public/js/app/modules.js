@@ -601,7 +601,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
 	    "contractor" : result.data.results[0].contractor,
-	    "startDate" : new Date(2014, 3, 19)
+	    "startDate" : new Date(2014, 3, 19),
 	    "completionDate" : result.data.results[0].complete,
 	    "phaseBudget" : result.data.results[0].budget,
 	    "workComplete" : result.data.results[0].work_complete,
