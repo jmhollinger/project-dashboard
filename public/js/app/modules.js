@@ -603,7 +603,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 	    "contractor" : result.data.results[0].contractor,
 	    "startDate" : inputTools.dateFormat(result.data.results[0].start_date),
 	    "completionDate" : inputTools.dateFormat(result.data.results[0].estimated_completion),
-	    "phaseBudget" : result.data.results[0].budget,
+	    "phaseBudget" : inputTools.sumBudget(result.data.results[0].accounting),
 	    "workComplete" : result.data.results[0].work_complete,
 	    "phaseActual" : result.data.results[0].actual,
 	    "notes" : result.data.results[0].notes
@@ -611,7 +611,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 
   })
 
-  $scope.today1 = function() {
+   $scope.today1 = function() {
     $scope.projectData.startDate = new Date();
   };
 
@@ -740,6 +740,13 @@ projectDashboard.filter('percent', function () {
 
 pdServices.factory('inputTools', ['$http', function($http){
 return{
+  sumBudget: function (obj){
+  var sum = 0
+  for (var key in obj) {
+    sum += (obj[key].amount)
+  }
+  return sum
+},
   dateFormat: function(input){
     var clean = input.split("T") 
     var datearr = clean[0].split("-")
