@@ -319,18 +319,7 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
 
   }]);
 
-
-/* Project Page Phase */
-pdControllers.controller('projectPagePhase', ['$scope', '$location', 'getData', '$stateParams',
-  function ($scope, $location, getData, $stateParams) {
-
-  getData.phaseByid($stateParams.phaseId).then(function(result) {
-    $scope.phasetData = result.data.results[0]
-  })
-
-
-  }]);
-
+/* Project Page*/
 pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 
@@ -362,6 +351,20 @@ pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$sta
   })
 
   }]);
+
+
+/* Project Page Phase */
+pdControllers.controller('projectPagePhase', ['$scope', '$location', 'getData', '$stateParams',
+  function ($scope, $location, getData, $stateParams) {
+
+  getData.phaseByid($stateParams.phaseId).then(function(result) {
+    console.log(result.data.results[0])
+    $scope.phasetData = result.data.results[0]
+  })
+
+
+  }]);
+
 
 /* New Project Page */
 pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
