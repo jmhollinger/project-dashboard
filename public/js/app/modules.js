@@ -62,6 +62,14 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         controller: 'phasePage',
         sp: {authenticate: true}
       }).
+      state('projectPage', {
+        url: '/projectpgae/{projectId:int}',
+        templateUrl: 'project template',
+      }).
+      state('projectPage.phase', {
+        url: '/phasepage/{phaseId:int}',
+        templateUrl: 'phase template',
+      }).
       /*New Project*/
       state('newProject', {
         url: '/project/new',
