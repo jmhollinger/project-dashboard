@@ -358,8 +358,7 @@ pdControllers.controller('projectPagePhase', ['$scope', '$location', 'getData', 
   function ($scope, $location, getData, $stateParams) {
 
   getData.phaseByid($stateParams.phaseId).then(function(result) {
-    console.log(result.data.results[0])
-    $scope.phasetData = result.data.results[0]
+    $scope.phaseData = result.data.results[0]
   })
 
 
