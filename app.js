@@ -233,8 +233,8 @@ app.get('/api/v1/phase/id/:phase_id', function(req, res) {
         client.query({
             text: 'SELECT p.*, pt.phase_name, st.status_name, d.division, to_char(p.start_date, \'FMmm/FMdd/yy\') as start, to_char(p.estimated_completion, \'FMmm/FMdd/yy\') as complete ' +
             'FROM phases p ' +
-            'JOIN phase_type pt ON p.phase_status = phase_type_id ' +
-            'JOIN status_type st ON p.phase_type = status_type_id ' +
+            'JOIN phase_type pt ON p.phase_status = pt.status_type_id ' +
+            'JOIN status_type st ON p.phase_type = st.phase_type_id ' +
             'JOIN divisions d ON p.division_id = d.division_id ' +
             'WHERE phase_id = $1;',
             values: [req.params.phase_id]

@@ -591,7 +591,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
           },
       "phaseDesc" : result.data.results[0].phase_description,
 	    "phaseManager" : result.data.results[0].phase_manager,
-      "division.division" : result.data.results[0].division,
+      "division.division_id" : result.data.results[0].division_id,
 	    "resoNumber" : result.data.results[0].resolution_number,
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
