@@ -61,6 +61,12 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         controller: 'projectPage',
         sp: {authenticate: true}
       }).
+      state('projectPage.phase', {
+        url: '/phase/{phaseId:int}',
+        templateUrl: 'templates/projectPage.Phase.html',
+        controller: 'projectPagePhase',
+        sp: {authenticate: true}
+      }).
       /*View Phase Page */
       state('phasePage', {
         url: '/project/{projectId:int}/phase/{phaseId:int}',
@@ -314,7 +320,17 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
   }]);
 
 
-/* Project Page */
+/* Project Page Phase */
+pdControllers.controller('projectPagePhase', ['$scope', '$location', 'getData', '$stateParams',
+  function ($scope, $location, getData, $stateParams) {
+
+  getData.phaseByid($stateParams.phaseId).then(function(result) {
+    $scope.phasetData = result.data.results[0]
+  })
+
+
+  }]);
+
 pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$stateParams',
   function ($scope, $location, getData, $stateParams) {
 

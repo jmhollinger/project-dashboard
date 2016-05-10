@@ -1,0 +1,57 @@
+<div class="row gray">
+       <div class="col-md-8">
+            <p>Last updated by {{phaseData.phase_mod_user}} on {{ phaseData.phase_mod_time | date: 'short'}}</p>
+            <a ui-sref="phaseEdit({phaseId: phaseData.phase_id})" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Phase</a>
+            <h4 class="text-info bold">Phase Description</h4>
+            <p>{{phaseData.phase_description}}</p>
+            <h4 class="text-info bold">Phase Information</h4>
+            
+            <ul class="no-bullets">
+                <li><span class="bold">Phase ID: </span>{{phaseData.phase_id}}</li>
+                <li><span class="bold">Department: </span>{{phaseData.department}}</li>
+                <li><span class="bold">Division: </span>{{phaseData.division}}</li>
+                <li><span class="bold">Manager: </span>{{phaseData.phase_manager}}</li>
+                <li><span class="bold">Contractor: </span>{{phaseData.contractor}}</li>
+                <li><span class="bold">RFP Number: </span>{{phaseData.rfp_number}}</li>
+                <li><span class="bold">Resolution Number: </span>{{phaseData.resolution_number}}</li>
+                <li><span class="bold">Start Date: </span>{{phaseData.start_date | date: 'shortDate' : '-0500'}}</li>
+                <li><span class="bold">Estimated Completion Date: </span>{{phaseData.estimated_completion | date: 'shortDate' : '-0500'}}</li>
+                <li><span class="bold">Budget: </span>{{phaseData.budget | currency}}</li>
+                <li><span class="bold">Actual: </span>{{phaseData.actual | currency}}</li>
+                <li><span class="bold">Actual Work Complete: </span>{{phaseData.work_complete | percent}}</li>
+            </ul>
+        </div>
+        </div>
+        <div class="row gray">
+        <div class="col-md-8">
+            <h4 class="text-info bold">Funding</h4>
+            <div class="table-responsive">
+            <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>FY</th>
+                    <th>Project</th>
+                    <th>Activity</th>
+                    <th>Fund</th>
+                    <th>Department</th>
+                    <th>Section</th>
+                    <th>Account</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="x in phaseData.accounting">
+                    <td>{{x.amount | currency}}</td>
+                    <td>{{x.fiscalyear}}</td>
+                    <td>{{x.projectid}}</td>
+                    <td>{{x.activity}}</td>
+                    <td>{{x.fund}}</td>
+                    <td>{{x.department}}</td>
+                    <td>{{x.section}}</td>
+                    <td>{{x.account}}</td>
+                </tr>
+            </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
