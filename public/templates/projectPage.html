@@ -1,0 +1,42 @@
+<style>
+    .angular-google-map-container {
+        height: 300px;
+    }
+</style>
+<div ng-include="'templates/shared/navbar.html'"></div> 
+<div class="container-fluid">
+<div class="row accent1">
+  <div class="col-md-12"><h1 class="bold">{{phaseData.project_name}}</h1>
+   <p class="text-gray">Last updated by {{phaseData.proj_mod_user}} on {{ phaseData.proj_mod_time | date: 'short'}}</p>
+  </div>
+</div>
+    <div class="row pad-top pad-bottom">
+        <div class="col-sm-4">
+        	<a ui-sref="projectEdit({projectId: phaseData.project_id})" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Project</a>
+            <h4 class="text-info bold">Project Description</h4>
+            <p>{{phaseData.project_description}}</p>
+            <h4 class="text-info bold">Project Information</h4>
+            <ul class="no-bullets">
+                <li><span class="bold">Project ID:</span> {{phaseData.project_id}}</li>
+                <li><span class="bold">Council Districts:</span> {{cdText}}</li>
+                <li><span class="bold">Total Budget:</span> {{phaseData.estimated_total_budget | currency}}</li>
+                <li><span class="bold">Amount Funded:</span> {{phaseData.funded | currency}}</li>
+            </ul>
+        </div>
+
+    <div class="col-sm-8 map-container">
+            <ui-gmap-google-map center="center" zoom='16'>
+                <ui-gmap-marker coords="markerCoords" idkey="0"> </ui-gmap-marker>
+            </ui-gmap-google-map>
+    </div>
+    </div>
+    
+    <div class="row pad-top">
+        <div class="col-md-12 phases">
+        <ul class="">
+              <li ng-repeat="x in phases" ui-sref-active="phase-active"><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}} Phase</a></li>
+              <li><a ui-sref="newPhase({projectId: phaseData.project_id})"><i class="fa fa-plus"></i> Add Phase</a></li>
+        </ul>
+       </div>
+    </div>      
+<div ng-include="'templates/shared/footer.html'"></div> 

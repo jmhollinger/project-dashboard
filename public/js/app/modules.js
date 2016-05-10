@@ -55,20 +55,18 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         controller: 'projectMap',
         sp: {authenticate: true}
       }).
+      state('projectPage', {
+        url: '/project/{projectId:int}',
+        templateUrl: 'templates/projectPage.html',
+        controller: 'projectPage',
+        sp: {authenticate: true}
+      }).
       /*View Phase Page */
       state('phasePage', {
         url: '/project/{projectId:int}/phase/{phaseId:int}',
         templateUrl: 'templates/phasePage.html',
         controller: 'phasePage',
         sp: {authenticate: true}
-      }).
-      state('projectPage', {
-        url: '/projectpgae/{projectId:int}',
-        templateUrl: 'project template',
-      }).
-      state('projectPage.phase', {
-        url: '/phasepage/{phaseId:int}',
-        templateUrl: 'phase template',
       }).
       /*New Project*/
       state('newProject', {
@@ -315,6 +313,29 @@ pdControllers.controller('phasePage', ['$scope', '$location', 'getData', '$state
 
   }]);
 
+
+/* Project Page */
+pdControllers.controller('projectPage', ['$scope', '$location', 'getData', '$stateParams',
+  function ($scope, $location, getData, $stateParams) {
+
+  getData.projectphaseByid($stateParams.projectId, $stateParams.phaseId).then(function(result) {
+    $scope.phaseData = result.data.results[0]
+    $scope.cdText = result.data.results[0].council_districts.toString()
+    $scope.markerCoords = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
+    $scope.center = {"latitude": result.data.results[0].lat, "longitude": result.data.results[0].lng}
+  })
+
+  getData.phasesByid($stateParams.projectId).then(function(result) {
+    $scope.phases = result.data.results
+  })
+
+  getData.notesByid($stateParams.phaseId).then(function(result) {
+    $scope.notes = result.data.results
+    $scope.phaseCount = result.data.results.length
+  })
+
+  }]);
+
 /* New Project Page */
 pdControllers.controller('projectNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
   function ($http, $scope, $location, $log, getData, addData) {
@@ -403,6 +424,7 @@ $scope.open2 = function() {
   }
 
   }]);
+
 
 /* New Phase Page */
 pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
