@@ -37,7 +37,14 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       }).
       state('home', {
         url: '/',
-        templateUrl: 'templates/projectList.html',
+        templateUrl: 'templates/dashboard.html',
+        controller: 'projectList',
+        sp: {authenticate: true}
+      }).
+      /*List View */
+      state('projectList', {
+        url: '/projects/list',
+        templateUrl: 'templates/projectlist.html',
         controller: 'projectList',
         sp: {authenticate: true}
       }).
