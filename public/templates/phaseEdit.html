@@ -1,5 +1,5 @@
 <style>.angular-google-map-container { height: 400px;}</style>
-<div ng-include="'templates/shared/navbar.html'"></div> 
+<div ng-include="'templates/shared/navbar.html'"></div>
 <form name="projectForm" novalidate>
 <div class="container-fluid">
 <div class="row accent1">
@@ -69,11 +69,11 @@
             Financial Information
           </h3>
           <div class="row">
-            <div class=" col-md-12 has-error"> 
+            <div class=" col-md-12 has-error">
                 <p ng-show="(projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$pristine || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine)" class="help-block">Please enter a funding source.</p>
             </div>
-          </div> 
-            
+          </div>
+
           <div class="row">
           <div class="col-md-12 form-group" ng-class="{ 'has-error' : (projectForm.amount.$invalid || projectForm.fy.$invalid || projectForm.fund.$invalid || projectForm.dept.$invalid || projectForm.section.$invalid || projectForm.account.$invalid) && (!projectForm.amount.$pristine || !projectForm.fy.$pristine || !projectForm.fund.$pristine || !projectForm.dept.$pristine || !projectForm.section.$pristine || !projectForm.account.$pristine) }" >
           <p class="bold hidden-md hidden-lg">Line 1</p>
@@ -83,7 +83,7 @@
               <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['1'].fiscalyear" placeholder="FY" required>
               <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['1'].fund" placeholder="Fund" required>
               <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['1'].department" placeholder="Dept ID" required>
-              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['1'].section" placeholder="Section" required>  
+              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['1'].section" placeholder="Section" required>
               <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['1'].account"  placeholder="Account" required>
           </div>
           </div>
@@ -96,7 +96,7 @@
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].fiscalyear" placeholder="FY" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].fund" placeholder="Fund" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].department" placeholder="Dept ID" />
-              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].section" placeholder="Section" />  
+              <input class="form-financial" type="text" ng-model="projectData.accounting['2'].section" placeholder="Section" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['2'].account"  placeholder="Account" />
           </div>
           </div>
@@ -109,7 +109,7 @@
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].fiscalyear" placeholder="FY" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].fund" placeholder="Fund" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].department" placeholder="Dept ID" />
-              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].section" placeholder="Section" />  
+              <input class="form-financial" type="text" ng-model="projectData.accounting['3'].section" placeholder="Section" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['3'].account"  placeholder="Account" />
           </div>
           </div>
@@ -122,7 +122,7 @@
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].fiscalyear" placeholder="FY" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].fund" placeholder="Fund" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].department" placeholder="Dept ID" />
-              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].section" placeholder="Section" />  
+              <input class="form-financial" type="text" ng-model="projectData.accounting['4'].section" placeholder="Section" />
               <input class="form-financial" type="text" ng-model="projectData.accounting['4'].account"  placeholder="Account" />
           </div>
           </div>
@@ -135,7 +135,7 @@
               <input name="fy" class="form-financial" type="text" ng-model="projectData.accounting['5'].fiscalyear" placeholder="FY" />
               <input name="fund" class="form-financial" type="text" ng-model="projectData.accounting['5'].fund" placeholder="Fund" />
               <input name="dept" class="form-financial" type="text" ng-model="projectData.accounting['5'].department" placeholder="Dept ID" />
-              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['5'].section" placeholder="Section" />  
+              <input name="section" class="form-financial" type="text" ng-model="projectData.accounting['5'].section" placeholder="Section" />
               <input name="account" class="form-financial" type="text" ng-model="projectData.accounting['5'].account"  placeholder="Account" />
           </div>
           </div>
@@ -158,14 +158,14 @@
             </label>
             <p class="input-group">
               <input type="text" name="startDate" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.startDate" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" placeholder="ex. 1/1/16" required/>
-              
+
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open1()">
                   <i class="glyphicon glyphicon-calendar">
                   </i>
                 </button>
               </span>
-              
+
             </p>
             <p ng-show="projectForm.startDate.$invalid && !projectForm.startDate.$pristine" class="help-block">Please enter a start date.</p>
           </div>
@@ -175,14 +175,14 @@
             </label>
             <p class="input-group">
               <input type="text" name="completionDate" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" placeholder="ex. 12/31/16" required/>
-              
+
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open2()">
                   <i class="glyphicon glyphicon-calendar">
                   </i>
                 </button>
               </span>
-              
+
             </p>
             <p ng-show="projectForm.completionDate.$invalid && !projectForm.completionDate.$pristine" class="help-block">Please enter a completion date.</p>
           </div>
@@ -226,4 +226,5 @@
       </div>
 </div>
 </form>
-<div ng-include="'templates/shared/footer.html'"></div> 
+<pre>{{projectData}}</pre>
+<div ng-include="'templates/shared/footer.html'"></div>
