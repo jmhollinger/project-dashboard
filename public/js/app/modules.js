@@ -576,8 +576,8 @@ $scope.open2 = function() {
   }]);
 
 /* Edit Phase Page */
-pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData',
-  function ($http, $scope, $location, $log, $stateParams, getData, addData) {
+pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$stateParams', 'getData', 'addData', 'inputTools',
+  function ($http, $scope, $location, $log, $stateParams, getData, addData, inputTools) {
 
   getData.phaseByid($stateParams.phaseId).then(function(result) {
     console.log(result.data.results)
