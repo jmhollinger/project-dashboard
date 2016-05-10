@@ -603,37 +603,36 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 
   })
 
-
   $scope.today1 = function() {
-    $scope.phaseData.startDate = new Date();
+    $scope.projectData.startDate = new Date();
   };
 
   $scope.today2 = function() {
-    $scope.phaseData.completionDate = new Date();
+    $scope.projectData.completionDate = new Date();
   };
 
   $scope.clear1 = function() {
-    $scope.phaseData.startDate = null;
+    $scope.projectData.startDate = null;
   };
 
   $scope.clear2 = function() {
-    $scope.phaseData.completionDate = null;
+    $scope.projectData.completionDate = null;
   };
 
 
- $scope.open1 = function() {
+  $scope.open1 = function() {
     $scope.popup1.opened = true;
   };
 
-$scope.open2 = function() {
+  $scope.open2 = function() {
     $scope.popup2.opened = true;
   };
 
- $scope.popup1 = {
+  $scope.popup1 = {
     opened: false
   };
 
- $scope.popup2 = {
+  $scope.popup2 = {
     opened: false
   };
 
