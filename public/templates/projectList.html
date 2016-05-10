@@ -147,38 +147,38 @@
             </td>
             <td>
               <a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.department}}</a>
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.department}}</a>
             </td>
             <td>
               <a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.division}}</a>
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.division}}</a>
             </td>
             <td>
               <a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.contractor}}</a>
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.contractor}}</a>
             </td>
             <td>
               <a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.budget
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.budget
               | currency}}</a>
             </td>
             <td>
               <a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.actual
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.actual
               | currency}}</a>
             </td>
             <td>
               <a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.work_complete
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.work_complete
               | percent: 2}}</a>
             </td>
             <td>
               <status-flag metric-value="{{x.cost_variance}}"><a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})"></a></status-flag>
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})"></a></status-flag>
             </td>
             <td>
               <status-flag metric-value="{{x.schedule_variance}}"><a ui-sref=
-              "phasePage({projectId: x.project_id, phaseId: x.phase_id})"></a></status-flag>
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})"></a></status-flag>
             </td>
           </tr>
         </tbody>
