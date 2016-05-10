@@ -39,7 +39,7 @@
               <label>
                 Division
               </label>
-              <input type="text" name="division" ng-model="projectData.division" uib-typeahead="item as item.division for item in divisions track by item.division_id | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" required>
+              <input type="text" name="division" ng-model="projectData.division" uib-typeahead="item as item.division for item in divisions | filter:$viewValue | limitTo:8" class="form-control" typeahead-show-hint="true" typeahead-editable="false" typeahead-on-select="onSelect($item, $model, $label)" required>
               <p ng-show="projectForm.division.$invalid && !projectForm.division.$pristine" class="help-block">Please select a division.</p>
             </div>
           </div>
