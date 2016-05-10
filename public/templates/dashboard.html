@@ -36,6 +36,69 @@
       </div>
     </div>
 
+    <div class="hidden-xs row gray">
+        <div class="col-md-3 col-sm-6 tile">
+          <h1 class="text-primary bold">{{projectStats.projects}}</h1>
+          <h3 class="text-info bold">{{projectLabel}}</h3>
+        </div>
+        <div class="col-md-3 col-sm-6 tile">
+          <h1 class="text-primary bold">{{projectStats.projects}}</h1>
+          <h3 class="text-info bold">{{phaseLabel}}</h3>
+        </div>
+        <div class="col-md-3 col-sm-6 tile">
+          <h1 class="text-primary bold">{{projectStats.budget | currency : '$' : 0}}</h1>
+          <h3 class="text-info bold">Budget</h3>
+        </div>
+        
+         <div class="col-md-3 col-sm-6 tile">
+         <h1 class="text-primary bold">{{projectStats.actual | currency : '$' : 0}}</h1>
+          <h3 class="text-info bold">Spent</h3>
+        </div>
+    </div>
+
+    <div class="hidden-xs row pad-top">
+          <div class="col-md-4 col-sm-6">
+          <canvas height="100" chart-data="budgetData" chart-labels="['Under Budget', 'On Budget', 'Over Budget']" class="chart chart-doughnut" id="doughnut" chart-colours="['#2ecc71','#3498db','#e74c3c']" chart-options="{percentageInnerCutout : 70}"></canvas>
+            
+            <div class="row text-center pad-top">
+            <div class="col-md-12">
+              <button class="btn btn-success btn-responsive chart-label" type="button">Under Budget <span class="badge">{{projectStats.under_budget}}</span></button>
+              <button class="btn btn-info btn-responsive chart-label" type="button">On Budget <span class="badge">{{projectStats.on_budget}}</span></button>           
+              <button class="btn btn-danger btn-responsive chart-label" type="button">Over Budget <span class="badge">{{projectStats.over_budget}}</span></button></div>
+            </div>
+            
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+          <canvas height="100" chart-data="scheduleData" chart-labels=
+            "['Ahead of Schedule', 'On Schedule', 'Behind Schedule']" class=
+            "chart chart-doughnut" id="doughnut" chart-colours="['#2ecc71','#3498db','#e74c3c']"  chart-options="{percentageInnerCutout : 70}"></canvas>
+            
+            <div class="row text-center pad-top">
+              <div class="col-md-12">
+              <button class="btn btn-success btn-responsive chart-label" type="button">Ahead of Schedule <span class="badge">{{projectStats.ahead_schedule}}</span></button>
+              <button class="btn btn-info btn-responsive chart-label" type="button">On Schedule <span class="badge">{{projectStats.on_schedule}}</span></button>          
+              <button class="btn btn-danger btn-responsive chart-label" type="button">Behind Schedule <span class="badge">{{projectStats.behind_schedule}}</span></button>
+              </div>
+            </div>
+              
+          </div>
+
+          <div class="col-md-4 col-sm-6">
+          <canvas height="100" chart-data="statusData" chart-labels=
+            "['Not Started', 'In Progress', 'Completed']" class=
+            "chart chart-doughnut" id="doughnut" chart-colours="['#e74c3c','#2ecc71','#3498db']"  chart-options="{percentageInnerCutout : 70}">
+            </canvas>
+            
+            <div class="row text-center pad-top">
+            <div class="col-md-12">
+              <button class="btn btn-danger btn-responsive chart-label" type="button">Not Started <span class="badge">{{projectStats.not_started}}</span></button>
+              <button class="btn btn-success btn-responsive chart-label" type="button">In Progress <span class="badge">{{projectStats.in_progress}}</span></button>
+              <button class="btn btn-info btn-responsive chart-label" type="button">Completed <span class="badge">{{projectStats.completed}}</span></button></div>
+            </div>
+          </div>
+      </div>
+
    <div class="row">
     <div class="col-md-12">
       <h1 class="text-primary bold">Projects</h1>
