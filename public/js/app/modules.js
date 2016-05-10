@@ -601,8 +601,8 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 	    "accounting" : result.data.results[0].accounting,
 	    "rfpNumber" : result.data.results[0].rfp_number,
 	    "contractor" : result.data.results[0].contractor,
-	    "startDate" : new Date(2014, 3, 19),
-	    "completionDate" : result.data.results[0].complete,
+	    "startDate" : inputTools.dateFormat(result.data.results[0].start_date),
+	    "completionDate" : inputTools.dateFormat(result.data.results[0].estimated_completion),
 	    "phaseBudget" : result.data.results[0].budget,
 	    "workComplete" : result.data.results[0].work_complete,
 	    "phaseActual" : result.data.results[0].actual,
@@ -740,6 +740,11 @@ projectDashboard.filter('percent', function () {
 
 pdServices.factory('inputTools', ['$http', function($http){
 return{
+  dateFormat: function(input){
+    var clean = input.split("T") 
+    var datearr = clean[0].split("-")
+    return new Date(datearr[0], datearr[1] - 1, datearr[2])
+},
   clean: function(input){
     var wordarray = input.trim().split(/\s+/gim)
     for (i = 0; i < wordarray.length; i++) {
