@@ -34,7 +34,7 @@
     <div class="row pad-top">
         <div class="col-md-12 phases">
         <ul class="">
-              <li ng-repeat="x in phases" ui-sref-active="phase-active"><a ui-sref="phasePage({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}}</a></li>
+              <li ng-repeat="x in phases" ui-sref-active="phase-active"><a ui-sref="projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.phase_name}}</a></li>
               <li><a ui-sref="newPhase({projectId: projectData.projectId})"><i class="fa fa-plus"></i> Add Phase</a></li>
         </ul>
        </div>

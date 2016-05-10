@@ -67,7 +67,7 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         controller: 'projectPagePhase',
         sp: {authenticate: true}
       }).
-      /*View Phase Page */
+      /*View Phase Page 
       state('phasePage', {
         url: '/project/{projectId:int}/phase/{phaseId:int}',
         templateUrl: 'templates/phasePage.html',
