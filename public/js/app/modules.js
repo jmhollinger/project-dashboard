@@ -446,7 +446,7 @@ $scope.open2 = function() {
 
   $scope.saveProject = function() {
     addData.newProject($scope.projectData).then(function(result) {
-      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
+      $location.path('/project/' + result.data.results[0].project_id + '/phasepage/' + result.data.results[0].phase_id)
   })
 }
 
@@ -537,7 +537,7 @@ $scope.open2 = function() {
 
   $scope.savePhase = function() {
     addData.newPhase($scope.projectData).then(function(result) {
-      $location.path('/project/' + result.data.results[0].project_id + '/phase/' + result.data.results[0].phase_id)
+      $location.path('/project/' + result.data.results[0].project_id + '/phasepage/' + result.data.results[0].phase_id)
   })
 }
 
@@ -632,7 +632,7 @@ $scope.open2 = function() {
 
   $scope.saveProject = function() {
     addData.updateProject($scope.projectData).then(function(result) {
-      $location.path('/projects/list')
+      $location.path('/project/' + $scope.projectData.projectId)
   })
 }
 
@@ -725,7 +725,7 @@ pdControllers.controller('phaseEdit', ['$http','$scope', '$location', '$log', '$
 
   $scope.savePhase = function() {
     addData.updatePhase($scope.projectData).then(function(result) {
-      $location.path('/project/' + $scope.projectData.projectId + '/phase/' + $scope.projectData.phaseId)
+      $location.path('/project/' + $scope.projectData.projectId + '/phasepage/' + $scope.projectData.phaseId)
   })
 }
 
