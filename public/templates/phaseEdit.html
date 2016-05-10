@@ -157,14 +157,7 @@
               Start Date
             </label>
             <p class="input-group">
-              <input type="date" name="startDate" class="form-control" ng-model="projectData.startDate" ng-required="true" placeholder="ex. 1/1/16" required/>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open1()">
-                  <i class="glyphicon glyphicon-calendar">
-                  </i>
-                </button>
-              </span>
-
+              <input type="date" name="startDate" class="form-control" ng-model="projectData.startDate" ng-required="true" required/>
             </p>
             <p ng-show="projectForm.startDate.$invalid && !projectForm.startDate.$pristine" class="help-block">Please enter a start date.</p>
           </div>
@@ -173,7 +166,7 @@
               Estimated Completion Date
             </label>
             <p class="input-group">
-              <input type="text" name="completionDate" class="form-control" uib-datepicker-popup="shortDate" ng-model="projectData.completionDate" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Done" placeholder="ex. 12/31/16" required/>
+              <input type="date" name="completionDate" class="form-control" ng-model="projectData.completionDate" ng-required="true" />
 
               <span class="input-group-btn">
                 <button type="button" class="btn btn-default" ng-click="open2()">
