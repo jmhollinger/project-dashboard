@@ -43,7 +43,7 @@ app.set('view engine', 'jade');
 
 //API Endpoints
 
-//New Project
+//New Project and Phase
 app.post('/api/v1/projectAndPhase', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
@@ -371,6 +371,7 @@ app.get('/api/v1/phase-types', function(req, res) {
         });
     });
 })
+
 
 app.get('/api/v1/phase-types/name/:name', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
