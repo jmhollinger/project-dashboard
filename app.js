@@ -472,7 +472,8 @@ app.get('/api/v1/project/search', stormpath.loginRequired,  function(req, res) {
             whereClause = ' WHERE '
         } else {}
 
-        var query_string = queryArray.toString().replace(/,/g, " AND ")
+        if(queryArray){var query_string = queryArray.toString().replace(/,/g, " AND ")}
+        else{}
 
         client.query(
             'SELECT * from project_list' + whereClause + query_string, function(err, result) {
