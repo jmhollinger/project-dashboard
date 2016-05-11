@@ -179,9 +179,9 @@ if (newValues[0]){
 })
 
  $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict', 'phaseStatusid', 'phaseTypeid'], function(newValues, oldValues) {
-  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : $scope.councilDistrict, status: $scope.phaseStatus, type: $scope.phaseType})
+  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : $scope.councilDistrict.district_id, status: $scope.phaseStatus, type: $scope.phaseType})
 
-  getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseTypeid, $scope.phaseStatusid).then(function(result) {
+  getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict.district_id, $scope.phaseTypeid, $scope.phaseStatusid).then(function(result) {
       $scope.projects = result.data.results
       if (result.data.results.length===0) {$scope.noResults = true}
       else{$scope.noResults = false}
