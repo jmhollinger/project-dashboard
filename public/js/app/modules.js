@@ -144,7 +144,7 @@ pdControllers.controller('projectList', ['$scope', '$location', 'getData',
   $scope.division = null
   $scope.departmentId = null
   $scope.divisionId = null
-  $scope.councilDistrict = null
+  $scope.councilDistrict.district_id = null
   $scope.phaseType = null
   $scope.phaseStatus = null
   $location.search({})
