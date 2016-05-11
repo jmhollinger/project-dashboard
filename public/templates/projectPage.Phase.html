@@ -1,6 +1,6 @@
 <div class="row gray">
        <div class="col-md-8">
-            <p class="bold">{{phaseData.phase_status}}<p>
+            <p class="bold">{{phaseData.status_name}}<p>
             <p>Last updated by {{phaseData.modified_by}} on {{ phaseData.date_modified | date: 'short'}}</p>
             <a ui-sref="phaseEdit({phaseId: phaseData.phase_id})" class="btn btn-default"><i class="fa fa-pencil-square-o"></i> Edit Phase</a>
             <h4 class="text-info bold">Phase Description</h4>
