@@ -187,7 +187,7 @@ if (newValues[0]){
       else{$scope.noResults = false}
     })
 
-  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict, $scope.phaseStatusid, $scope.phaseTypeid).then(function(result) {
+  getData.projectStats($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict.district_id, $scope.phaseStatusid, $scope.phaseTypeid).then(function(result) {
       var budgetData = []
       var scheduleData = []
       var statusData = []
