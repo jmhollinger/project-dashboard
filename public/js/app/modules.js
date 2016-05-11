@@ -275,7 +275,7 @@ if (newValues[0]){
 })
 
  $scope.$watchGroup(['searchTerm','departmentId','divisionId','councilDistrict'], function(newValues, oldValues) {
-  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3].district_id})
+  $location.search({q: newValues[0] ,dept : $scope.department, div : $scope.division, cd : newValues[3]})
 
   getData.projectSearch($scope.searchTerm , $scope.departmentId, $scope.divisionId, $scope.councilDistrict).then(function(result) {
       $scope.projects = result.data
