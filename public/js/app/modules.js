@@ -453,7 +453,7 @@ $scope.open2 = function() {
 
   $scope.saveProject = function() {
     addData.newProject($scope.projectData).then(function(result) {
-      $location.path('/project/' + result.data.results[0].project_id + '/phasepage/' + result.data.results[0].phase_id)
+      $location.path('/project/' + result.data.results[0].project_id)
   })
 }
 
@@ -462,9 +462,6 @@ $scope.open2 = function() {
         $location.path('/project/' + result.data.results[0].project_id + '/phase/new')
     })
   }
-
-  }]);
-
 
 /* New Phase Page */
 pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
