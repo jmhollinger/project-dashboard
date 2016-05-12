@@ -27,17 +27,10 @@
         <div class="row">
           <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine }">
             <label>
-              Estimated Total Budget ($)
+              Estimated Total Project Cost ($)
             </label>
             <input type="text" name="estBudget" class="form-control" ng-model="projectData.estBudget" ui-money-mask="0"  required>
             <p ng-show="projectForm.estBudget.$invalid && !projectForm.estBudget.$pristine" class="help-block">Please enter a total project budget.</p>
-          </div>
-          <div class="form-group col-md-6" ng-class="{ 'has-error' : projectForm.funded.$invalid && !projectForm.funded.$pristine }">
-            <label>
-              Current Funded Amount ($)
-            </label>
-            <input type="text" name="funded" class="form-control" ng-model="projectData.funded" ui-money-mask="0"  required>
-          <p ng-show="projectForm.funded.$invalid && !projectForm.funded.$pristine" class="help-block">Please enter the amount currently funded.</p>
           </div>
         </div>
         <div class="form-group" ng-class="{ 'has-error' : projectForm.councilDistricts.$invalid && !projectForm.councilDistricts.$pristine }" >
