@@ -463,6 +463,9 @@ $scope.open2 = function() {
     })
   }
 
+  }]);
+
+
 /* New Phase Page */
 pdControllers.controller('phaseNew', ['$http','$scope', '$location', '$log', 'getData', 'addData',
   function ($http, $scope, $location, $log, getData, addData) {
