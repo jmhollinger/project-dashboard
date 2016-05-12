@@ -90,12 +90,11 @@ app.post('/api/v1/projectAndPhase', function(req, res) {
 app.post('/api/v1/project', stormpath.loginRequired, function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
-                    text: 'INSERT INTO projects (project_name, project_description, estimated_total_budget,funded, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING project_ID',
+                    text: 'INSERT INTO projects (project_name, project_description, estimated_total_budget, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING project_ID',
                     values: [
                         req.body.projectName,
                         req.body.projectDesc,
                         req.body.estBudget,
-                        req.body.funded,
                         JSON.stringify(req.body.councilDistricts),
                         req.body.lat,
                         req.body.lng,
