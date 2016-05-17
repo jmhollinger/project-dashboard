@@ -31,6 +31,7 @@ app.use(stormpath.init(app,{
     spaRoot: 'public/index.html'
   },
   expand: {
+    groups: true,
     customData: true
   }
 }));

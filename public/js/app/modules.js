@@ -35,6 +35,10 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
         url: '/login',
         templateUrl: 'templates/login.html',
       }).
+      state('register', {
+        url: '/register',
+        templateUrl: 'templates/register.html',
+      }).
       state('home', {
         url: '/',
         templateUrl: 'templates/dashboard.html',
