@@ -26,6 +26,13 @@ app.use(https_redirect);
 
 app.use(express.static('public'));
 
+app.use(function noCache(req, res, next) {
+    res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.header("Pragma", "no-cache");
+    res.header("Expires", 0);
+    next();
+});
+
 app.use(stormpath.init(app,{
   web: {
     spaRoot: 'public/index.html'
