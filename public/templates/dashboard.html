@@ -139,7 +139,7 @@
           <tr ng-repeat="x in projects">
             <td>
               <a ui-sref=
-              "projectPage({projectId: x.project_id})">{{x.project_name}}</a>
+              "projectPage.phase({projectId: x.project_id, phaseId: x.phase_id})">{{x.project_name}}</a>
             </td>
             <td>
               <a ui-sref=
