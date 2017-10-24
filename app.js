@@ -33,16 +33,6 @@ app.use(function noCache(req, res, next) {
     next();
 });
 
-app.use(stormpath.init(app,{
-  web: {
-    spaRoot: 'public/index.html'
-  },
-  expand: {
-    groups: true,
-    customData: true
-  }
-}));
-
 app.use(bodyParser.json({
     extended: false
 }));
@@ -95,7 +85,7 @@ app.post('/api/v1/projectAndPhase', function(req, res) {
 })
 
 //New Project
-app.post('/api/v1/project', stormpath.loginRequired, function(req, res) {
+app.post('/api/v1/project', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'INSERT INTO projects (project_name, project_description, estimated_total_budget, council_districts, lat, lng, modified_by) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING project_ID',
@@ -120,7 +110,7 @@ app.post('/api/v1/project', stormpath.loginRequired, function(req, res) {
 })
 
 //New Phase
-app.post('/api/v1/phase', stormpath.loginRequired, function(req, res) {
+app.post('/api/v1/phase', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
             client.query({
                     text: 'INSERT INTO phases (project_id, phase_status, phase_type, phase_description,phase_manager, division_id, resolution_number, accounting, rfp_number,contractor, start_date, estimated_completion, budget, work_complete,actual, notes, modified_by) VALUES ($1 , $2 , $3 , $4, $5, $6, $7, $8 , $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING project_id, phase_id;',
@@ -256,7 +246,7 @@ app.get('/api/v1/phase/id/:phase_id', function(req, res) {
 })
 
 //List Departments
-app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
+app.get('/api/v1/departments', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT DISTINCT department_id, department FROM divisions', function(err, result) {
             done();
@@ -270,7 +260,7 @@ app.get('/api/v1/departments', stormpath.loginRequired, function(req, res) {
 })
 
 //Department by ID
-app.get('/api/v1/department/id/:dept_id', stormpath.loginRequired, function(req, res) {
+app.get('/api/v1/department/id/:dept_id', function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT DISTINCT department_id, department from divisions WHERE department_id = $1',
@@ -420,7 +410,7 @@ app.get('/api/v1/status-types/name/:name', function(req, res) {
 })
 
 //All Projects
-app.get('/api/v1/projects', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/projects',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query('SELECT * from project_list;', function(err, result) {
             done();
@@ -434,7 +424,7 @@ app.get('/api/v1/projects', stormpath.loginRequired,  function(req, res) {
     });
 })
 
-app.get('/api/v1/:table/:field/:id', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/:table/:field/:id',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({text : 'SELECT * from ' + req.params.table + ' WHERE ' + req.params.field + ' = $1;', values : [req.params.id]}, function(err, result) {
             done();
@@ -448,7 +438,7 @@ app.get('/api/v1/:table/:field/:id', stormpath.loginRequired,  function(req, res
 })
 
 //Search Projects
-app.get('/api/v1/project/search', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/project/search',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var queryArray = []
         var whereClause = ''
@@ -500,7 +490,7 @@ app.get('/api/v1/project/search', stormpath.loginRequired,  function(req, res) {
 })
 
 //Project Stats
-app.get('/api/v1/project/search-summary', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/project/search-summary',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         var queryArray = []
         var whereClause = ''
@@ -572,7 +562,7 @@ app.get('/api/v1/project/search-summary', stormpath.loginRequired,  function(req
 })
 
 //Phase Data by Project ID and Phase ID
-app.get('/api/v1/project/:project_id/phase/:phase_id', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/project/:project_id/phase/:phase_id',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT * FROM all_project_phases WHERE project_id = $1 AND phase_id = $2 ORDER BY start_date DESC;',
@@ -596,7 +586,7 @@ app.get('/api/v1/project/:project_id/phase/:phase_id', stormpath.loginRequired, 
 });
 
 //Phases by Project ID
-app.get('/api/v1/project-phases/:project_id', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/project-phases/:project_id',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT project_id, phase_id, phase_name FROM all_project_phases WHERE project_id = $1 ORDER BY start_date ASC;',
@@ -620,7 +610,7 @@ app.get('/api/v1/project-phases/:project_id', stormpath.loginRequired,  function
 });
 
 //Phase Notes by Project ID and Phase ID
-app.get('/api/v1/phase-notes/:phase_id', stormpath.loginRequired,  function(req, res) {
+app.get('/api/v1/phase-notes/:phase_id',  function(req, res) {
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         client.query({
             text: 'SELECT min(date_modified) as date_modified, notes FROM phases_history WHERE phase_id = $1 AND notes IS NOT NULL GROUP BY notes ORDER BY date_modified DESC;',
@@ -645,12 +635,8 @@ app.get('/api/v1/phase-notes/:phase_id', stormpath.loginRequired,  function(req,
 
 //Server
 
-app.on('stormpath.ready', function () {
-var server = app.listen(process.env.PORT || 3000, function() {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log('App listening at http://%s:%s', host, port);
-});
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
 })
 
 

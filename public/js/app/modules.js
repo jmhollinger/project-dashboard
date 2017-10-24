@@ -42,89 +42,76 @@ projectDashboard.config(['$stateProvider', '$urlRouterProvider', '$locationProvi
       state('home', {
         url: '/',
         templateUrl: 'templates/dashboard.html',
-        controller: 'projectList',
-        sp: {authenticate: true}
+        controller: 'projectList'
       }).
       /*List View */
       state('projectList', {
         url: '/projects/list',
         templateUrl: 'templates/projectList.html',
-        controller: 'projectList',
-        sp: {authenticate: true}
+        controller: 'projectList'
       }).
     /*List View */
       state('dashboard', {
         url: '/dashboard',
         templateUrl: 'templates/dashboard.html',
-        controller: 'projectList',
-        sp: {authenticate: true}
+        controller: 'projectList'
       }).
      /*Map View */
       state('projectMap', {
         url: '/projects/map',
         templateUrl: 'templates/projectMap.html',
-        controller: 'projectMap',
-        sp: {authenticate: true}
+        controller: 'projectMap'
       }).
       state('projectPage', {
         url: '/project/{projectId:int}',
         templateUrl: 'templates/projectPage.html',
-        controller: 'projectPage',
-        sp: {authenticate: true}
+        controller: 'projectPage'
       }).
       state('projectPage.phase', {
         url: '/phasepage/{phaseId:int}',
         templateUrl: 'templates/projectPage.Phase.html',
-        controller: 'projectPagePhase',
-        sp: {authenticate: true}
+        controller: 'projectPagePhase'
       }).
       /*View Phase Page 
       state('phasePage', {
         url: '/project/{projectId:int}/phase/{phaseId:int}',
         templateUrl: 'templates/phasePage.html',
-        controller: 'phasePage',
-        sp: {authenticate: true}
+        controller: 'phasePage'
       }).
       /*New Project*/
       state('newProject', {
         url: '/project/new',
         templateUrl: 'templates/projectNew.html',
-        controller: 'projectNew',
-        sp: {authenticate: true}
+        controller: 'projectNew'
       }).
       /*New Phase*/
       state('newPhase', {
         url: '/project/{projectId:int}/phase/new',
         templateUrl: 'templates/phaseNew.html',
-        controller: 'phaseNew',
-        sp: {authenticate: true}
+        controller: 'phaseNew'
       }).
       /*Edit Project Page */
       state('projectEdit', {
         url: '/project/edit/{projectId:int}',
         templateUrl: 'templates/projectEdit.html',
-        controller: 'projectEdit',
-        sp: {authenticate: true}
+        controller: 'projectEdit'
       }).
       /*Edit Phase Page */
       state('phaseEdit', {
         url: '/phase/edit/{phaseId:int}',
         templateUrl: 'templates/phaseEdit.html',
-        controller: 'phaseEdit',
-        sp: {authenticate: true}
+        controller: 'phaseEdit'
       }).
       /*My Account*/
       state('account', {
         url: '/account',
         templateUrl: 'templates/account.html',
-        controller: 'account',
-        sp: {authenticate: true}
+        controller: 'account'
       }).
       /*Error page*/
       state('error', {
         url: '/error',
-        templateUrl: 'templates/error.html',
-        sp: {authenticate: true}
+        templateUrl: 'templates/error.html'
       });
 
   }]);
