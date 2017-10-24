@@ -5,8 +5,9 @@ var bodyParser = require('body-parser');
 var stormpath = require('express-stormpath');
 var helmet = require('helmet')
 
-
 var app = express();
+
+app.set('port', (process.env.PORT || 5000));
 
 app.use(helmet())
 
@@ -635,9 +636,9 @@ app.get('/api/v1/phase-notes/:phase_id',  function(req, res) {
 
 //Server
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
 
 
 function nullCheck (input){
