@@ -302,9 +302,9 @@ app.get('/api/v1/divisions', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end()
             }
         });
+        client.end();
     });
 })
 
