@@ -80,7 +80,6 @@ app.post('/api/v1/projectAndPhase', function(req, res) {
                         res.json({"success": false,"results": err});
                     } else {
                         res.json({"success" : true, "results" : result.rows});
-                        client.end();
                     }
                 });
     });
@@ -106,7 +105,6 @@ app.post('/api/v1/project', function(req, res) {
                         res.json({"success": false,"results": err});
                     } else {
                         res.json({"success" : true, "results" : result.rows});
-                        client.end();
                     }
                 });
     });
@@ -142,7 +140,6 @@ app.post('/api/v1/phase', function(req, res) {
                         res.json({"success": false,"results": err});
                     } else {
                         res.json({"success" : true, "results" : result.rows});
-                        client.end();
                     }
                 });
     });
@@ -169,7 +166,6 @@ app.put('/api/v1/project', function(req, res) {
                         res.json({"success": false,"results": err});
                     } else {
                         res.json({"success" : true, "results" : result.rows});
-                        client.end();
                     }
                 });
     });
@@ -205,7 +201,6 @@ app.put('/api/v1/phase', function(req, res) {
                         res.json({"success": false,"results": err});
                     } else {
                         res.json({"success" : true, "results" : result.rows});
-                        client.end();
                     }
                 });
     });
@@ -222,8 +217,7 @@ app.get('/api/v1/project/id/:project_id', function(req, res) {
             if (err) {
                 res.json({"success" : false, "results" : err});
             } else {
-                res.json({"success" : true, "results" : result.rows});c
-                client.end();
+                res.json({"success" : true, "results" : result.rows});
             }
         });
     });
@@ -247,7 +241,6 @@ app.get('/api/v1/phase/id/:phase_id', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -262,7 +255,6 @@ app.get('/api/v1/departments', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -279,7 +271,6 @@ app.get('/api/v1/department/id/:dept_id', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -297,7 +288,6 @@ app.get('/api/v1/department/name/:dept_name', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -312,7 +302,7 @@ app.get('/api/v1/divisions', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
+                client.end()
             }
         });
     });
@@ -330,7 +320,6 @@ app.get('/api/v1/division/id/:div_id', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -348,7 +337,6 @@ app.get('/api/v1/division/name/:div_name', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -363,7 +351,6 @@ app.get('/api/v1/council-districts', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -378,7 +365,6 @@ app.get('/api/v1/phase-types', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -393,7 +379,6 @@ app.get('/api/v1/phase-types/name/:name', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -408,7 +393,6 @@ app.get('/api/v1/status-types', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -422,7 +406,6 @@ app.get('/api/v1/status-types/name/:name', function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows});
-                client.end();
             }
         });
     });
@@ -438,7 +421,6 @@ app.get('/api/v1/projects',  function(req, res) {
                 res.send("Error " + err);
             } else {
                 res.json(result.rows)
-                client.end();
             }
         });
     });
@@ -452,7 +434,6 @@ app.get('/api/v1/:table/:field/:id',  function(req, res) {
                 res.json({"success" : false, "results" : err});
             } else {
                 res.json({"success" : true, "results" : result.rows.length , "records" : result.rows});
-                client.end();
             }
         });
     });
@@ -505,8 +486,6 @@ app.get('/api/v1/project/search',  function(req, res) {
                     'success': true,
                     'results': result.rows
                 })
-                    client.end();
-
             }
         });
     });
@@ -579,7 +558,6 @@ app.get('/api/v1/project/search-summary',  function(req, res) {
                         result.rows
 
                     )
-                    client.end();
                 }
             });
     });
@@ -603,8 +581,6 @@ app.get('/api/v1/project/:project_id/phase/:phase_id',  function(req, res) {
                     "success": true,
                     "results": result.rows
                 });
-                    client.end();
-
 
             }
         });
@@ -630,8 +606,6 @@ app.get('/api/v1/project-phases/:project_id',  function(req, res) {
                     "success": true,
                     "results": result.rows
                 });
-                    client.end();
-
             }
         });
     });
@@ -656,8 +630,6 @@ app.get('/api/v1/phase-notes/:phase_id',  function(req, res) {
                     "success": true,
                     "results": result.rows
                 });
-                    client.end();
-                
             }
         });
     });
