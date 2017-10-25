@@ -304,6 +304,7 @@ app.get('/api/v1/divisions', function(req, res) {
                 res.json({"success" : true, "results" : result.rows});
             }
         });
+        client.end();
     });
 })
 
